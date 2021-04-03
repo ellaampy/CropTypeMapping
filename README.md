@@ -1,1 +1,1 @@
-# CropMapping
+# CropTypeMapping

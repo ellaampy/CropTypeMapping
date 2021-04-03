@@ -114,3 +114,32 @@ def prepare_dataset(rpg_file, output_dir, col_id, start_date, end_date, num_per_
     end = datetime.now()
     print('total ignored pixels', ignored)
     print(f"\n processing time -> {end - start}")
+
+    
+#--------------------------------------------------------------------------------
+if __name__ == '__main__':
+
+    # rpg_file ='/content/drive/MyDrive/Colab Notebooks/Thesis/PSE/sample/vsaint_dataPrep/sample_farm.geojson'
+    output_dir = '/content/drive/MyDrive/Colab Notebooks/Thesis/PSE/sample/vsaint_dataPrep'
+    col_id = 'COPERNICUS/S2_SR' #or COPERNICUS/S1_GRD 
+    start_date = '2018-10-01'
+    end_date = '2019-12-31'
+
+    # for sentinel 2
+    prepare_dataset(rpg_file, output_dir, col_id, start_date, end_date, num_per_month = 2, addNDVI=False, speckle_filter=False, label_names=['CODE_GROUP'])
+
+    # # -------------------------to use arg parse-------------------------------------------------
+    # args = parse_args()
+    # args.rpg_file = '/content/drive/MyDrive/Colab Notebooks/Thesis/PSE/sample/vsaint_dataPrep/issues_rpg.geojson'
+    # args.output_dir = '/content/drive/MyDrive/Colab Notebooks/Thesis/PSE/sample/vsaint_dataPrep'
+    # args.col_id = 'COPERNICUS/S2_SR'
+    # args.start_date = '2018-10-01'
+    # args.end_date = '2019-12-31'
+    # args.num_per_month = 2
+    # args.addNDVI = False
+    # args.speckle_filter = False
+    # args.label_names = label_names=['CODE_GROUP']
+    # prepare_dataset(args.rpg_file, args.output_dir, args.col_id, args.start_date, args.end_date, args.num_per_month, args.addNDVI, args.speckle_filter, args.label_names)
+
+
+    

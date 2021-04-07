@@ -1,0 +1,33 @@
+{'T': 1000,
+ 'batch_size': 128,
+ 'd_k': 32,
+ 'dataset_folder': '/share/projects/fuses1s2/s2_data/Brest_1',
+ 'device': 'cuda',
+ 'display_step': 50,
+ 'dropout': 0.2,
+ 'epochs': 10,
+ 'gamma': 1,
+ 'geomfeat': 1,
+ 'input_dim': 10,
+ 'kfold': 3,
+ 'lms': None,
+ 'lr': 0.001,
+ 'mlp1': [10, 32, 64],
+ 'mlp2': [132, 128],
+ 'mlp3': [512, 128, 128],
+ 'mlp4': [128, 64, 32, 20],
+ 'n_head': 4,
+ 'npixel': 64,
+ 'num_classes': 15,
+ 'num_workers': 8,
+ 'pooling': 'mean_std',
+ 'positions': 'bespoke',
+ 'preload': False,
+ 'rdm_seed': 1,
+ 'res_dir': './results'}
+Traceback (most recent call last):
+  File "train.py", line 305, in <module>
+    main(config)
+  File "train.py", line 165, in main
+    mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
+FileNotFoundError: [Errno 2] No such file or directory: '/share/projects/fuses1s2/s2_data/Brest_1/S2-2017-T31TFM-meanstd.pkl'

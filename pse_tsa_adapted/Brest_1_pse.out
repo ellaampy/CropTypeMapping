@@ -10,7 +10,7 @@
  'geomfeat': 1,
  'input_dim': 10,
  'kfold': 3,
- 'lms': None,
+ 'lms': 27,
  'lr': 0.001,
  'mlp1': [10, 32, 64],
  'mlp2': [132, 128],
@@ -21,13 +21,46 @@
  'num_classes': 15,
  'num_workers': 8,
  'pooling': 'mean_std',
- 'positions': 'bespoke',
+ 'positions': 'None',
  'preload': False,
  'rdm_seed': 1,
  'res_dir': './results'}
+Starting Fold 1
+Train 9, Val 9, Test 9
+TOTAL TRAINABLE PARAMETERS : 164116
+RATIOS: Spatial  12.1% , Temporal  81.0% , Classifier   6.8%
+None
+EPOCH 1/10
 Traceback (most recent call last):
   File "train.py", line 305, in <module>
     main(config)
-  File "train.py", line 165, in main
-    mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
-FileNotFoundError: [Errno 2] No such file or directory: '/share/projects/fuses1s2/s2_data/Brest_1/S2-2017-T31TFM-meanstd.pkl'
+  File "train.py", line 214, in main
+    train_metrics = train_epoch(model, optimizer, criterion, train_loader, device=device, config=config)
+  File "train.py", line 26, in train_epoch
+    for i, (x, y) in enumerate(data_loader):
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 435, in __next__
+    data = self._next_data()
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 1085, in _next_data
+    return self._process_data(data)
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 1111, in _process_data
+    data.reraise()
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/_utils.py", line 428, in reraise
+    raise self.exc_type(msg)
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/worker.py", line 198, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 47, in fetch
+    return self.collate_fn(data)
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/collate.py", line 83, in default_collate
+    return [default_collate(samples) for samples in transposed]
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/collate.py", line 83, in <listcomp>
+    return [default_collate(samples) for samples in transposed]
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/collate.py", line 83, in default_collate
+    return [default_collate(samples) for samples in transposed]
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/collate.py", line 83, in <listcomp>
+    return [default_collate(samples) for samples in transposed]
+  File "/share/etud/e1912551/.conda/envs/dfc/lib/python3.8/site-packages/torch/utils/data/_utils/collate.py", line 55, in default_collate
+    return torch.stack(batch, 0, out=out)
+RuntimeError: stack expects each tensor to be equal size, but got [30, 10, 64] at entry 0 and [28, 10, 64] at entry 2
+

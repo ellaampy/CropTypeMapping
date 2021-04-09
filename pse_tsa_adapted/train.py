@@ -162,19 +162,19 @@ def main(config):
     torch.manual_seed(config['rdm_seed'])
     prepare_output(config)
 
-    mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
+    #mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
     extra = 'geomfeat' if config['geomfeat'] else None
 
     if config['preload']:
-        dt = PixelSetData_preloaded(config['dataset_folder'], labels='label_44class', npixel=config['npixel'],
+        dt = PixelSetData_preloaded(config['dataset_folder'], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes=[1, 3, 4, 5, 6, 8, 9, 12, 13, 14, 16, 18, 19, 23, 28, 31, 33, 34, 36, 39],
-                          norm=mean_std,
-                          extra_feature=extra)
+                          norm=None,
+                          extra_feature=None)
     else:
-        dt = PixelSetData(config['dataset_folder'], labels='label_44class', npixel=config['npixel'],
+        dt = PixelSetData(config['dataset_folder'], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes=[1, 3, 4, 5, 6, 8, 9, 12, 13, 14, 16, 18, 19, 23, 28, 31, 33, 34, 36, 39],
-                          norm=mean_std,
-                          extra_feature=extra)
+                          norm=None,
+                          extra_feature=None)
     device = torch.device(config['device'])
 
     loaders = get_loaders(dt, config['kfold'], config)

@@ -46,6 +46,7 @@ class PixelSetEncoder(nn.Module):
         if self.with_extra:
             self.name += 'Extra'
             inter_dim += self.extra_size
+        #print('checking inter_dim size ------->', inter_dim)
 
         assert (input_dim == mlp1[0])
         assert (inter_dim == mlp2[0])

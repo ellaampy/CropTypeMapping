@@ -8,6 +8,7 @@ import datetime as dt
 
 import os
 import json
+import random
 
 
 class PixelSetData(data.Dataset):
@@ -44,6 +45,13 @@ class PixelSetData(data.Dataset):
         self.pid = list(np.sort(self.pid))
 
         self.pid = list(map(str, self.pid))
+
+        # for sentinel-1 remove parcel with sequence len <75
+        # s1_parcels_less_seq contains parcel ids with temporal seq < 75
+        with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
+            ignored_pid = json.loads(file.read())
+        self.pid = list(x for x in self.pid if x not in ignored_pid)
+
         self.len = len(self.pid)
 
         # Get Labels
@@ -57,6 +65,12 @@ class PixelSetData(data.Dataset):
             self.target = []
             for i, p in enumerate(self.pid):
                 t = d[labels][p]
+
+                # add conditional to merge permanent(18) and temporal meadow(19)
+                # this will reduce number of target classes by 1
+                if t == 19:
+                    t = 18
+
                 self.target.append(t)
                 if sub_classes is not None:
                     if t in sub_classes:
@@ -69,11 +83,14 @@ class PixelSetData(data.Dataset):
 
         with open(os.path.join(folder, 'META', 'dates.json'), 'r') as file:
             d = json.loads(file.read())
-        # self.dates = [d[str(i)] for i in range(len(d))]
-        # self.dates = list(map(int, dt[str()]))
-        # self.date_positions = date_positions(self.dates)
-        self.dates = [d[i] for i in self.pid]
-        self.date_positions = [date_positions(i) for i in self.dates]
+
+        # for sentinel 1
+        self.dates = [d[str(i)] for i in range(len(d))]
+        self.date_positions = date_positions(self.dates)
+
+        # for sentinel 2
+        #self.dates = [d[i] for i in self.pid]
+        #self.date_positions = [date_positions(i) for i in self.dates]
         
 
 
@@ -104,6 +121,13 @@ class PixelSetData(data.Dataset):
 
         """
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
+
+        # for Sentinel-2 use minimum sequence length, randomly selected
+        #indices = list(range(27))
+        #random.shuffle(indices)
+        #indices = sorted(indices)
+        #x0 = x0[indices, :,:]
+
         y = self.target[item]
 
         if x0.shape[-1] > self.npixel:

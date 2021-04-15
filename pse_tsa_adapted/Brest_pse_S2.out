@@ -1,0 +1,1817 @@
+{'T': 1000,
+ 'batch_size': 128,
+ 'd_k': 32,
+ 'dataset_folder': '/share/projects/fuses1s2/s2_data/Brest',
+ 'device': 'cuda',
+ 'display_step': 50,
+ 'dropout': 0.2,
+ 'epochs': 50,
+ 'gamma': 1,
+ 'geomfeat': 0,
+ 'input_dim': 10,
+ 'kfold': 5,
+ 'lms': 27,
+ 'lr': 0.001,
+ 'mlp1': [10, 32, 64],
+ 'mlp2': [128, 128],
+ 'mlp3': [512, 128, 128],
+ 'mlp4': [128, 64, 32, 20],
+ 'n_head': 4,
+ 'npixel': 64,
+ 'num_classes': 13,
+ 'num_workers': 8,
+ 'pooling': 'mean_std',
+ 'positions': 'None',
+ 'preload': True,
+ 'rdm_seed': 1,
+ 'res_dir': './results'}
+Loading samples to memory . . .
+Done !
+Starting Fold 1
+Train 200, Val 67, Test 67
+TOTAL TRAINABLE PARAMETERS : 163604
+RATIOS: Spatial  11.9% , Temporal  81.3% , Classifier   6.8%
+None
+EPOCH 1/50
+Step [50/200], Loss: 2.3483, Acc : 28.44
+Step [100/200], Loss: 1.6698, Acc : 52.05
+Step [150/200], Loss: 1.3178, Acc : 62.09
+Step [200/200], Loss: 1.1049, Acc : 68.14
+Validation . . . 
+Loss 0.6947,  Acc 78.00,  IoU 0.2188
+EPOCH 2/50
+Step [50/200], Loss: 0.4164, Acc : 88.22
+Step [100/200], Loss: 0.3892, Acc : 88.49
+Step [150/200], Loss: 0.3741, Acc : 88.82
+Step [200/200], Loss: 0.3600, Acc : 89.04
+Validation . . . 
+Loss 0.5225,  Acc 81.33,  IoU 0.2393
+EPOCH 3/50
+Step [50/200], Loss: 0.3005, Acc : 90.39
+Step [100/200], Loss: 0.2823, Acc : 90.88
+Step [150/200], Loss: 0.2737, Acc : 91.19
+Step [200/200], Loss: 0.2698, Acc : 91.21
+Validation . . . 
+Loss 0.2701,  Acc 90.57,  IoU 0.3793
+EPOCH 4/50
+Step [50/200], Loss: 0.2508, Acc : 91.81
+Step [100/200], Loss: 0.2392, Acc : 92.00
+Step [150/200], Loss: 0.2390, Acc : 91.95
+Step [200/200], Loss: 0.2363, Acc : 92.01
+Validation . . . 
+Loss 0.5603,  Acc 72.79,  IoU 0.2582
+EPOCH 5/50
+Step [50/200], Loss: 0.2110, Acc : 92.89
+Step [100/200], Loss: 0.2115, Acc : 92.81
+Step [150/200], Loss: 0.2157, Acc : 92.66
+Step [200/200], Loss: 0.2150, Acc : 92.66
+Validation . . . 
+Loss 0.3644,  Acc 85.84,  IoU 0.3049
+EPOCH 6/50
+Step [50/200], Loss: 0.2092, Acc : 92.72
+Step [100/200], Loss: 0.2073, Acc : 92.79
+Step [150/200], Loss: 0.2013, Acc : 92.98
+Step [200/200], Loss: 0.2006, Acc : 92.94
+Validation . . . 
+Loss 0.2329,  Acc 91.86,  IoU 0.4194
+EPOCH 7/50
+Step [50/200], Loss: 0.1886, Acc : 93.16
+Step [100/200], Loss: 0.1938, Acc : 93.02
+Step [150/200], Loss: 0.1946, Acc : 93.04
+Step [200/200], Loss: 0.1927, Acc : 93.18
+Validation . . . 
+Loss 0.9897,  Acc 58.41,  IoU 0.1376
+EPOCH 8/50
+Step [50/200], Loss: 0.1786, Acc : 93.50
+Step [100/200], Loss: 0.1770, Acc : 93.72
+Step [150/200], Loss: 0.1826, Acc : 93.54
+Step [200/200], Loss: 0.1819, Acc : 93.56
+Validation . . . 
+Loss 0.5285,  Acc 74.09,  IoU 0.3006
+EPOCH 9/50
+Step [50/200], Loss: 0.1795, Acc : 93.66
+Step [100/200], Loss: 0.1758, Acc : 93.84
+Step [150/200], Loss: 0.1765, Acc : 93.68
+Step [200/200], Loss: 0.1777, Acc : 93.61
+Validation . . . 
+Loss 0.5125,  Acc 78.67,  IoU 0.2852
+EPOCH 10/50
+Step [50/200], Loss: 0.1722, Acc : 93.69
+Step [100/200], Loss: 0.1687, Acc : 93.85
+Step [150/200], Loss: 0.1719, Acc : 93.86
+Step [200/200], Loss: 0.1722, Acc : 93.78
+Validation . . . 
+Loss 0.7033,  Acc 67.97,  IoU 0.2545
+EPOCH 11/50
+Step [50/200], Loss: 0.1696, Acc : 93.94
+Step [100/200], Loss: 0.1678, Acc : 93.81
+Step [150/200], Loss: 0.1673, Acc : 93.80
+Step [200/200], Loss: 0.1682, Acc : 93.77
+Validation . . . 
+Loss 0.4301,  Acc 78.89,  IoU 0.3215
+EPOCH 12/50
+Step [50/200], Loss: 0.1513, Acc : 94.34
+Step [100/200], Loss: 0.1629, Acc : 93.97
+Step [150/200], Loss: 0.1646, Acc : 93.91
+Step [200/200], Loss: 0.1639, Acc : 93.94
+Validation . . . 
+Loss 0.2273,  Acc 91.43,  IoU 0.4161
+EPOCH 13/50
+Step [50/200], Loss: 0.1513, Acc : 94.08
+Step [100/200], Loss: 0.1553, Acc : 94.01
+Step [150/200], Loss: 0.1544, Acc : 94.09
+Step [200/200], Loss: 0.1590, Acc : 94.01
+Validation . . . 
+Loss 0.3739,  Acc 83.64,  IoU 0.3212
+EPOCH 14/50
+Step [50/200], Loss: 0.1628, Acc : 93.97
+Step [100/200], Loss: 0.1569, Acc : 94.12
+Step [150/200], Loss: 0.1607, Acc : 93.94
+Step [200/200], Loss: 0.1593, Acc : 93.99
+Validation . . . 
+Loss 0.2891,  Acc 88.38,  IoU 0.4131
+EPOCH 15/50
+Step [50/200], Loss: 0.1586, Acc : 94.03
+Step [100/200], Loss: 0.1511, Acc : 94.30
+Step [150/200], Loss: 0.1482, Acc : 94.38
+Step [200/200], Loss: 0.1520, Acc : 94.22
+Validation . . . 
+Loss 0.2069,  Acc 92.44,  IoU 0.4674
+EPOCH 16/50
+Step [50/200], Loss: 0.1463, Acc : 94.47
+Step [100/200], Loss: 0.1511, Acc : 94.13
+Step [150/200], Loss: 0.1502, Acc : 94.19
+Step [200/200], Loss: 0.1534, Acc : 94.15
+Validation . . . 
+Loss 0.4589,  Acc 82.89,  IoU 0.3365
+EPOCH 17/50
+Step [50/200], Loss: 0.1554, Acc : 93.77
+Step [100/200], Loss: 0.1536, Acc : 94.07
+Step [150/200], Loss: 0.1501, Acc : 94.16
+Step [200/200], Loss: 0.1482, Acc : 94.25
+Validation . . . 
+Loss 0.2761,  Acc 89.21,  IoU 0.4018
+EPOCH 18/50
+Step [50/200], Loss: 0.1413, Acc : 94.19
+Step [100/200], Loss: 0.1386, Acc : 94.50
+Step [150/200], Loss: 0.1404, Acc : 94.44
+Step [200/200], Loss: 0.1448, Acc : 94.32
+Validation . . . 
+Loss 0.3502,  Acc 86.52,  IoU 0.3637
+EPOCH 19/50
+Step [50/200], Loss: 0.1309, Acc : 94.89
+Step [100/200], Loss: 0.1350, Acc : 94.73
+Step [150/200], Loss: 0.1377, Acc : 94.62
+Step [200/200], Loss: 0.1417, Acc : 94.52
+Validation . . . 
+Loss 0.1745,  Acc 93.72,  IoU 0.4700
+EPOCH 20/50
+Step [50/200], Loss: 0.1348, Acc : 94.61
+Step [100/200], Loss: 0.1335, Acc : 94.64
+Step [150/200], Loss: 0.1364, Acc : 94.57
+Step [200/200], Loss: 0.1367, Acc : 94.55
+Validation . . . 
+Loss 0.1936,  Acc 93.02,  IoU 0.4646
+EPOCH 21/50
+Step [50/200], Loss: 0.1298, Acc : 94.88
+Step [100/200], Loss: 0.1266, Acc : 94.92
+Step [150/200], Loss: 0.1284, Acc : 94.88
+Step [200/200], Loss: 0.1331, Acc : 94.70
+Validation . . . 
+Loss 0.4150,  Acc 83.22,  IoU 0.3687
+EPOCH 22/50
+Step [50/200], Loss: 0.1413, Acc : 94.34
+Step [100/200], Loss: 0.1374, Acc : 94.37
+Step [150/200], Loss: 0.1350, Acc : 94.55
+Step [200/200], Loss: 0.1349, Acc : 94.58
+Validation . . . 
+Loss 0.2206,  Acc 91.90,  IoU 0.4868
+EPOCH 23/50
+Step [50/200], Loss: 0.1238, Acc : 95.09
+Step [100/200], Loss: 0.1297, Acc : 94.78
+Step [150/200], Loss: 0.1302, Acc : 94.77
+Step [200/200], Loss: 0.1326, Acc : 94.69
+Validation . . . 
+Loss 0.9152,  Acc 67.19,  IoU 0.2050
+EPOCH 24/50
+Step [50/200], Loss: 0.1293, Acc : 94.84
+Step [100/200], Loss: 0.1296, Acc : 94.77
+Step [150/200], Loss: 0.1275, Acc : 94.77
+Step [200/200], Loss: 0.1283, Acc : 94.72
+Validation . . . 
+Loss 0.4269,  Acc 82.15,  IoU 0.3942
+EPOCH 25/50
+Step [50/200], Loss: 0.1248, Acc : 94.88
+Step [100/200], Loss: 0.1252, Acc : 94.78
+Step [150/200], Loss: 0.1257, Acc : 94.84
+Step [200/200], Loss: 0.1258, Acc : 94.88
+Validation . . . 
+Loss 0.2198,  Acc 91.78,  IoU 0.4710
+EPOCH 26/50
+Step [50/200], Loss: 0.1193, Acc : 94.86
+Step [100/200], Loss: 0.1236, Acc : 94.87
+Step [150/200], Loss: 0.1282, Acc : 94.69
+Step [200/200], Loss: 0.1273, Acc : 94.71
+Validation . . . 
+Loss 0.2992,  Acc 88.72,  IoU 0.4465
+EPOCH 27/50
+Step [50/200], Loss: 0.1194, Acc : 95.14
+Step [100/200], Loss: 0.1180, Acc : 95.20
+Step [150/200], Loss: 0.1214, Acc : 95.04
+Step [200/200], Loss: 0.1221, Acc : 95.05
+Validation . . . 
+Loss 0.3042,  Acc 87.77,  IoU 0.4452
+EPOCH 28/50
+Step [50/200], Loss: 0.1242, Acc : 94.80
+Step [100/200], Loss: 0.1234, Acc : 94.88
+Step [150/200], Loss: 0.1224, Acc : 94.88
+Step [200/200], Loss: 0.1222, Acc : 94.87
+Validation . . . 
+Loss 0.2255,  Acc 90.76,  IoU 0.4640
+EPOCH 29/50
+Step [50/200], Loss: 0.1153, Acc : 94.84
+Step [100/200], Loss: 0.1153, Acc : 94.98
+Step [150/200], Loss: 0.1156, Acc : 95.08
+Step [200/200], Loss: 0.1187, Acc : 95.06
+Validation . . . 
+Loss 0.4288,  Acc 80.71,  IoU 0.3599
+EPOCH 30/50
+Step [50/200], Loss: 0.1192, Acc : 94.83
+Step [100/200], Loss: 0.1195, Acc : 95.00
+Step [150/200], Loss: 0.1199, Acc : 94.98
+Step [200/200], Loss: 0.1208, Acc : 94.93
+Validation . . . 
+Loss 0.1975,  Acc 92.94,  IoU 0.4848
+EPOCH 31/50
+Step [50/200], Loss: 0.1121, Acc : 95.28
+Step [100/200], Loss: 0.1084, Acc : 95.24
+Step [150/200], Loss: 0.1117, Acc : 95.15
+Step [200/200], Loss: 0.1133, Acc : 95.02
+Validation . . . 
+Loss 0.2390,  Acc 90.99,  IoU 0.4779
+EPOCH 32/50
+Step [50/200], Loss: 0.0980, Acc : 95.92
+Step [100/200], Loss: 0.1029, Acc : 95.59
+Step [150/200], Loss: 0.1044, Acc : 95.50
+Step [200/200], Loss: 0.1112, Acc : 95.24
+Validation . . . 
+Loss 0.3785,  Acc 82.70,  IoU 0.3763
+EPOCH 33/50
+Step [50/200], Loss: 0.1105, Acc : 95.06
+Step [100/200], Loss: 0.1075, Acc : 95.11
+Step [150/200], Loss: 0.1077, Acc : 95.23
+Step [200/200], Loss: 0.1096, Acc : 95.22
+Validation . . . 
+Loss 0.2562,  Acc 89.77,  IoU 0.4469
+EPOCH 34/50
+Step [50/200], Loss: 0.1066, Acc : 95.03
+Step [100/200], Loss: 0.1034, Acc : 95.30
+Step [150/200], Loss: 0.1062, Acc : 95.28
+Step [200/200], Loss: 0.1068, Acc : 95.25
+Validation . . . 
+Loss 0.2866,  Acc 89.23,  IoU 0.4375
+EPOCH 35/50
+Step [50/200], Loss: 0.1077, Acc : 94.97
+Step [100/200], Loss: 0.1062, Acc : 95.20
+Step [150/200], Loss: 0.1050, Acc : 95.22
+Step [200/200], Loss: 0.1075, Acc : 95.20
+Validation . . . 
+Loss 0.5580,  Acc 78.02,  IoU 0.3189
+EPOCH 36/50
+Step [50/200], Loss: 0.1037, Acc : 95.61
+Step [100/200], Loss: 0.1086, Acc : 95.32
+Step [150/200], Loss: 0.1079, Acc : 95.32
+Step [200/200], Loss: 0.1062, Acc : 95.41
+Validation . . . 
+Loss 0.2149,  Acc 91.82,  IoU 0.4840
+EPOCH 37/50
+Step [50/200], Loss: 0.0972, Acc : 95.69
+Step [100/200], Loss: 0.1006, Acc : 95.50
+Step [150/200], Loss: 0.1016, Acc : 95.48
+Step [200/200], Loss: 0.1032, Acc : 95.28
+Validation . . . 
+Loss 0.2137,  Acc 92.43,  IoU 0.4769
+EPOCH 38/50
+Step [50/200], Loss: 0.1052, Acc : 94.95
+Step [100/200], Loss: 0.1014, Acc : 95.22
+Step [150/200], Loss: 0.1047, Acc : 95.15
+Step [200/200], Loss: 0.1051, Acc : 95.22
+Validation . . . 
+Loss 0.2162,  Acc 91.85,  IoU 0.5129
+EPOCH 39/50
+Step [50/200], Loss: 0.1025, Acc : 95.36
+Step [100/200], Loss: 0.1024, Acc : 95.31
+Step [150/200], Loss: 0.1041, Acc : 95.28
+Step [200/200], Loss: 0.1026, Acc : 95.32
+Validation . . . 
+Loss 0.3920,  Acc 83.23,  IoU 0.3832
+EPOCH 40/50
+Step [50/200], Loss: 0.0983, Acc : 95.34
+Step [100/200], Loss: 0.1036, Acc : 95.14
+Step [150/200], Loss: 0.1003, Acc : 95.27
+Step [200/200], Loss: 0.0991, Acc : 95.33
+Validation . . . 
+Loss 0.2135,  Acc 92.30,  IoU 0.4923
+EPOCH 41/50
+Step [50/200], Loss: 0.0883, Acc : 95.69
+Step [100/200], Loss: 0.0963, Acc : 95.41
+Step [150/200], Loss: 0.1004, Acc : 95.36
+Step [200/200], Loss: 0.0973, Acc : 95.50
+Validation . . . 
+Loss 0.5459,  Acc 79.52,  IoU 0.3519
+EPOCH 42/50
+Step [50/200], Loss: 0.0993, Acc : 95.20
+Step [100/200], Loss: 0.0963, Acc : 95.44
+Step [150/200], Loss: 0.0956, Acc : 95.50
+Step [200/200], Loss: 0.0942, Acc : 95.56
+Validation . . . 
+Loss 0.2680,  Acc 90.04,  IoU 0.4651
+EPOCH 43/50
+Step [50/200], Loss: 0.0895, Acc : 95.58
+Step [100/200], Loss: 0.0934, Acc : 95.38
+Step [150/200], Loss: 0.0923, Acc : 95.45
+Step [200/200], Loss: 0.0937, Acc : 95.39
+Validation . . . 
+Loss 0.1978,  Acc 93.02,  IoU 0.5168
+EPOCH 44/50
+Step [50/200], Loss: 0.0958, Acc : 95.47
+Step [100/200], Loss: 0.0980, Acc : 95.29
+Step [150/200], Loss: 0.0942, Acc : 95.56
+Step [200/200], Loss: 0.0948, Acc : 95.60
+Validation . . . 
+Loss 0.1936,  Acc 93.39,  IoU 0.5349
+EPOCH 45/50
+Step [50/200], Loss: 0.0966, Acc : 95.45
+Step [100/200], Loss: 0.0953, Acc : 95.52
+Step [150/200], Loss: 0.0937, Acc : 95.51
+Step [200/200], Loss: 0.0961, Acc : 95.47
+Validation . . . 
+Loss 0.2683,  Acc 89.37,  IoU 0.4587
+EPOCH 46/50
+Step [50/200], Loss: 0.0878, Acc : 95.62
+Step [100/200], Loss: 0.0929, Acc : 95.45
+Step [150/200], Loss: 0.0912, Acc : 95.41
+Step [200/200], Loss: 0.0930, Acc : 95.40
+Validation . . . 
+Loss 0.2066,  Acc 92.71,  IoU 0.4910
+EPOCH 47/50
+Step [50/200], Loss: 0.0956, Acc : 95.11
+Step [100/200], Loss: 0.0919, Acc : 95.40
+Step [150/200], Loss: 0.0912, Acc : 95.46
+Step [200/200], Loss: 0.0894, Acc : 95.55
+Validation . . . 
+Loss 0.2353,  Acc 92.06,  IoU 0.4737
+EPOCH 48/50
+Step [50/200], Loss: 0.0810, Acc : 95.78
+Step [100/200], Loss: 0.0810, Acc : 95.90
+Step [150/200], Loss: 0.0833, Acc : 95.88
+Step [200/200], Loss: 0.0846, Acc : 95.86
+Validation . . . 
+Loss 0.2249,  Acc 91.65,  IoU 0.5073
+EPOCH 49/50
+Step [50/200], Loss: 0.0874, Acc : 95.69
+Step [100/200], Loss: 0.0916, Acc : 95.57
+Step [150/200], Loss: 0.0901, Acc : 95.64
+Step [200/200], Loss: 0.0885, Acc : 95.69
+Validation . . . 
+Loss 0.2269,  Acc 91.87,  IoU 0.5154
+EPOCH 50/50
+Step [50/200], Loss: 0.0851, Acc : 95.97
+Step [100/200], Loss: 0.0840, Acc : 95.82
+Step [150/200], Loss: 0.0809, Acc : 95.93
+Step [200/200], Loss: 0.0825, Acc : 95.95
+Validation . . . 
+Loss 0.3526,  Acc 86.45,  IoU 0.4244
+Testing best epoch . . .
+Loss 0.1982,  Acc 93.46,  IoU 0.5231
+Starting Fold 2
+Train 200, Val 67, Test 67
+TOTAL TRAINABLE PARAMETERS : 163604
+RATIOS: Spatial  11.9% , Temporal  81.3% , Classifier   6.8%
+None
+EPOCH 1/50
+Step [50/200], Loss: 2.2112, Acc : 38.81
+Step [100/200], Loss: 1.5867, Acc : 57.93
+Step [150/200], Loss: 1.2519, Acc : 67.15
+Step [200/200], Loss: 1.0525, Acc : 72.22
+Validation . . . 
+Loss 0.4786,  Acc 85.58,  IoU 0.2606
+EPOCH 2/50
+Step [50/200], Loss: 0.3761, Acc : 89.31
+Step [100/200], Loss: 0.3563, Acc : 89.52
+Step [150/200], Loss: 0.3465, Acc : 89.57
+Step [200/200], Loss: 0.3351, Acc : 89.79
+Validation . . . 
+Loss 0.3205,  Acc 89.40,  IoU 0.3331
+EPOCH 3/50
+Step [50/200], Loss: 0.2815, Acc : 90.94
+Step [100/200], Loss: 0.2721, Acc : 91.11
+Step [150/200], Loss: 0.2654, Acc : 91.35
+Step [200/200], Loss: 0.2597, Acc : 91.42
+Validation . . . 
+Loss 0.2473,  Acc 91.56,  IoU 0.3824
+EPOCH 4/50
+Step [50/200], Loss: 0.2281, Acc : 92.30
+Step [100/200], Loss: 0.2334, Acc : 92.01
+Step [150/200], Loss: 0.2299, Acc : 92.17
+Step [200/200], Loss: 0.2284, Acc : 92.26
+Validation . . . 
+Loss 0.2434,  Acc 91.58,  IoU 0.4200
+EPOCH 5/50
+Step [50/200], Loss: 0.2128, Acc : 92.28
+Step [100/200], Loss: 0.2150, Acc : 92.53
+Step [150/200], Loss: 0.2116, Acc : 92.83
+Step [200/200], Loss: 0.2091, Acc : 92.87
+Validation . . . 
+Loss 0.2713,  Acc 89.66,  IoU 0.4070
+EPOCH 6/50
+Step [50/200], Loss: 0.1982, Acc : 92.97
+Step [100/200], Loss: 0.1958, Acc : 92.99
+Step [150/200], Loss: 0.1926, Acc : 93.19
+Step [200/200], Loss: 0.1986, Acc : 93.02
+Validation . . . 
+Loss 0.2568,  Acc 90.29,  IoU 0.3987
+EPOCH 7/50
+Step [50/200], Loss: 0.1896, Acc : 93.31
+Step [100/200], Loss: 0.1856, Acc : 93.31
+Step [150/200], Loss: 0.1851, Acc : 93.42
+Step [200/200], Loss: 0.1852, Acc : 93.45
+Validation . . . 
+Loss 0.2739,  Acc 90.42,  IoU 0.3898
+EPOCH 8/50
+Step [50/200], Loss: 0.1871, Acc : 93.25
+Step [100/200], Loss: 0.1871, Acc : 93.12
+Step [150/200], Loss: 0.1846, Acc : 93.27
+Step [200/200], Loss: 0.1841, Acc : 93.31
+Validation . . . 
+Loss 0.1984,  Acc 92.70,  IoU 0.4587
+EPOCH 9/50
+Step [50/200], Loss: 0.1787, Acc : 93.56
+Step [100/200], Loss: 0.1776, Acc : 93.65
+Step [150/200], Loss: 0.1746, Acc : 93.74
+Step [200/200], Loss: 0.1745, Acc : 93.65
+Validation . . . 
+Loss 0.3016,  Acc 87.49,  IoU 0.3863
+EPOCH 10/50
+Step [50/200], Loss: 0.1706, Acc : 93.66
+Step [100/200], Loss: 0.1719, Acc : 93.60
+Step [150/200], Loss: 0.1705, Acc : 93.77
+Step [200/200], Loss: 0.1699, Acc : 93.84
+Validation . . . 
+Loss 0.1851,  Acc 93.29,  IoU 0.4601
+EPOCH 11/50
+Step [50/200], Loss: 0.1533, Acc : 94.19
+Step [100/200], Loss: 0.1603, Acc : 94.01
+Step [150/200], Loss: 0.1631, Acc : 93.88
+Step [200/200], Loss: 0.1643, Acc : 93.97
+Validation . . . 
+Loss 0.1861,  Acc 93.24,  IoU 0.4605
+EPOCH 12/50
+Step [50/200], Loss: 0.1651, Acc : 93.95
+Step [100/200], Loss: 0.1616, Acc : 93.99
+Step [150/200], Loss: 0.1635, Acc : 93.88
+Step [200/200], Loss: 0.1615, Acc : 94.03
+Validation . . . 
+Loss 0.2155,  Acc 92.23,  IoU 0.4355
+EPOCH 13/50
+Step [50/200], Loss: 0.1438, Acc : 94.38
+Step [100/200], Loss: 0.1515, Acc : 94.10
+Step [150/200], Loss: 0.1557, Acc : 94.04
+Step [200/200], Loss: 0.1570, Acc : 94.00
+Validation . . . 
+Loss 0.1961,  Acc 92.96,  IoU 0.4578
+EPOCH 14/50
+Step [50/200], Loss: 0.1536, Acc : 94.11
+Step [100/200], Loss: 0.1552, Acc : 94.12
+Step [150/200], Loss: 0.1559, Acc : 94.01
+Step [200/200], Loss: 0.1543, Acc : 94.02
+Validation . . . 
+Loss 0.1927,  Acc 92.87,  IoU 0.4598
+EPOCH 15/50
+Step [50/200], Loss: 0.1476, Acc : 94.38
+Step [100/200], Loss: 0.1472, Acc : 94.24
+Step [150/200], Loss: 0.1489, Acc : 94.18
+Step [200/200], Loss: 0.1496, Acc : 94.21
+Validation . . . 
+Loss 0.1663,  Acc 94.06,  IoU 0.4878
+EPOCH 16/50
+Step [50/200], Loss: 0.1506, Acc : 94.00
+Step [100/200], Loss: 0.1498, Acc : 94.14
+Step [150/200], Loss: 0.1473, Acc : 94.33
+Step [200/200], Loss: 0.1477, Acc : 94.40
+Validation . . . 
+Loss 0.2293,  Acc 92.14,  IoU 0.4355
+EPOCH 17/50
+Step [50/200], Loss: 0.1543, Acc : 94.30
+Step [100/200], Loss: 0.1526, Acc : 94.06
+Step [150/200], Loss: 0.1469, Acc : 94.22
+Step [200/200], Loss: 0.1446, Acc : 94.32
+Validation . . . 
+Loss 0.2121,  Acc 92.31,  IoU 0.4318
+EPOCH 18/50
+Step [50/200], Loss: 0.1420, Acc : 94.50
+Step [100/200], Loss: 0.1486, Acc : 94.23
+Step [150/200], Loss: 0.1460, Acc : 94.29
+Step [200/200], Loss: 0.1455, Acc : 94.32
+Validation . . . 
+Loss 0.3204,  Acc 88.72,  IoU 0.4076
+EPOCH 19/50
+Step [50/200], Loss: 0.1378, Acc : 94.61
+Step [100/200], Loss: 0.1322, Acc : 94.76
+Step [150/200], Loss: 0.1393, Acc : 94.62
+Step [200/200], Loss: 0.1383, Acc : 94.67
+Validation . . . 
+Loss 0.2235,  Acc 92.02,  IoU 0.4604
+EPOCH 20/50
+Step [50/200], Loss: 0.1225, Acc : 95.27
+Step [100/200], Loss: 0.1315, Acc : 94.91
+Step [150/200], Loss: 0.1362, Acc : 94.76
+Step [200/200], Loss: 0.1355, Acc : 94.79
+Validation . . . 
+Loss 0.2811,  Acc 90.09,  IoU 0.4180
+EPOCH 21/50
+Step [50/200], Loss: 0.1356, Acc : 94.61
+Step [100/200], Loss: 0.1282, Acc : 94.80
+Step [150/200], Loss: 0.1299, Acc : 94.70
+Step [200/200], Loss: 0.1335, Acc : 94.54
+Validation . . . 
+Loss 0.2667,  Acc 90.64,  IoU 0.4300
+EPOCH 22/50
+Step [50/200], Loss: 0.1324, Acc : 94.72
+Step [100/200], Loss: 0.1367, Acc : 94.62
+Step [150/200], Loss: 0.1340, Acc : 94.62
+Step [200/200], Loss: 0.1323, Acc : 94.65
+Validation . . . 
+Loss 0.1858,  Acc 93.32,  IoU 0.4946
+EPOCH 23/50
+Step [50/200], Loss: 0.1285, Acc : 94.77
+Step [100/200], Loss: 0.1238, Acc : 94.89
+Step [150/200], Loss: 0.1275, Acc : 94.76
+Step [200/200], Loss: 0.1297, Acc : 94.74
+Validation . . . 
+Loss 0.2063,  Acc 92.49,  IoU 0.4591
+EPOCH 24/50
+Step [50/200], Loss: 0.1375, Acc : 94.30
+Step [100/200], Loss: 0.1305, Acc : 94.61
+Step [150/200], Loss: 0.1298, Acc : 94.62
+Step [200/200], Loss: 0.1290, Acc : 94.67
+Validation . . . 
+Loss 0.2501,  Acc 91.35,  IoU 0.4431
+EPOCH 25/50
+Step [50/200], Loss: 0.1253, Acc : 94.73
+Step [100/200], Loss: 0.1233, Acc : 94.91
+Step [150/200], Loss: 0.1276, Acc : 94.70
+Step [200/200], Loss: 0.1273, Acc : 94.74
+Validation . . . 
+Loss 0.1996,  Acc 93.14,  IoU 0.4784
+EPOCH 26/50
+Step [50/200], Loss: 0.1273, Acc : 94.86
+Step [100/200], Loss: 0.1200, Acc : 95.10
+Step [150/200], Loss: 0.1190, Acc : 95.13
+Step [200/200], Loss: 0.1212, Acc : 94.99
+Validation . . . 
+Loss 0.1695,  Acc 93.78,  IoU 0.5102
+EPOCH 27/50
+Step [50/200], Loss: 0.1172, Acc : 95.17
+Step [100/200], Loss: 0.1181, Acc : 95.15
+Step [150/200], Loss: 0.1188, Acc : 95.14
+Step [200/200], Loss: 0.1219, Acc : 94.97
+Validation . . . 
+Loss 0.1891,  Acc 93.12,  IoU 0.5258
+EPOCH 28/50
+Step [50/200], Loss: 0.1156, Acc : 94.94
+Step [100/200], Loss: 0.1193, Acc : 94.88
+Step [150/200], Loss: 0.1236, Acc : 94.74
+Step [200/200], Loss: 0.1203, Acc : 94.93
+Validation . . . 
+Loss 0.2036,  Acc 92.85,  IoU 0.4745
+EPOCH 29/50
+Step [50/200], Loss: 0.1027, Acc : 95.67
+Step [100/200], Loss: 0.1130, Acc : 95.27
+Step [150/200], Loss: 0.1168, Acc : 95.04
+Step [200/200], Loss: 0.1181, Acc : 95.03
+Validation . . . 
+Loss 0.2007,  Acc 92.62,  IoU 0.4898
+EPOCH 30/50
+Step [50/200], Loss: 0.1160, Acc : 94.78
+Step [100/200], Loss: 0.1120, Acc : 95.16
+Step [150/200], Loss: 0.1135, Acc : 95.19
+Step [200/200], Loss: 0.1169, Acc : 95.07
+Validation . . . 
+Loss 0.2260,  Acc 92.34,  IoU 0.4497
+EPOCH 31/50
+Step [50/200], Loss: 0.1116, Acc : 95.22
+Step [100/200], Loss: 0.1177, Acc : 94.94
+Step [150/200], Loss: 0.1134, Acc : 95.06
+Step [200/200], Loss: 0.1126, Acc : 95.10
+Validation . . . 
+Loss 0.2130,  Acc 92.22,  IoU 0.4803
+EPOCH 32/50
+Step [50/200], Loss: 0.1073, Acc : 95.12
+Step [100/200], Loss: 0.1069, Acc : 95.27
+Step [150/200], Loss: 0.1093, Acc : 95.18
+Step [200/200], Loss: 0.1107, Acc : 95.19
+Validation . . . 
+Loss 0.6312,  Acc 77.66,  IoU 0.3197
+EPOCH 33/50
+Step [50/200], Loss: 0.1081, Acc : 95.14
+Step [100/200], Loss: 0.1081, Acc : 95.44
+Step [150/200], Loss: 0.1073, Acc : 95.41
+Step [200/200], Loss: 0.1097, Acc : 95.29
+Validation . . . 
+Loss 0.1864,  Acc 93.39,  IoU 0.5007
+EPOCH 34/50
+Step [50/200], Loss: 0.1087, Acc : 95.36
+Step [100/200], Loss: 0.1082, Acc : 95.19
+Step [150/200], Loss: 0.1073, Acc : 95.15
+Step [200/200], Loss: 0.1069, Acc : 95.21
+Validation . . . 
+Loss 0.1782,  Acc 93.79,  IoU 0.5025
+EPOCH 35/50
+Step [50/200], Loss: 0.1021, Acc : 95.17
+Step [100/200], Loss: 0.1004, Acc : 95.41
+Step [150/200], Loss: 0.1022, Acc : 95.41
+Step [200/200], Loss: 0.1027, Acc : 95.38
+Validation . . . 
+Loss 0.1771,  Acc 93.96,  IoU 0.5086
+EPOCH 36/50
+Step [50/200], Loss: 0.1041, Acc : 95.03
+Step [100/200], Loss: 0.1088, Acc : 95.09
+Step [150/200], Loss: 0.1062, Acc : 95.21
+Step [200/200], Loss: 0.1059, Acc : 95.30
+Validation . . . 
+Loss 0.2547,  Acc 90.06,  IoU 0.4712
+EPOCH 37/50
+Step [50/200], Loss: 0.1061, Acc : 95.16
+Step [100/200], Loss: 0.1033, Acc : 95.34
+Step [150/200], Loss: 0.1015, Acc : 95.40
+Step [200/200], Loss: 0.1026, Acc : 95.35
+Validation . . . 
+Loss 0.2197,  Acc 92.78,  IoU 0.4553
+EPOCH 38/50
+Step [50/200], Loss: 0.0985, Acc : 95.48
+Step [100/200], Loss: 0.1050, Acc : 95.23
+Step [150/200], Loss: 0.1051, Acc : 95.27
+Step [200/200], Loss: 0.1083, Acc : 95.15
+Validation . . . 
+Loss 0.2738,  Acc 90.87,  IoU 0.4384
+EPOCH 39/50
+Step [50/200], Loss: 0.1136, Acc : 94.84
+Step [100/200], Loss: 0.1072, Acc : 95.15
+Step [150/200], Loss: 0.1014, Acc : 95.31
+Step [200/200], Loss: 0.1011, Acc : 95.36
+Validation . . . 
+Loss 0.2818,  Acc 89.28,  IoU 0.4465
+EPOCH 40/50
+Step [50/200], Loss: 0.0885, Acc : 95.66
+Step [100/200], Loss: 0.0971, Acc : 95.29
+Step [150/200], Loss: 0.0998, Acc : 95.24
+Step [200/200], Loss: 0.0987, Acc : 95.35
+Validation . . . 
+Loss 0.1826,  Acc 93.73,  IoU 0.5028
+EPOCH 41/50
+Step [50/200], Loss: 0.0921, Acc : 95.52
+Step [100/200], Loss: 0.1008, Acc : 95.23
+Step [150/200], Loss: 0.1026, Acc : 95.22
+Step [200/200], Loss: 0.1016, Acc : 95.28
+Validation . . . 
+Loss 0.1945,  Acc 92.99,  IoU 0.4973
+EPOCH 42/50
+Step [50/200], Loss: 0.0919, Acc : 95.80
+Step [100/200], Loss: 0.0915, Acc : 95.84
+Step [150/200], Loss: 0.0947, Acc : 95.76
+Step [200/200], Loss: 0.0945, Acc : 95.75
+Validation . . . 
+Loss 0.3999,  Acc 85.58,  IoU 0.4028
+EPOCH 43/50
+Step [50/200], Loss: 0.0870, Acc : 95.81
+Step [100/200], Loss: 0.0895, Acc : 95.66
+Step [150/200], Loss: 0.0930, Acc : 95.61
+Step [200/200], Loss: 0.0942, Acc : 95.56
+Validation . . . 
+Loss 0.1837,  Acc 93.71,  IoU 0.4915
+EPOCH 44/50
+Step [50/200], Loss: 0.0854, Acc : 96.00
+Step [100/200], Loss: 0.0856, Acc : 96.01
+Step [150/200], Loss: 0.0918, Acc : 95.69
+Step [200/200], Loss: 0.0918, Acc : 95.70
+Validation . . . 
+Loss 0.2078,  Acc 92.60,  IoU 0.5040
+EPOCH 45/50
+Step [50/200], Loss: 0.0894, Acc : 95.66
+Step [100/200], Loss: 0.0915, Acc : 95.61
+Step [150/200], Loss: 0.0903, Acc : 95.67
+Step [200/200], Loss: 0.0920, Acc : 95.64
+Validation . . . 
+Loss 0.2395,  Acc 92.06,  IoU 0.4607
+EPOCH 46/50
+Step [50/200], Loss: 0.0868, Acc : 96.16
+Step [100/200], Loss: 0.0866, Acc : 96.07
+Step [150/200], Loss: 0.0884, Acc : 95.89
+Step [200/200], Loss: 0.0884, Acc : 95.88
+Validation . . . 
+Loss 0.1947,  Acc 93.44,  IoU 0.5076
+EPOCH 47/50
+Step [50/200], Loss: 0.0811, Acc : 95.98
+Step [100/200], Loss: 0.0894, Acc : 95.69
+Step [150/200], Loss: 0.0875, Acc : 95.88
+Step [200/200], Loss: 0.0896, Acc : 95.80
+Validation . . . 
+Loss 0.1845,  Acc 93.73,  IoU 0.5134
+EPOCH 48/50
+Step [50/200], Loss: 0.0973, Acc : 95.30
+Step [100/200], Loss: 0.0971, Acc : 95.41
+Step [150/200], Loss: 0.0963, Acc : 95.51
+Step [200/200], Loss: 0.0936, Acc : 95.57
+Validation . . . 
+Loss 0.2225,  Acc 92.04,  IoU 0.4940
+EPOCH 49/50
+Step [50/200], Loss: 0.0850, Acc : 95.91
+Step [100/200], Loss: 0.0847, Acc : 95.87
+Step [150/200], Loss: 0.0876, Acc : 95.81
+Step [200/200], Loss: 0.0881, Acc : 95.84
+Validation . . . 
+Loss 0.2101,  Acc 92.80,  IoU 0.4967
+EPOCH 50/50
+Step [50/200], Loss: 0.0780, Acc : 96.06
+Step [100/200], Loss: 0.0798, Acc : 95.99
+Step [150/200], Loss: 0.0808, Acc : 95.93
+Step [200/200], Loss: 0.0820, Acc : 95.91
+Validation . . . 
+Loss 0.2221,  Acc 92.42,  IoU 0.5025
+Testing best epoch . . .
+Loss 0.2025,  Acc 92.83,  IoU 0.4822
+Starting Fold 3
+Train 200, Val 67, Test 67
+TOTAL TRAINABLE PARAMETERS : 163604
+RATIOS: Spatial  11.9% , Temporal  81.3% , Classifier   6.8%
+None
+EPOCH 1/50
+Step [50/200], Loss: 1.6836, Acc : 48.41
+Step [100/200], Loss: 1.2311, Acc : 65.08
+Step [150/200], Loss: 0.9937, Acc : 72.16
+Step [200/200], Loss: 0.8481, Acc : 76.11
+Validation . . . 
+Loss 0.5637,  Acc 81.20,  IoU 0.2208
+EPOCH 2/50
+Step [50/200], Loss: 0.3716, Acc : 89.05
+Step [100/200], Loss: 0.3500, Acc : 89.47
+Step [150/200], Loss: 0.3305, Acc : 89.97
+Step [200/200], Loss: 0.3211, Acc : 90.06
+Validation . . . 
+Loss 0.3206,  Acc 88.65,  IoU 0.3485
+EPOCH 3/50
+Step [50/200], Loss: 0.2609, Acc : 91.55
+Step [100/200], Loss: 0.2625, Acc : 91.39
+Step [150/200], Loss: 0.2583, Acc : 91.51
+Step [200/200], Loss: 0.2537, Acc : 91.63
+Validation . . . 
+Loss 0.2341,  Acc 91.94,  IoU 0.4089
+EPOCH 4/50
+Step [50/200], Loss: 0.2243, Acc : 92.08
+Step [100/200], Loss: 0.2248, Acc : 92.08
+Step [150/200], Loss: 0.2280, Acc : 92.01
+Step [200/200], Loss: 0.2241, Acc : 92.15
+Validation . . . 
+Loss 0.5303,  Acc 80.62,  IoU 0.2396
+EPOCH 5/50
+Step [50/200], Loss: 0.2040, Acc : 92.75
+Step [100/200], Loss: 0.2057, Acc : 92.86
+Step [150/200], Loss: 0.2091, Acc : 92.70
+Step [200/200], Loss: 0.2090, Acc : 92.66
+Validation . . . 
+Loss 0.3960,  Acc 86.02,  IoU 0.3245
+EPOCH 6/50
+Step [50/200], Loss: 0.1984, Acc : 92.78
+Step [100/200], Loss: 0.1993, Acc : 92.86
+Step [150/200], Loss: 0.1944, Acc : 93.13
+Step [200/200], Loss: 0.1933, Acc : 93.11
+Validation . . . 
+Loss 0.3050,  Acc 87.85,  IoU 0.3989
+EPOCH 7/50
+Step [50/200], Loss: 0.1731, Acc : 93.77
+Step [100/200], Loss: 0.1825, Acc : 93.50
+Step [150/200], Loss: 0.1866, Acc : 93.37
+Step [200/200], Loss: 0.1876, Acc : 93.41
+Validation . . . 
+Loss 0.2425,  Acc 91.51,  IoU 0.4115
+EPOCH 8/50
+Step [50/200], Loss: 0.1668, Acc : 93.88
+Step [100/200], Loss: 0.1760, Acc : 93.70
+Step [150/200], Loss: 0.1806, Acc : 93.49
+Step [200/200], Loss: 0.1808, Acc : 93.42
+Validation . . . 
+Loss 0.2922,  Acc 89.37,  IoU 0.3724
+EPOCH 9/50
+Step [50/200], Loss: 0.1649, Acc : 93.89
+Step [100/200], Loss: 0.1736, Acc : 93.55
+Step [150/200], Loss: 0.1728, Acc : 93.69
+Step [200/200], Loss: 0.1749, Acc : 93.63
+Validation . . . 
+Loss 0.2838,  Acc 89.73,  IoU 0.3798
+EPOCH 10/50
+Step [50/200], Loss: 0.1700, Acc : 94.06
+Step [100/200], Loss: 0.1701, Acc : 93.86
+Step [150/200], Loss: 0.1740, Acc : 93.66
+Step [200/200], Loss: 0.1722, Acc : 93.72
+Validation . . . 
+Loss 0.3388,  Acc 87.35,  IoU 0.3563
+EPOCH 11/50
+Step [50/200], Loss: 0.1611, Acc : 94.12
+Step [100/200], Loss: 0.1647, Acc : 93.91
+Step [150/200], Loss: 0.1619, Acc : 94.01
+Step [200/200], Loss: 0.1644, Acc : 93.95
+Validation . . . 
+Loss 0.2675,  Acc 89.89,  IoU 0.4019
+EPOCH 12/50
+Step [50/200], Loss: 0.1667, Acc : 93.47
+Step [100/200], Loss: 0.1632, Acc : 93.70
+Step [150/200], Loss: 0.1595, Acc : 93.91
+Step [200/200], Loss: 0.1612, Acc : 93.89
+Validation . . . 
+Loss 0.3825,  Acc 86.68,  IoU 0.3691
+EPOCH 13/50
+Step [50/200], Loss: 0.1543, Acc : 94.06
+Step [100/200], Loss: 0.1639, Acc : 93.72
+Step [150/200], Loss: 0.1631, Acc : 93.81
+Step [200/200], Loss: 0.1624, Acc : 93.88
+Validation . . . 
+Loss 0.4439,  Acc 83.64,  IoU 0.2929
+EPOCH 14/50
+Step [50/200], Loss: 0.1615, Acc : 93.81
+Step [100/200], Loss: 0.1546, Acc : 94.09
+Step [150/200], Loss: 0.1562, Acc : 94.07
+Step [200/200], Loss: 0.1589, Acc : 93.98
+Validation . . . 
+Loss 0.2308,  Acc 91.64,  IoU 0.4330
+EPOCH 15/50
+Step [50/200], Loss: 0.1537, Acc : 94.11
+Step [100/200], Loss: 0.1480, Acc : 94.35
+Step [150/200], Loss: 0.1473, Acc : 94.24
+Step [200/200], Loss: 0.1485, Acc : 94.20
+Validation . . . 
+Loss 0.3528,  Acc 84.67,  IoU 0.3538
+EPOCH 16/50
+Step [50/200], Loss: 0.1490, Acc : 94.20
+Step [100/200], Loss: 0.1499, Acc : 94.20
+Step [150/200], Loss: 0.1481, Acc : 94.27
+Step [200/200], Loss: 0.1484, Acc : 94.25
+Validation . . . 
+Loss 0.3348,  Acc 87.34,  IoU 0.3463
+EPOCH 17/50
+Step [50/200], Loss: 0.1359, Acc : 94.86
+Step [100/200], Loss: 0.1367, Acc : 94.69
+Step [150/200], Loss: 0.1399, Acc : 94.56
+Step [200/200], Loss: 0.1441, Acc : 94.47
+Validation . . . 
+Loss 0.2904,  Acc 89.86,  IoU 0.3832
+EPOCH 18/50
+Step [50/200], Loss: 0.1408, Acc : 94.55
+Step [100/200], Loss: 0.1433, Acc : 94.34
+Step [150/200], Loss: 0.1464, Acc : 94.18
+Step [200/200], Loss: 0.1435, Acc : 94.37
+Validation . . . 
+Loss 0.2499,  Acc 90.87,  IoU 0.4239
+EPOCH 19/50
+Step [50/200], Loss: 0.1330, Acc : 94.86
+Step [100/200], Loss: 0.1374, Acc : 94.66
+Step [150/200], Loss: 0.1358, Acc : 94.73
+Step [200/200], Loss: 0.1369, Acc : 94.64
+Validation . . . 
+Loss 0.6338,  Acc 74.67,  IoU 0.2250
+EPOCH 20/50
+Step [50/200], Loss: 0.1496, Acc : 93.83
+Step [100/200], Loss: 0.1375, Acc : 94.32
+Step [150/200], Loss: 0.1349, Acc : 94.50
+Step [200/200], Loss: 0.1378, Acc : 94.45
+Validation . . . 
+Loss 0.2338,  Acc 91.11,  IoU 0.4526
+EPOCH 21/50
+Step [50/200], Loss: 0.1422, Acc : 94.45
+Step [100/200], Loss: 0.1348, Acc : 94.51
+Step [150/200], Loss: 0.1335, Acc : 94.49
+Step [200/200], Loss: 0.1352, Acc : 94.50
+Validation . . . 
+Loss 0.3184,  Acc 88.70,  IoU 0.3896
+EPOCH 22/50
+Step [50/200], Loss: 0.1315, Acc : 95.02
+Step [100/200], Loss: 0.1345, Acc : 94.73
+Step [150/200], Loss: 0.1287, Acc : 94.90
+Step [200/200], Loss: 0.1310, Acc : 94.84
+Validation . . . 
+Loss 0.3403,  Acc 87.31,  IoU 0.3805
+EPOCH 23/50
+Step [50/200], Loss: 0.1278, Acc : 95.11
+Step [100/200], Loss: 0.1325, Acc : 94.71
+Step [150/200], Loss: 0.1313, Acc : 94.69
+Step [200/200], Loss: 0.1320, Acc : 94.73
+Validation . . . 
+Loss 0.2034,  Acc 92.50,  IoU 0.4812
+EPOCH 24/50
+Step [50/200], Loss: 0.1229, Acc : 94.89
+Step [100/200], Loss: 0.1212, Acc : 94.97
+Step [150/200], Loss: 0.1235, Acc : 94.93
+Step [200/200], Loss: 0.1266, Acc : 94.85
+Validation . . . 
+Loss 0.2265,  Acc 91.89,  IoU 0.4685
+EPOCH 25/50
+Step [50/200], Loss: 0.1201, Acc : 95.20
+Step [100/200], Loss: 0.1260, Acc : 94.90
+Step [150/200], Loss: 0.1274, Acc : 94.81
+Step [200/200], Loss: 0.1272, Acc : 94.81
+Validation . . . 
+Loss 0.2900,  Acc 88.41,  IoU 0.4178
+EPOCH 26/50
+Step [50/200], Loss: 0.1257, Acc : 94.73
+Step [100/200], Loss: 0.1240, Acc : 94.90
+Step [150/200], Loss: 0.1236, Acc : 94.88
+Step [200/200], Loss: 0.1221, Acc : 94.86
+Validation . . . 
+Loss 0.2385,  Acc 90.84,  IoU 0.4809
+EPOCH 27/50
+Step [50/200], Loss: 0.1191, Acc : 94.86
+Step [100/200], Loss: 0.1231, Acc : 94.80
+Step [150/200], Loss: 0.1193, Acc : 94.93
+Step [200/200], Loss: 0.1191, Acc : 94.95
+Validation . . . 
+Loss 0.2310,  Acc 91.90,  IoU 0.4636
+EPOCH 28/50
+Step [50/200], Loss: 0.1297, Acc : 94.19
+Step [100/200], Loss: 0.1236, Acc : 94.64
+Step [150/200], Loss: 0.1219, Acc : 94.72
+Step [200/200], Loss: 0.1258, Acc : 94.60
+Validation . . . 
+Loss 0.3229,  Acc 87.85,  IoU 0.3898
+EPOCH 29/50
+Step [50/200], Loss: 0.1171, Acc : 95.08
+Step [100/200], Loss: 0.1156, Acc : 95.16
+Step [150/200], Loss: 0.1176, Acc : 95.17
+Step [200/200], Loss: 0.1209, Acc : 94.95
+Validation . . . 
+Loss 0.2154,  Acc 92.46,  IoU 0.4617
+EPOCH 30/50
+Step [50/200], Loss: 0.1163, Acc : 94.80
+Step [100/200], Loss: 0.1167, Acc : 94.73
+Step [150/200], Loss: 0.1136, Acc : 94.99
+Step [200/200], Loss: 0.1147, Acc : 95.03
+Validation . . . 
+Loss 0.3093,  Acc 87.78,  IoU 0.4470
+EPOCH 31/50
+Step [50/200], Loss: 0.1143, Acc : 95.00
+Step [100/200], Loss: 0.1130, Acc : 95.12
+Step [150/200], Loss: 0.1153, Acc : 95.08
+Step [200/200], Loss: 0.1139, Acc : 95.12
+Validation . . . 
+Loss 0.2814,  Acc 89.89,  IoU 0.4368
+EPOCH 32/50
+Step [50/200], Loss: 0.1137, Acc : 95.14
+Step [100/200], Loss: 0.1147, Acc : 94.99
+Step [150/200], Loss: 0.1155, Acc : 95.03
+Step [200/200], Loss: 0.1145, Acc : 95.08
+Validation . . . 
+Loss 0.3016,  Acc 87.22,  IoU 0.4526
+EPOCH 33/50
+Step [50/200], Loss: 0.1120, Acc : 94.88
+Step [100/200], Loss: 0.1137, Acc : 94.94
+Step [150/200], Loss: 0.1115, Acc : 95.09
+Step [200/200], Loss: 0.1099, Acc : 95.16
+Validation . . . 
+Loss 0.2603,  Acc 90.63,  IoU 0.4534
+EPOCH 34/50
+Step [50/200], Loss: 0.1022, Acc : 95.42
+Step [100/200], Loss: 0.1039, Acc : 95.36
+Step [150/200], Loss: 0.1060, Acc : 95.29
+Step [200/200], Loss: 0.1054, Acc : 95.34
+Validation . . . 
+Loss 0.2163,  Acc 92.11,  IoU 0.4855
+EPOCH 35/50
+Step [50/200], Loss: 0.1098, Acc : 95.12
+Step [100/200], Loss: 0.1101, Acc : 95.17
+Step [150/200], Loss: 0.1100, Acc : 95.28
+Step [200/200], Loss: 0.1094, Acc : 95.19
+Validation . . . 
+Loss 0.2945,  Acc 89.37,  IoU 0.4498
+EPOCH 36/50
+Step [50/200], Loss: 0.1106, Acc : 94.95
+Step [100/200], Loss: 0.1025, Acc : 95.30
+Step [150/200], Loss: 0.1066, Acc : 95.15
+Step [200/200], Loss: 0.1079, Acc : 95.20
+Validation . . . 
+Loss 0.2606,  Acc 91.26,  IoU 0.4626
+EPOCH 37/50
+Step [50/200], Loss: 0.0984, Acc : 95.58
+Step [100/200], Loss: 0.1017, Acc : 95.44
+Step [150/200], Loss: 0.1022, Acc : 95.34
+Step [200/200], Loss: 0.1014, Acc : 95.35
+Validation . . . 
+Loss 0.2590,  Acc 90.51,  IoU 0.4727
+EPOCH 38/50
+Step [50/200], Loss: 0.0968, Acc : 95.67
+Step [100/200], Loss: 0.1008, Acc : 95.50
+Step [150/200], Loss: 0.0999, Acc : 95.52
+Step [200/200], Loss: 0.0988, Acc : 95.50
+Validation . . . 
+Loss 0.2642,  Acc 90.72,  IoU 0.4708
+EPOCH 39/50
+Step [50/200], Loss: 0.1018, Acc : 95.09
+Step [100/200], Loss: 0.1007, Acc : 95.41
+Step [150/200], Loss: 0.0993, Acc : 95.47
+Step [200/200], Loss: 0.1024, Acc : 95.36
+Validation . . . 
+Loss 0.2013,  Acc 92.94,  IoU 0.5022
+EPOCH 40/50
+Step [50/200], Loss: 0.0933, Acc : 95.80
+Step [100/200], Loss: 0.0968, Acc : 95.59
+Step [150/200], Loss: 0.0985, Acc : 95.54
+Step [200/200], Loss: 0.0980, Acc : 95.52
+Validation . . . 
+Loss 0.2774,  Acc 89.83,  IoU 0.4612
+EPOCH 41/50
+Step [50/200], Loss: 0.0963, Acc : 95.42
+Step [100/200], Loss: 0.0948, Acc : 95.50
+Step [150/200], Loss: 0.0950, Acc : 95.57
+Step [200/200], Loss: 0.0964, Acc : 95.56
+Validation . . . 
+Loss 0.2499,  Acc 91.03,  IoU 0.4715
+EPOCH 42/50
+Step [50/200], Loss: 0.0961, Acc : 95.64
+Step [100/200], Loss: 0.0995, Acc : 95.67
+Step [150/200], Loss: 0.0965, Acc : 95.66
+Step [200/200], Loss: 0.0974, Acc : 95.59
+Validation . . . 
+Loss 0.3695,  Acc 87.42,  IoU 0.4171
+EPOCH 43/50
+Step [50/200], Loss: 0.0938, Acc : 95.52
+Step [100/200], Loss: 0.0921, Acc : 95.71
+Step [150/200], Loss: 0.0926, Acc : 95.68
+Step [200/200], Loss: 0.0935, Acc : 95.70
+Validation . . . 
+Loss 0.2427,  Acc 91.43,  IoU 0.4563
+EPOCH 44/50
+Step [50/200], Loss: 0.0855, Acc : 95.95
+Step [100/200], Loss: 0.0911, Acc : 95.86
+Step [150/200], Loss: 0.0899, Acc : 95.93
+Step [200/200], Loss: 0.0930, Acc : 95.79
+Validation . . . 
+Loss 0.3613,  Acc 86.32,  IoU 0.4073
+EPOCH 45/50
+Step [50/200], Loss: 0.0985, Acc : 95.53
+Step [100/200], Loss: 0.0965, Acc : 95.59
+Step [150/200], Loss: 0.0954, Acc : 95.68
+Step [200/200], Loss: 0.0975, Acc : 95.48
+Validation . . . 
+Loss 0.3052,  Acc 88.81,  IoU 0.4363
+EPOCH 46/50
+Step [50/200], Loss: 0.0956, Acc : 95.47
+Step [100/200], Loss: 0.0955, Acc : 95.33
+Step [150/200], Loss: 0.0943, Acc : 95.45
+Step [200/200], Loss: 0.0930, Acc : 95.57
+Validation . . . 
+Loss 0.2850,  Acc 88.92,  IoU 0.4549
+EPOCH 47/50
+Step [50/200], Loss: 0.0917, Acc : 95.59
+Step [100/200], Loss: 0.0902, Acc : 95.73
+Step [150/200], Loss: 0.0852, Acc : 95.89
+Step [200/200], Loss: 0.0865, Acc : 95.90
+Validation . . . 
+Loss 0.3427,  Acc 87.68,  IoU 0.4145
+EPOCH 48/50
+Step [50/200], Loss: 0.0819, Acc : 95.88
+Step [100/200], Loss: 0.0862, Acc : 95.68
+Step [150/200], Loss: 0.0853, Acc : 95.77
+Step [200/200], Loss: 0.0872, Acc : 95.79
+Validation . . . 
+Loss 0.2491,  Acc 91.63,  IoU 0.4520
+EPOCH 49/50
+Step [50/200], Loss: 0.0894, Acc : 95.72
+Step [100/200], Loss: 0.0885, Acc : 95.80
+Step [150/200], Loss: 0.0896, Acc : 95.76
+Step [200/200], Loss: 0.0887, Acc : 95.79
+Validation . . . 
+Loss 0.2267,  Acc 91.85,  IoU 0.4861
+EPOCH 50/50
+Step [50/200], Loss: 0.0765, Acc : 96.03
+Step [100/200], Loss: 0.0804, Acc : 95.79
+Step [150/200], Loss: 0.0830, Acc : 95.78
+Step [200/200], Loss: 0.0854, Acc : 95.72
+Validation . . . 
+Loss 0.2511,  Acc 91.89,  IoU 0.4802
+Testing best epoch . . .
+Loss 0.1948,  Acc 93.11,  IoU 0.4843
+Starting Fold 4
+Train 200, Val 67, Test 67
+TOTAL TRAINABLE PARAMETERS : 163604
+RATIOS: Spatial  11.9% , Temporal  81.3% , Classifier   6.8%
+None
+EPOCH 1/50
+Step [50/200], Loss: 2.3273, Acc : 9.20
+Step [100/200], Loss: 1.7139, Acc : 35.93
+Step [150/200], Loss: 1.3547, Acc : 52.11
+Step [200/200], Loss: 1.1377, Acc : 60.90
+Validation . . . 
+Loss 0.4305,  Acc 86.85,  IoU 0.2705
+EPOCH 2/50
+Step [50/200], Loss: 0.4108, Acc : 88.59
+Step [100/200], Loss: 0.3943, Acc : 88.82
+Step [150/200], Loss: 0.3744, Acc : 89.23
+Step [200/200], Loss: 0.3532, Acc : 89.60
+Validation . . . 
+Loss 0.2872,  Acc 90.43,  IoU 0.3502
+EPOCH 3/50
+Step [50/200], Loss: 0.2839, Acc : 91.02
+Step [100/200], Loss: 0.2748, Acc : 91.19
+Step [150/200], Loss: 0.2730, Acc : 91.11
+Step [200/200], Loss: 0.2679, Acc : 91.20
+Validation . . . 
+Loss 0.3041,  Acc 88.83,  IoU 0.3388
+EPOCH 4/50
+Step [50/200], Loss: 0.2378, Acc : 91.84
+Step [100/200], Loss: 0.2410, Acc : 91.84
+Step [150/200], Loss: 0.2388, Acc : 92.03
+Step [200/200], Loss: 0.2361, Acc : 92.01
+Validation . . . 
+Loss 0.2479,  Acc 91.17,  IoU 0.4089
+EPOCH 5/50
+Step [50/200], Loss: 0.2113, Acc : 93.00
+Step [100/200], Loss: 0.2150, Acc : 92.62
+Step [150/200], Loss: 0.2153, Acc : 92.56
+Step [200/200], Loss: 0.2125, Acc : 92.65
+Validation . . . 
+Loss 0.2585,  Acc 91.52,  IoU 0.3931
+EPOCH 6/50
+Step [50/200], Loss: 0.1920, Acc : 93.59
+Step [100/200], Loss: 0.1948, Acc : 93.27
+Step [150/200], Loss: 0.2032, Acc : 93.02
+Step [200/200], Loss: 0.2057, Acc : 92.82
+Validation . . . 
+Loss 0.2617,  Acc 90.96,  IoU 0.4279
+EPOCH 7/50
+Step [50/200], Loss: 0.1920, Acc : 93.38
+Step [100/200], Loss: 0.1925, Acc : 93.10
+Step [150/200], Loss: 0.1944, Acc : 93.05
+Step [200/200], Loss: 0.1943, Acc : 93.02
+Validation . . . 
+Loss 0.2054,  Acc 92.72,  IoU 0.4459
+EPOCH 8/50
+Step [50/200], Loss: 0.2013, Acc : 92.64
+Step [100/200], Loss: 0.1949, Acc : 92.69
+Step [150/200], Loss: 0.1951, Acc : 92.78
+Step [200/200], Loss: 0.1926, Acc : 92.94
+Validation . . . 
+Loss 0.1915,  Acc 93.09,  IoU 0.4753
+EPOCH 9/50
+Step [50/200], Loss: 0.1925, Acc : 92.86
+Step [100/200], Loss: 0.1856, Acc : 93.38
+Step [150/200], Loss: 0.1817, Acc : 93.44
+Step [200/200], Loss: 0.1823, Acc : 93.37
+Validation . . . 
+Loss 0.2363,  Acc 91.57,  IoU 0.4298
+EPOCH 10/50
+Step [50/200], Loss: 0.1706, Acc : 93.81
+Step [100/200], Loss: 0.1728, Acc : 93.73
+Step [150/200], Loss: 0.1768, Acc : 93.60
+Step [200/200], Loss: 0.1780, Acc : 93.54
+Validation . . . 
+Loss 0.2351,  Acc 91.18,  IoU 0.4349
+EPOCH 11/50
+Step [50/200], Loss: 0.1649, Acc : 93.88
+Step [100/200], Loss: 0.1678, Acc : 93.71
+Step [150/200], Loss: 0.1686, Acc : 93.76
+Step [200/200], Loss: 0.1698, Acc : 93.66
+Validation . . . 
+Loss 0.2456,  Acc 89.72,  IoU 0.4296
+EPOCH 12/50
+Step [50/200], Loss: 0.1754, Acc : 93.59
+Step [100/200], Loss: 0.1721, Acc : 93.62
+Step [150/200], Loss: 0.1687, Acc : 93.78
+Step [200/200], Loss: 0.1744, Acc : 93.60
+Validation . . . 
+Loss 0.3766,  Acc 85.14,  IoU 0.3713
+EPOCH 13/50
+Step [50/200], Loss: 0.1772, Acc : 93.70
+Step [100/200], Loss: 0.1706, Acc : 93.78
+Step [150/200], Loss: 0.1671, Acc : 93.82
+Step [200/200], Loss: 0.1653, Acc : 93.89
+Validation . . . 
+Loss 0.3142,  Acc 88.52,  IoU 0.3927
+EPOCH 14/50
+Step [50/200], Loss: 0.1664, Acc : 93.83
+Step [100/200], Loss: 0.1585, Acc : 94.10
+Step [150/200], Loss: 0.1569, Acc : 94.11
+Step [200/200], Loss: 0.1612, Acc : 93.94
+Validation . . . 
+Loss 0.2340,  Acc 91.91,  IoU 0.4358
+EPOCH 15/50
+Step [50/200], Loss: 0.1475, Acc : 94.11
+Step [100/200], Loss: 0.1531, Acc : 94.02
+Step [150/200], Loss: 0.1536, Acc : 94.04
+Step [200/200], Loss: 0.1554, Acc : 94.01
+Validation . . . 
+Loss 0.2414,  Acc 91.59,  IoU 0.4484
+EPOCH 16/50
+Step [50/200], Loss: 0.1530, Acc : 94.19
+Step [100/200], Loss: 0.1493, Acc : 94.14
+Step [150/200], Loss: 0.1519, Acc : 94.15
+Step [200/200], Loss: 0.1533, Acc : 94.15
+Validation . . . 
+Loss 0.2433,  Acc 91.50,  IoU 0.4804
+EPOCH 17/50
+Step [50/200], Loss: 0.1533, Acc : 94.11
+Step [100/200], Loss: 0.1520, Acc : 94.23
+Step [150/200], Loss: 0.1533, Acc : 94.07
+Step [200/200], Loss: 0.1516, Acc : 94.08
+Validation . . . 
+Loss 0.2162,  Acc 91.90,  IoU 0.4972
+EPOCH 18/50
+Step [50/200], Loss: 0.1344, Acc : 94.53
+Step [100/200], Loss: 0.1425, Acc : 94.36
+Step [150/200], Loss: 0.1456, Acc : 94.19
+Step [200/200], Loss: 0.1477, Acc : 94.12
+Validation . . . 
+Loss 0.2669,  Acc 90.16,  IoU 0.4519
+EPOCH 19/50
+Step [50/200], Loss: 0.1478, Acc : 94.17
+Step [100/200], Loss: 0.1496, Acc : 94.11
+Step [150/200], Loss: 0.1471, Acc : 94.27
+Step [200/200], Loss: 0.1482, Acc : 94.27
+Validation . . . 
+Loss 0.1894,  Acc 93.06,  IoU 0.4910
+EPOCH 20/50
+Step [50/200], Loss: 0.1454, Acc : 94.09
+Step [100/200], Loss: 0.1420, Acc : 94.36
+Step [150/200], Loss: 0.1437, Acc : 94.31
+Step [200/200], Loss: 0.1461, Acc : 94.32
+Validation . . . 
+Loss 0.6178,  Acc 76.06,  IoU 0.2865
+EPOCH 21/50
+Step [50/200], Loss: 0.1517, Acc : 93.86
+Step [100/200], Loss: 0.1477, Acc : 94.15
+Step [150/200], Loss: 0.1465, Acc : 94.15
+Step [200/200], Loss: 0.1416, Acc : 94.31
+Validation . . . 
+Loss 0.2343,  Acc 91.45,  IoU 0.4557
+EPOCH 22/50
+Step [50/200], Loss: 0.1208, Acc : 94.98
+Step [100/200], Loss: 0.1350, Acc : 94.55
+Step [150/200], Loss: 0.1341, Acc : 94.68
+Step [200/200], Loss: 0.1369, Acc : 94.53
+Validation . . . 
+Loss 0.2226,  Acc 91.69,  IoU 0.4822
+EPOCH 23/50
+Step [50/200], Loss: 0.1370, Acc : 94.62
+Step [100/200], Loss: 0.1320, Acc : 94.52
+Step [150/200], Loss: 0.1338, Acc : 94.48
+Step [200/200], Loss: 0.1358, Acc : 94.45
+Validation . . . 
+Loss 0.2708,  Acc 90.63,  IoU 0.4255
+EPOCH 24/50
+Step [50/200], Loss: 0.1294, Acc : 94.48
+Step [100/200], Loss: 0.1320, Acc : 94.49
+Step [150/200], Loss: 0.1329, Acc : 94.49
+Step [200/200], Loss: 0.1353, Acc : 94.45
+Validation . . . 
+Loss 0.2238,  Acc 92.23,  IoU 0.4735
+EPOCH 25/50
+Step [50/200], Loss: 0.1351, Acc : 94.44
+Step [100/200], Loss: 0.1304, Acc : 94.48
+Step [150/200], Loss: 0.1337, Acc : 94.40
+Step [200/200], Loss: 0.1313, Acc : 94.57
+Validation . . . 
+Loss 0.1963,  Acc 93.11,  IoU 0.4977
+EPOCH 26/50
+Step [50/200], Loss: 0.1269, Acc : 94.75
+Step [100/200], Loss: 0.1262, Acc : 94.71
+Step [150/200], Loss: 0.1296, Acc : 94.52
+Step [200/200], Loss: 0.1307, Acc : 94.53
+Validation . . . 
+Loss 0.2848,  Acc 89.66,  IoU 0.4357
+EPOCH 27/50
+Step [50/200], Loss: 0.1367, Acc : 94.31
+Step [100/200], Loss: 0.1277, Acc : 94.69
+Step [150/200], Loss: 0.1293, Acc : 94.62
+Step [200/200], Loss: 0.1270, Acc : 94.71
+Validation . . . 
+Loss 0.3112,  Acc 86.07,  IoU 0.4021
+EPOCH 28/50
+Step [50/200], Loss: 0.1116, Acc : 95.22
+Step [100/200], Loss: 0.1222, Acc : 94.88
+Step [150/200], Loss: 0.1234, Acc : 94.83
+Step [200/200], Loss: 0.1245, Acc : 94.81
+Validation . . . 
+Loss 0.2276,  Acc 91.89,  IoU 0.4573
+EPOCH 29/50
+Step [50/200], Loss: 0.1269, Acc : 94.42
+Step [100/200], Loss: 0.1209, Acc : 94.85
+Step [150/200], Loss: 0.1174, Acc : 95.03
+Step [200/200], Loss: 0.1223, Acc : 94.80
+Validation . . . 
+Loss 0.2226,  Acc 92.47,  IoU 0.4744
+EPOCH 30/50
+Step [50/200], Loss: 0.1211, Acc : 94.66
+Step [100/200], Loss: 0.1186, Acc : 94.94
+Step [150/200], Loss: 0.1176, Acc : 94.96
+Step [200/200], Loss: 0.1152, Acc : 95.10
+Validation . . . 
+Loss 0.2033,  Acc 92.66,  IoU 0.4765
+EPOCH 31/50
+Step [50/200], Loss: 0.1137, Acc : 95.27
+Step [100/200], Loss: 0.1191, Acc : 95.11
+Step [150/200], Loss: 0.1193, Acc : 94.99
+Step [200/200], Loss: 0.1218, Acc : 94.83
+Validation . . . 
+Loss 0.2693,  Acc 90.23,  IoU 0.4306
+EPOCH 32/50
+Step [50/200], Loss: 0.1183, Acc : 95.03
+Step [100/200], Loss: 0.1202, Acc : 95.00
+Step [150/200], Loss: 0.1197, Acc : 94.92
+Step [200/200], Loss: 0.1200, Acc : 94.89
+Validation . . . 
+Loss 0.2558,  Acc 90.10,  IoU 0.4485
+EPOCH 33/50
+Step [50/200], Loss: 0.1145, Acc : 94.97
+Step [100/200], Loss: 0.1140, Acc : 95.03
+Step [150/200], Loss: 0.1091, Acc : 95.19
+Step [200/200], Loss: 0.1111, Acc : 95.24
+Validation . . . 
+Loss 0.3017,  Acc 88.45,  IoU 0.4067
+EPOCH 34/50
+Step [50/200], Loss: 0.1073, Acc : 95.42
+Step [100/200], Loss: 0.1097, Acc : 95.32
+Step [150/200], Loss: 0.1163, Acc : 95.08
+Step [200/200], Loss: 0.1168, Acc : 94.99
+Validation . . . 
+Loss 0.2430,  Acc 90.93,  IoU 0.4549
+EPOCH 35/50
+Step [50/200], Loss: 0.1071, Acc : 95.11
+Step [100/200], Loss: 0.1169, Acc : 94.87
+Step [150/200], Loss: 0.1154, Acc : 94.94
+Step [200/200], Loss: 0.1141, Acc : 95.02
+Validation . . . 
+Loss 0.2120,  Acc 92.38,  IoU 0.4694
+EPOCH 36/50
+Step [50/200], Loss: 0.1038, Acc : 95.28
+Step [100/200], Loss: 0.1010, Acc : 95.45
+Step [150/200], Loss: 0.1035, Acc : 95.32
+Step [200/200], Loss: 0.1066, Acc : 95.25
+Validation . . . 
+Loss 0.2015,  Acc 92.58,  IoU 0.4909
+EPOCH 37/50
+Step [50/200], Loss: 0.1063, Acc : 95.30
+Step [100/200], Loss: 0.1160, Acc : 94.96
+Step [150/200], Loss: 0.1139, Acc : 94.98
+Step [200/200], Loss: 0.1134, Acc : 95.02
+Validation . . . 
+Loss 0.2339,  Acc 89.63,  IoU 0.4672
+EPOCH 38/50
+Step [50/200], Loss: 0.1089, Acc : 95.33
+Step [100/200], Loss: 0.1108, Acc : 95.17
+Step [150/200], Loss: 0.1080, Acc : 95.30
+Step [200/200], Loss: 0.1103, Acc : 95.16
+Validation . . . 
+Loss 0.2841,  Acc 86.72,  IoU 0.4494
+EPOCH 39/50
+Step [50/200], Loss: 0.0960, Acc : 95.91
+Step [100/200], Loss: 0.0968, Acc : 95.79
+Step [150/200], Loss: 0.1027, Acc : 95.40
+Step [200/200], Loss: 0.1043, Acc : 95.31
+Validation . . . 
+Loss 0.2826,  Acc 90.18,  IoU 0.4341
+EPOCH 40/50
+Step [50/200], Loss: 0.0948, Acc : 95.72
+Step [100/200], Loss: 0.0955, Acc : 95.64
+Step [150/200], Loss: 0.0987, Acc : 95.48
+Step [200/200], Loss: 0.0997, Acc : 95.39
+Validation . . . 
+Loss 0.2208,  Acc 91.75,  IoU 0.4908
+EPOCH 41/50
+Step [50/200], Loss: 0.0949, Acc : 95.34
+Step [100/200], Loss: 0.1004, Acc : 95.38
+Step [150/200], Loss: 0.1005, Acc : 95.32
+Step [200/200], Loss: 0.1015, Acc : 95.30
+Validation . . . 
+Loss 0.2143,  Acc 91.91,  IoU 0.4625
+EPOCH 42/50
+Step [50/200], Loss: 0.1008, Acc : 95.22
+Step [100/200], Loss: 0.0986, Acc : 95.45
+Step [150/200], Loss: 0.0985, Acc : 95.44
+Step [200/200], Loss: 0.0985, Acc : 95.47
+Validation . . . 
+Loss 0.3373,  Acc 86.98,  IoU 0.4281
+EPOCH 43/50
+Step [50/200], Loss: 0.0980, Acc : 95.39
+Step [100/200], Loss: 0.1001, Acc : 95.39
+Step [150/200], Loss: 0.0993, Acc : 95.47
+Step [200/200], Loss: 0.1006, Acc : 95.39
+Validation . . . 
+Loss 0.1968,  Acc 93.10,  IoU 0.4913
+EPOCH 44/50
+Step [50/200], Loss: 0.0978, Acc : 95.39
+Step [100/200], Loss: 0.1010, Acc : 95.31
+Step [150/200], Loss: 0.0993, Acc : 95.41
+Step [200/200], Loss: 0.0975, Acc : 95.50
+Validation . . . 
+Loss 0.2038,  Acc 92.80,  IoU 0.4809
+EPOCH 45/50
+Step [50/200], Loss: 0.0892, Acc : 95.66
+Step [100/200], Loss: 0.0924, Acc : 95.61
+Step [150/200], Loss: 0.0920, Acc : 95.60
+Step [200/200], Loss: 0.0947, Acc : 95.60
+Validation . . . 
+Loss 0.2682,  Acc 89.78,  IoU 0.4663
+EPOCH 46/50
+Step [50/200], Loss: 0.0876, Acc : 95.80
+Step [100/200], Loss: 0.0929, Acc : 95.59
+Step [150/200], Loss: 0.0926, Acc : 95.62
+Step [200/200], Loss: 0.0909, Acc : 95.65
+Validation . . . 
+Loss 0.2383,  Acc 90.60,  IoU 0.4798
+EPOCH 47/50
+Step [50/200], Loss: 0.0790, Acc : 96.06
+Step [100/200], Loss: 0.0854, Acc : 95.91
+Step [150/200], Loss: 0.0875, Acc : 95.84
+Step [200/200], Loss: 0.0908, Acc : 95.64
+Validation . . . 
+Loss 0.1849,  Acc 93.45,  IoU 0.5193
+EPOCH 48/50
+Step [50/200], Loss: 0.0880, Acc : 95.53
+Step [100/200], Loss: 0.0866, Acc : 95.61
+Step [150/200], Loss: 0.0892, Acc : 95.52
+Step [200/200], Loss: 0.0923, Acc : 95.61
+Validation . . . 
+Loss 0.2101,  Acc 92.90,  IoU 0.5099
+EPOCH 49/50
+Step [50/200], Loss: 0.0822, Acc : 95.75
+Step [100/200], Loss: 0.0853, Acc : 95.81
+Step [150/200], Loss: 0.0880, Acc : 95.69
+Step [200/200], Loss: 0.0905, Acc : 95.60
+Validation . . . 
+Loss 0.2521,  Acc 90.67,  IoU 0.4638
+EPOCH 50/50
+Step [50/200], Loss: 0.1011, Acc : 95.19
+Step [100/200], Loss: 0.0954, Acc : 95.30
+Step [150/200], Loss: 0.0926, Acc : 95.49
+Step [200/200], Loss: 0.0909, Acc : 95.60
+Validation . . . 
+Loss 0.1996,  Acc 93.02,  IoU 0.5058
+Testing best epoch . . .
+Loss 0.1662,  Acc 93.94,  IoU 0.5128
+Starting Fold 5
+Train 200, Val 67, Test 67
+TOTAL TRAINABLE PARAMETERS : 163604
+RATIOS: Spatial  11.9% , Temporal  81.3% , Classifier   6.8%
+None
+EPOCH 1/50
+Step [50/200], Loss: 2.5666, Acc : 30.73
+Step [100/200], Loss: 1.9119, Acc : 53.91
+Step [150/200], Loss: 1.4928, Acc : 65.43
+Step [200/200], Loss: 1.2379, Acc : 71.15
+Validation . . . 
+Loss 0.6421,  Acc 81.95,  IoU 0.2379
+EPOCH 2/50
+Step [50/200], Loss: 0.3787, Acc : 89.72
+Step [100/200], Loss: 0.3630, Acc : 90.02
+Step [150/200], Loss: 0.3463, Acc : 90.27
+Step [200/200], Loss: 0.3392, Acc : 90.30
+Validation . . . 
+Loss 0.2819,  Acc 91.67,  IoU 0.3206
+EPOCH 3/50
+Step [50/200], Loss: 0.3022, Acc : 90.19
+Step [100/200], Loss: 0.2842, Acc : 90.95
+Step [150/200], Loss: 0.2758, Acc : 91.21
+Step [200/200], Loss: 0.2720, Acc : 91.25
+Validation . . . 
+Loss 0.2493,  Acc 91.49,  IoU 0.3333
+EPOCH 4/50
+Step [50/200], Loss: 0.2376, Acc : 91.78
+Step [100/200], Loss: 0.2339, Acc : 91.84
+Step [150/200], Loss: 0.2362, Acc : 91.94
+Step [200/200], Loss: 0.2369, Acc : 92.02
+Validation . . . 
+Loss 0.2147,  Acc 93.39,  IoU 0.4174
+EPOCH 5/50
+Step [50/200], Loss: 0.2060, Acc : 93.05
+Step [100/200], Loss: 0.2110, Acc : 92.80
+Step [150/200], Loss: 0.2086, Acc : 92.88
+Step [200/200], Loss: 0.2102, Acc : 92.84
+Validation . . . 
+Loss 0.2112,  Acc 93.12,  IoU 0.4473
+EPOCH 6/50
+Step [50/200], Loss: 0.2012, Acc : 93.00
+Step [100/200], Loss: 0.2027, Acc : 92.73
+Step [150/200], Loss: 0.2020, Acc : 92.84
+Step [200/200], Loss: 0.2045, Acc : 92.81
+Validation . . . 
+Loss 0.3117,  Acc 88.18,  IoU 0.4025
+EPOCH 7/50
+Step [50/200], Loss: 0.1755, Acc : 93.69
+Step [100/200], Loss: 0.1864, Acc : 93.30
+Step [150/200], Loss: 0.1907, Acc : 93.13
+Step [200/200], Loss: 0.1915, Acc : 93.17
+Validation . . . 
+Loss 0.2907,  Acc 88.96,  IoU 0.3702
+EPOCH 8/50
+Step [50/200], Loss: 0.1798, Acc : 93.56
+Step [100/200], Loss: 0.1845, Acc : 93.28
+Step [150/200], Loss: 0.1876, Acc : 93.25
+Step [200/200], Loss: 0.1867, Acc : 93.27
+Validation . . . 
+Loss 0.1828,  Acc 93.89,  IoU 0.4669
+EPOCH 9/50
+Step [50/200], Loss: 0.1779, Acc : 93.64
+Step [100/200], Loss: 0.1741, Acc : 93.70
+Step [150/200], Loss: 0.1739, Acc : 93.72
+Step [200/200], Loss: 0.1781, Acc : 93.54
+Validation . . . 
+Loss 0.2101,  Acc 92.47,  IoU 0.4311
+EPOCH 10/50
+Step [50/200], Loss: 0.1756, Acc : 93.45
+Step [100/200], Loss: 0.1711, Acc : 93.52
+Step [150/200], Loss: 0.1728, Acc : 93.55
+Step [200/200], Loss: 0.1753, Acc : 93.52
+Validation . . . 
+Loss 0.2133,  Acc 92.99,  IoU 0.4654
+EPOCH 11/50
+Step [50/200], Loss: 0.1684, Acc : 93.88
+Step [100/200], Loss: 0.1757, Acc : 93.48
+Step [150/200], Loss: 0.1750, Acc : 93.54
+Step [200/200], Loss: 0.1718, Acc : 93.66
+Validation . . . 
+Loss 0.2674,  Acc 89.66,  IoU 0.4521
+EPOCH 12/50
+Step [50/200], Loss: 0.1662, Acc : 93.47
+Step [100/200], Loss: 0.1654, Acc : 93.74
+Step [150/200], Loss: 0.1694, Acc : 93.59
+Step [200/200], Loss: 0.1670, Acc : 93.74
+Validation . . . 
+Loss 0.2904,  Acc 87.79,  IoU 0.4317
+EPOCH 13/50
+Step [50/200], Loss: 0.1578, Acc : 94.27
+Step [100/200], Loss: 0.1643, Acc : 93.91
+Step [150/200], Loss: 0.1613, Acc : 93.97
+Step [200/200], Loss: 0.1630, Acc : 93.88
+Validation . . . 
+Loss 0.3507,  Acc 86.64,  IoU 0.3833
+EPOCH 14/50
+Step [50/200], Loss: 0.1690, Acc : 93.48
+Step [100/200], Loss: 0.1660, Acc : 93.69
+Step [150/200], Loss: 0.1605, Acc : 93.82
+Step [200/200], Loss: 0.1585, Acc : 93.89
+Validation . . . 
+Loss 0.2237,  Acc 91.53,  IoU 0.4562
+EPOCH 15/50
+Step [50/200], Loss: 0.1406, Acc : 94.23
+Step [100/200], Loss: 0.1491, Acc : 94.21
+Step [150/200], Loss: 0.1486, Acc : 94.34
+Step [200/200], Loss: 0.1534, Acc : 94.14
+Validation . . . 
+Loss 0.1877,  Acc 93.21,  IoU 0.4517
+EPOCH 16/50
+Step [50/200], Loss: 0.1630, Acc : 93.67
+Step [100/200], Loss: 0.1561, Acc : 93.70
+Step [150/200], Loss: 0.1552, Acc : 93.72
+Step [200/200], Loss: 0.1547, Acc : 93.81
+Validation . . . 
+Loss 0.2237,  Acc 91.52,  IoU 0.4516
+EPOCH 17/50
+Step [50/200], Loss: 0.1479, Acc : 94.23
+Step [100/200], Loss: 0.1441, Acc : 94.33
+Step [150/200], Loss: 0.1507, Acc : 94.08
+Step [200/200], Loss: 0.1505, Acc : 94.10
+Validation . . . 
+Loss 0.1822,  Acc 93.34,  IoU 0.4834
+EPOCH 18/50
+Step [50/200], Loss: 0.1555, Acc : 93.84
+Step [100/200], Loss: 0.1512, Acc : 93.99
+Step [150/200], Loss: 0.1504, Acc : 93.99
+Step [200/200], Loss: 0.1486, Acc : 94.08
+Validation . . . 
+Loss 0.3270,  Acc 83.88,  IoU 0.3970
+EPOCH 19/50
+Step [50/200], Loss: 0.1317, Acc : 94.45
+Step [100/200], Loss: 0.1347, Acc : 94.53
+Step [150/200], Loss: 0.1354, Acc : 94.47
+Step [200/200], Loss: 0.1403, Acc : 94.38
+Validation . . . 
+Loss 0.2009,  Acc 92.76,  IoU 0.4716
+EPOCH 20/50
+Step [50/200], Loss: 0.1439, Acc : 94.58
+Step [100/200], Loss: 0.1418, Acc : 94.47
+Step [150/200], Loss: 0.1401, Acc : 94.47
+Step [200/200], Loss: 0.1423, Acc : 94.41
+Validation . . . 
+Loss 0.2116,  Acc 91.32,  IoU 0.4510
+EPOCH 21/50
+Step [50/200], Loss: 0.1350, Acc : 94.41
+Step [100/200], Loss: 0.1397, Acc : 94.42
+Step [150/200], Loss: 0.1379, Acc : 94.49
+Step [200/200], Loss: 0.1390, Acc : 94.35
+Validation . . . 
+Loss 0.2607,  Acc 89.92,  IoU 0.4468
+EPOCH 22/50
+Step [50/200], Loss: 0.1365, Acc : 94.44
+Step [100/200], Loss: 0.1387, Acc : 94.54
+Step [150/200], Loss: 0.1372, Acc : 94.44
+Step [200/200], Loss: 0.1368, Acc : 94.41
+Validation . . . 
+Loss 0.1788,  Acc 93.50,  IoU 0.4641
+EPOCH 23/50
+Step [50/200], Loss: 0.1268, Acc : 94.77
+Step [100/200], Loss: 0.1273, Acc : 94.60
+Step [150/200], Loss: 0.1311, Acc : 94.51
+Step [200/200], Loss: 0.1353, Acc : 94.38
+Validation . . . 
+Loss 0.2126,  Acc 92.79,  IoU 0.4647
+EPOCH 24/50
+Step [50/200], Loss: 0.1307, Acc : 94.86
+Step [100/200], Loss: 0.1320, Acc : 94.70
+Step [150/200], Loss: 0.1308, Acc : 94.62
+Step [200/200], Loss: 0.1322, Acc : 94.58
+Validation . . . 
+Loss 0.1840,  Acc 93.30,  IoU 0.4621
+EPOCH 25/50
+Step [50/200], Loss: 0.1236, Acc : 94.61
+Step [100/200], Loss: 0.1215, Acc : 94.84
+Step [150/200], Loss: 0.1283, Acc : 94.61
+Step [200/200], Loss: 0.1288, Acc : 94.61
+Validation . . . 
+Loss 0.3736,  Acc 84.76,  IoU 0.3553
+EPOCH 26/50
+Step [50/200], Loss: 0.1182, Acc : 94.94
+Step [100/200], Loss: 0.1243, Acc : 94.80
+Step [150/200], Loss: 0.1250, Acc : 94.76
+Step [200/200], Loss: 0.1261, Acc : 94.76
+Validation . . . 
+Loss 0.1747,  Acc 93.51,  IoU 0.4825
+EPOCH 27/50
+Step [50/200], Loss: 0.1251, Acc : 94.83
+Step [100/200], Loss: 0.1209, Acc : 94.94
+Step [150/200], Loss: 0.1242, Acc : 94.78
+Step [200/200], Loss: 0.1272, Acc : 94.66
+Validation . . . 
+Loss 0.1913,  Acc 93.36,  IoU 0.4629
+EPOCH 28/50
+Step [50/200], Loss: 0.1241, Acc : 94.73
+Step [100/200], Loss: 0.1194, Acc : 94.79
+Step [150/200], Loss: 0.1219, Acc : 94.71
+Step [200/200], Loss: 0.1220, Acc : 94.72
+Validation . . . 
+Loss 0.2044,  Acc 92.77,  IoU 0.4791
+EPOCH 29/50
+Step [50/200], Loss: 0.1175, Acc : 94.61
+Step [100/200], Loss: 0.1207, Acc : 94.75
+Step [150/200], Loss: 0.1256, Acc : 94.53
+Step [200/200], Loss: 0.1235, Acc : 94.69
+Validation . . . 
+Loss 0.2826,  Acc 90.00,  IoU 0.4345
+EPOCH 30/50
+Step [50/200], Loss: 0.1132, Acc : 95.12
+Step [100/200], Loss: 0.1162, Acc : 94.90
+Step [150/200], Loss: 0.1187, Acc : 94.89
+Step [200/200], Loss: 0.1194, Acc : 94.88
+Validation . . . 
+Loss 0.2205,  Acc 91.91,  IoU 0.4557
+EPOCH 31/50
+Step [50/200], Loss: 0.1135, Acc : 94.95
+Step [100/200], Loss: 0.1122, Acc : 95.08
+Step [150/200], Loss: 0.1163, Acc : 94.81
+Step [200/200], Loss: 0.1171, Acc : 94.79
+Validation . . . 
+Loss 0.2013,  Acc 92.90,  IoU 0.4811
+EPOCH 32/50
+Step [50/200], Loss: 0.1164, Acc : 94.61
+Step [100/200], Loss: 0.1137, Acc : 94.83
+Step [150/200], Loss: 0.1151, Acc : 94.91
+Step [200/200], Loss: 0.1163, Acc : 94.87
+Validation . . . 
+Loss 0.1931,  Acc 92.98,  IoU 0.4806
+EPOCH 33/50
+Step [50/200], Loss: 0.1105, Acc : 95.30
+Step [100/200], Loss: 0.1166, Acc : 95.02
+Step [150/200], Loss: 0.1167, Acc : 94.94
+Step [200/200], Loss: 0.1178, Acc : 94.84
+Validation . . . 
+Loss 0.1838,  Acc 93.34,  IoU 0.4773
+EPOCH 34/50
+Step [50/200], Loss: 0.1077, Acc : 95.06
+Step [100/200], Loss: 0.1068, Acc : 95.13
+Step [150/200], Loss: 0.1091, Acc : 95.07
+Step [200/200], Loss: 0.1114, Acc : 94.99
+Validation . . . 
+Loss 0.1706,  Acc 93.76,  IoU 0.4889
+EPOCH 35/50
+Step [50/200], Loss: 0.0978, Acc : 95.62
+Step [100/200], Loss: 0.0981, Acc : 95.43
+Step [150/200], Loss: 0.1032, Acc : 95.35
+Step [200/200], Loss: 0.1070, Acc : 95.17
+Validation . . . 
+Loss 0.1824,  Acc 93.50,  IoU 0.4782
+EPOCH 36/50
+Step [50/200], Loss: 0.1018, Acc : 95.39
+Step [100/200], Loss: 0.1044, Acc : 95.26
+Step [150/200], Loss: 0.1055, Acc : 95.21
+Step [200/200], Loss: 0.1058, Acc : 95.24
+Validation . . . 
+Loss 0.2253,  Acc 92.13,  IoU 0.4572
+EPOCH 37/50
+Step [50/200], Loss: 0.1049, Acc : 95.22
+Step [100/200], Loss: 0.1061, Acc : 95.07
+Step [150/200], Loss: 0.1041, Acc : 95.18
+Step [200/200], Loss: 0.1064, Acc : 95.05
+Validation . . . 
+Loss 0.2370,  Acc 91.36,  IoU 0.4617
+EPOCH 38/50
+Step [50/200], Loss: 0.0993, Acc : 95.38
+Step [100/200], Loss: 0.0957, Acc : 95.48
+Step [150/200], Loss: 0.0979, Acc : 95.40
+Step [200/200], Loss: 0.1018, Acc : 95.28
+Validation . . . 
+Loss 0.2823,  Acc 90.36,  IoU 0.4388
+EPOCH 39/50
+Step [50/200], Loss: 0.1023, Acc : 95.22
+Step [100/200], Loss: 0.0982, Acc : 95.44
+Step [150/200], Loss: 0.0991, Acc : 95.40
+Step [200/200], Loss: 0.1012, Acc : 95.29
+Validation . . . 
+Loss 0.2025,  Acc 93.03,  IoU 0.4755
+EPOCH 40/50
+Step [50/200], Loss: 0.0972, Acc : 95.28
+Step [100/200], Loss: 0.0979, Acc : 95.22
+Step [150/200], Loss: 0.0971, Acc : 95.38
+Step [200/200], Loss: 0.0977, Acc : 95.39
+Validation . . . 
+Loss 0.2372,  Acc 92.10,  IoU 0.4592
+EPOCH 41/50
+Step [50/200], Loss: 0.0929, Acc : 95.45
+Step [100/200], Loss: 0.0937, Acc : 95.51
+Step [150/200], Loss: 0.0961, Acc : 95.42
+Step [200/200], Loss: 0.0968, Acc : 95.33
+Validation . . . 
+Loss 0.1885,  Acc 93.89,  IoU 0.4835
+EPOCH 42/50
+Step [50/200], Loss: 0.0974, Acc : 95.47
+Step [100/200], Loss: 0.0956, Acc : 95.47
+Step [150/200], Loss: 0.0962, Acc : 95.48
+Step [200/200], Loss: 0.0945, Acc : 95.51
+Validation . . . 
+Loss 0.4551,  Acc 79.21,  IoU 0.3588
+EPOCH 43/50
+Step [50/200], Loss: 0.0974, Acc : 95.14
+Step [100/200], Loss: 0.0952, Acc : 95.33
+Step [150/200], Loss: 0.0944, Acc : 95.39
+Step [200/200], Loss: 0.0933, Acc : 95.46
+Validation . . . 
+Loss 0.1998,  Acc 92.76,  IoU 0.4734
+EPOCH 44/50
+Step [50/200], Loss: 0.0873, Acc : 95.62
+Step [100/200], Loss: 0.0921, Acc : 95.54
+Step [150/200], Loss: 0.0948, Acc : 95.54
+Step [200/200], Loss: 0.0979, Acc : 95.43
+Validation . . . 
+Loss 0.1988,  Acc 93.25,  IoU 0.4868
+EPOCH 45/50
+Step [50/200], Loss: 0.0958, Acc : 95.53
+Step [100/200], Loss: 0.0964, Acc : 95.41
+Step [150/200], Loss: 0.0975, Acc : 95.37
+Step [200/200], Loss: 0.0963, Acc : 95.45
+Validation . . . 
+Loss 0.1813,  Acc 93.84,  IoU 0.5168
+EPOCH 46/50
+Step [50/200], Loss: 0.0953, Acc : 95.66
+Step [100/200], Loss: 0.0885, Acc : 95.73
+Step [150/200], Loss: 0.0884, Acc : 95.72
+Step [200/200], Loss: 0.0897, Acc : 95.66
+Validation . . . 
+Loss 0.5944,  Acc 74.12,  IoU 0.3206
+EPOCH 47/50
+Step [50/200], Loss: 0.0871, Acc : 95.84
+Step [100/200], Loss: 0.0888, Acc : 95.62
+Step [150/200], Loss: 0.0895, Acc : 95.60
+Step [200/200], Loss: 0.0911, Acc : 95.53
+Validation . . . 
+Loss 0.2886,  Acc 88.17,  IoU 0.4553
+EPOCH 48/50
+Step [50/200], Loss: 0.0758, Acc : 96.02
+Step [100/200], Loss: 0.0820, Acc : 95.80
+Step [150/200], Loss: 0.0849, Acc : 95.65
+Step [200/200], Loss: 0.0858, Acc : 95.69
+Validation . . . 
+Loss 0.2149,  Acc 91.69,  IoU 0.4807
+EPOCH 49/50
+Step [50/200], Loss: 0.0811, Acc : 96.03
+Step [100/200], Loss: 0.0873, Acc : 95.68
+Step [150/200], Loss: 0.0868, Acc : 95.60
+Step [200/200], Loss: 0.0862, Acc : 95.62
+Validation . . . 
+Loss 0.2819,  Acc 87.77,  IoU 0.4465
+EPOCH 50/50
+Step [50/200], Loss: 0.0783, Acc : 96.17
+Step [100/200], Loss: 0.0808, Acc : 95.98
+Step [150/200], Loss: 0.0852, Acc : 95.71
+Step [200/200], Loss: 0.0858, Acc : 95.65
+Validation . . . 
+Loss 0.2123,  Acc 92.56,  IoU 0.4868
+Testing best epoch . . .
+Loss 0.2062,  Acc 92.76,  IoU 0.5254
+Overall performance:
+Acc: 0.9321902342647473,  IoU: 0.5024175748330628
+total elapsed time is ---> 0:36:16.834580

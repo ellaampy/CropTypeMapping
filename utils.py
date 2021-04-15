@@ -2,17 +2,14 @@ import ee
 import os
 import numpy as np
 import argparse
-!pip install geojson
 import geojson, json
 from tqdm import tqdm
 from shapely.geometry import Polygon
 import time
 from datetime import datetime
+#ee.Initialize()
 
-# authenticate gee
-ee.Authenticate()
-ee.Initialize()
-
+# utils/ functions
 
 
 # utils/ functions
@@ -33,7 +30,7 @@ def get_collection(geometry, col_id , start_date , end_date, num_per_month=0, ad
                      ee.Filter.lte('CLOUDY_PIXEL_PERCENTAGE',80)).select(
                      ['B2','B3','B4','B5', 'B6','B7','B8','B8A','B11','B12', 'QA60'])
 
-        # set normalisation statistics (placed prior to any  clipping operation)
+        # set normalisation statistics (placed prior to any parcel clipping operation)
         collection = collection.map(lambda img: img.set('stats', ee.Image(img).reduceRegion(reducer=ee.Reducer.percentile([2, 98]), bestEffort=True)))
 
         # compute NDVI
@@ -41,7 +38,6 @@ def get_collection(geometry, col_id , start_date , end_date, num_per_month=0, ad
             collection = collection.map(lambda img: img.addBands(img.normalizedDifference(['B8', 'B4']).rename('ndvi')))
 
 
-    # get s1 for specific orbits
     elif 'S1'  in col_id:
         collection = ee.ImageCollection(col_id).filter(ee.Filter.eq('instrumentMode', 'IW')).filterDate(
                      start_date, end_date).filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV')).filter(
@@ -52,12 +48,12 @@ def get_collection(geometry, col_id , start_date , end_date, num_per_month=0, ad
         # set normalisation statistics (placed prior to any parcel clipping operation)
         collection = collection.map(lambda img: img.set('stats', ee.Image(img).reduceRegion(reducer=ee.Reducer.percentile([2, 98]), bestEffort=True)))
 
-        # multitemporal speckle filtering
         if speckle_filter == True:
-            collection = multitemporalDespeckle(collection) 
+            # collection = collection.map(lambda img: img.clip(geometry.bounds().buffer(200)))
+            collection = multitemporalDespeckle(collection)
 
         # sort by doa for ordered date sequence
-        #  projection used here for co-registration (with Sentinel 2 over same area)
+        #  projection used here for co-registration
         collection = collection.map(lambda img: img.reproject(crs = 'EPSG:32630', crsTransform = [10, 0, 399960, 0, -10, 5400000]))
 
 
@@ -65,7 +61,7 @@ def get_collection(geometry, col_id , start_date , end_date, num_per_month=0, ad
     collection = overlap_filter(collection, geometry)
         
 
-    # return n image per month
+    # return one image per month
     if  num_per_month > 0:
         collection = monthly_(col_id, collection, start_year = int(start_date[:4]), end_year = int(end_date[:4]), num_per_month=num_per_month)
 

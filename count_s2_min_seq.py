@@ -40,21 +40,21 @@ def get_min_sequence(min_len,path):
                      data = np.load(file_path)
                      data_shape = data.shape[0]
                      count +=1 
-                     if data_shape < min_len:
-                        min_len = data_shape
+                     if data_shape == min_len:
+                        #min_len = data_shape
                         ignored.append(file.split('.')[0])
                         shape_ignored.append(data_shape)
                      print('min count now', count)
-                     #print('list of parcels to ignore ', ignored)
-                     #print('list of ignored parcels shape', shape_ignored)
+                     print('list of parcels to ignore ', ignored)
+                     print('list of ignored parcels shape', shape_ignored)
                  except:
                      print('error in file ', file)
     
     
     print('total files traversed ', count)
     print('minimum temporal length ', min_len)
-    #print('list of ignored parcels', ignored)
-    #print('list of ignored parcels shape', shape_ignored)
+    print('list of ignored parcels', ignored)
+    print('list of ignored parcels shape', shape_ignored)
     print('len of ignored parcels ', len(ignored))
     print('total elapsed time ', datetime.now() - start)
 

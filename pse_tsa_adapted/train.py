@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 import os
+import time
+from datetime import datetime
 import json
 import pickle as pkl
 import argparse
@@ -164,15 +166,16 @@ def main(config):
 
     #mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
     extra = 'geomfeat' if config['geomfeat'] else None
+    #print('extra features no geom argument-----------------> ', extra)
 
     if config['preload']:
         dt = PixelSetData_preloaded(config['dataset_folder'], labels='CODE_GROUP', npixel=config['npixel'],
-                          sub_classes=[1, 3, 4, 5, 6, 8, 9, 12, 13, 14, 16, 18, 19, 23, 28, 31, 33, 34, 36, 39],
+                          sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 24, 25],
                           norm=None,
                           extra_feature=None)
     else:
         dt = PixelSetData(config['dataset_folder'], labels='CODE_GROUP', npixel=config['npixel'],
-                          sub_classes=[1, 3, 4, 5, 6, 8, 9, 12, 13, 14, 16, 18, 19, 23, 28, 31, 33, 34, 36, 39],
+                          sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 24, 25],
                           norm=None,
                           extra_feature=None)
     device = torch.device(config['device'])
@@ -244,6 +247,7 @@ def main(config):
 
 
 if __name__ == '__main__':
+    start = datetime.now()
 
     parser = argparse.ArgumentParser()
 
@@ -303,3 +307,6 @@ if __name__ == '__main__':
 
     pprint.pprint(config)
     main(config)
+
+    #add processing time
+    print('total elapsed time is --->', datetime.now() -start)

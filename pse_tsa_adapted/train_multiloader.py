@@ -90,16 +90,16 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
 def get_pse(folder, config):
     if config['preload']:
         dt = PixelSetData_preloaded(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
-                          sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25],
-                          #sub_classes = [1, 2, 3, 16, 17, 18],
+                          #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
+                          sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
                           norm=None,
                           sensor = config['sensor'],
                           extra_feature=None, 
                           jitter=None)
     else:
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
-                          sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25],
-                          #sub_classes = [1, 2, 3, 16, 17, 18],
+                          #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
+                          sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
                           norm=None,
                           sensor = config['sensor'],
                           extra_feature=None, 

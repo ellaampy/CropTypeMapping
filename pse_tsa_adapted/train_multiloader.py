@@ -165,7 +165,7 @@ def checkpoint(log, config):
         json.dump(log, outfile, indent=4)
 
 
-def save_results(metrics, conf_mat, config):
+def save_results(metrics, conf_mat, config, y_true, y_pred): #extend save results to include y_true, y_pred
     with open(os.path.join(config['res_dir'], 'test_metrics.json'), 'w') as outfile:
         json.dump(metrics, outfile, indent=4)
     pkl.dump(conf_mat, open(os.path.join(config['res_dir'], 'conf_mat.pkl'), 'wb'))

@@ -1,4 +1,5 @@
 import torch
+from torch import nn
 import torch.utils.data as data
 import numpy as np
 import torchnet as tnt
@@ -18,6 +19,9 @@ from learning.metrics import mIou, confusion_matrix_analysis
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+from torchsampler import ImbalancedDatasetSampler
+
+
 
 def train_epoch(model, optimizer, criterion, data_loader, device, config):
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
@@ -84,14 +88,15 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     if mode == 'val':
         return metrics
     elif mode == 'test':
-        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes'])))
+        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes']))), y_true, y_pred #return extended to include y_true and y_pred
 
 
 def get_pse(folder, config):
     if config['preload']:
         dt = PixelSetData_preloaded(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
-                          sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
+                          #sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
+                          sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'],
                           extra_feature=None, 
@@ -99,28 +104,46 @@ def get_pse(folder, config):
     else:
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
-                          sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
+                          #sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
+                          sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'],
                           extra_feature=None, 
                           jitter=None)
     return dt
 
-
 def get_loaders(config):
     loader_seq =[]
-    train_loader = get_pse('dataset_folder', config)
+    train_dataset = get_pse('dataset_folder', config)
+    val_dataset = get_pse('val_folder', config)
+    test_dataset = get_pse('test_folder', config)
 
     if config['dataset_folder2'] is not None:
-        train_loader2 = get_pse('dataset_folder2', config)
-        train_loader = data.ConcatDataset([train_loader, train_loader2])
+        train_dataset2 = get_pse('dataset_folder2', config)
+        train_dataset = data.ConcatDataset([train_dataset, train_dataset2])
+
+#        # weighted random sampler
+#        targets = []
+#        for _, target in train_dataset:
+#            targets.append(target)
+#        targets = torch.stack(targets).cpu().detach().numpy()
+#        classes, class_sample_count = np.unique(targets, return_counts=True)
+#        weight = dict(zip(classes, 1. / class_sample_count))
+#        samples_weight = torch.from_numpy(np.array([weight[t] for t in targets]))
+#
+#
+#        sampler = data.WeightedRandomSampler(samples_weight, len(samples_weight), replacement =True)
+
+
         
-    train_loader = data.DataLoader(train_loader, batch_size=config['batch_size'],
-                                        num_workers=config['num_workers'], shuffle =True)
-    validation_loader = data.DataLoader(get_pse('val_folder', config), batch_size=config['batch_size'],
+    train_loader = data.DataLoader(train_dataset, batch_size=config['batch_size'],
+                                        num_workers=config['num_workers'], shuffle = True) #callback shuffle = True
+                                        #sampler = ImbalancedDatasetSampler(train_loader))  #add sampler
+
+    validation_loader = data.DataLoader(val_dataset, batch_size=config['batch_size'],
                                         num_workers=config['num_workers'], shuffle = False)
 
-    test_loader = data.DataLoader(get_pse('test_folder', config), batch_size=config['batch_size'],
+    test_loader = data.DataLoader(test_dataset, batch_size=config['batch_size'],
                                     num_workers=config['num_workers'], shuffle = False)
 
     loader_seq.append((train_loader, validation_loader, test_loader))
@@ -146,6 +169,11 @@ def save_results(metrics, conf_mat, config):
     with open(os.path.join(config['res_dir'], 'test_metrics.json'), 'w') as outfile:
         json.dump(metrics, outfile, indent=4)
     pkl.dump(conf_mat, open(os.path.join(config['res_dir'], 'conf_mat.pkl'), 'wb'))
+
+
+    # save y_true, y_pred
+    pkl.dump(y_true, open(os.path.join(config['res_dir'], 'y_true_test_data.pkl'), 'wb'))
+    pkl.dump(y_pred, open(os.path.join(config['res_dir'], 'y_pred_testdata.pkl'), 'wb'))
 
     # ----> save confusion matrix 
     plt.figure(figsize=(15,10))
@@ -231,6 +259,14 @@ def main(config):
         model.apply(weight_init)
         optimizer = torch.optim.Adam(model.parameters())
         criterion = FocalLoss(config['gamma'])
+        #criterion = nn.CrossEntropyLoss()
+
+        # using class weights
+        #class_weights = torch.tensor([0.544, 0.273, 1.158, 2.079, 2.588, 233.144, 205.167, 18.927, 341.944, 1.902, 732.738, 2.283, 9.845, 0.108, 17.934, 641.146, 37.994, 3.331]) #for 18 classes
+        #class_weights = torch.tensor([0.813, 0.408, 1.733, 3.112, 3.873, 28.325, 2.846, 3.416, 14.733, 0.162, 26.839, 4.984]) #for 12 classes
+        #criterion = nn.CrossEntropyLoss(class_weights)
+        #class_weights = class_weights.to(device)
+        #criterion = criterion.to(device)
 
         trainlog = {}
 
@@ -264,11 +300,12 @@ def main(config):
             torch.load(os.path.join(config['res_dir'],  'model.pth.tar'))['state_dict'])
         model.eval()
 
-        test_metrics, conf_mat = evaluation(model, criterion, test_loader, device=device, mode='test', config=config)
+        test_metrics, conf_mat, y_true, y_pred = evaluation(model, criterion, test_loader, device=device, mode='test', config=config) #add ytrue and ypred to save
 
         print('Loss {:.4f},  Acc {:.2f},  IoU {:.4f}'.format(test_metrics['test_loss'], test_metrics['test_accuracy'],
                                                              test_metrics['test_IoU']))
-        save_results(test_metrics, conf_mat, config)
+                                                             
+        save_results(test_metrics, conf_mat, config, y_true, y_pred) #save extended to include y_true, y_pred
 
     overall_performance(config)
     plot_metrics(config)
@@ -335,7 +372,7 @@ if __name__ == '__main__':
 
     ## Classifier
     parser.add_argument('--num_classes', default=20, type=int, help='Number of classes')
-    parser.add_argument('--mlp4', default='[128, 64, 32, 20]', type=str, help='Number of neurons in the layers of MLP4')
+    parser.add_argument('--mlp4', default='[128, 64, 32, 12]', type=str, help='Number of neurons in the layers of MLP4')
 
     config = parser.parse_args()
     config = vars(config)

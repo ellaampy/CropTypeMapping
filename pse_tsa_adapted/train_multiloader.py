@@ -29,15 +29,18 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
     y_true = []
     y_pred = []
 
-    for i, (x, y) in enumerate(data_loader):
-
+    for i, (x, y, dates) in enumerate(data_loader): #call dates for tsa
+        
+        # add update model.tsa position
+        model.temporal_encoder.positions = dates
+    
         y_true.extend(list(map(int, y)))
 
         x = recursive_todevice(x, device)
         y = y.to(device)
 
         optimizer.zero_grad()
-        out = model(x)
+        out = model(x, dates) # add dates to forward
         loss = criterion(out, y.long())
         loss.backward()
         optimizer.step()
@@ -66,13 +69,17 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
     loss_meter = tnt.meter.AverageValueMeter()
 
-    for (x, y) in loader:
+    for (x, y, dates) in loader: #call dates for tsa
+        
+        # add update model.tsa position
+        model.temporal_encoder.positions = dates
+        
         y_true.extend(list(map(int, y)))
         x = recursive_todevice(x, device)
         y = y.to(device)
 
         with torch.no_grad():
-            prediction = model(x)
+            prediction = model(x, dates) #add dates to forward
             loss = criterion(prediction, y)
 
         acc_meter.add(prediction, y)
@@ -173,7 +180,7 @@ def save_results(metrics, conf_mat, config, y_true, y_pred): #extend save result
 
     # save y_true, y_pred
     pkl.dump(y_true, open(os.path.join(config['res_dir'], 'y_true_test_data.pkl'), 'wb'))
-    pkl.dump(y_pred, open(os.path.join(config['res_dir'], 'y_pred_testdata.pkl'), 'wb'))
+    pkl.dump(y_pred, open(os.path.join(config['res_dir'], 'y_pred_test_data.pkl'), 'wb'))
 
     # ----> save confusion matrix 
     plt.figure(figsize=(15,10))
@@ -227,8 +234,8 @@ def plot_metrics(config):
     #---------------------------------------------
 
 def main(config):
-    np.random.seed(config['rdm_seed'])
-    torch.manual_seed(config['rdm_seed'])
+    #np.random.seed(config['rdm_seed'])
+    #torch.manual_seed(config['rdm_seed'])
     prepare_output(config)
 
     #mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
@@ -243,7 +250,8 @@ def main(config):
         model_config = dict(input_dim=config['input_dim'], mlp1=config['mlp1'], pooling=config['pooling'],
                             mlp2=config['mlp2'], n_head=config['n_head'], d_k=config['d_k'], mlp3=config['mlp3'],
                             dropout=config['dropout'], T=config['T'], len_max_seq=config['lms'],
-                            positions=dt.date_positions if config['positions'] == 'bespoke' else None,
+                            #positions=dt.date_positions if config['positions'] == 'bespoke' else None,
+                            positions=config['positions'],
                             mlp4=config['mlp4'])
 
         if config['geomfeat']:
@@ -355,7 +363,7 @@ if __name__ == '__main__':
     parser.add_argument('--input_dim', default=10, type=int, help='Number of channels of input images')
     parser.add_argument('--mlp1', default='[10,32,64]', type=str, help='Number of neurons in the layers of MLP1')
     parser.add_argument('--pooling', default='mean_std', type=str, help='Pixel-embeddings pooling strategy')
-    parser.add_argument('--mlp2', default='[132,128]', type=str, help='Number of neurons in the layers of MLP2')
+    parser.add_argument('--mlp2', default='[128,128]', type=str, help='Number of neurons in the layers of MLP2')
     parser.add_argument('--geomfeat', default=1, type=int,
                         help='If 1 the precomputed geometrical features (f) are used in the PSE.')
 

@@ -13,7 +13,7 @@ import random
 
 class PixelSetData(data.Dataset):
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=None, return_id=False):
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, return_id=False):
         """
         
         Args:
@@ -38,19 +38,20 @@ class PixelSetData(data.Dataset):
 
         self.extra_feature = extra_feature
         self.jitter = jitter  # (sigma , clip )
+        self.sensor = sensor
         self.return_id = return_id
 
         l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
         self.pid = [int(f.split('.')[0]) for f in l]
         self.pid = list(np.sort(self.pid))
-
         self.pid = list(map(str, self.pid))
 
         # for sentinel-1 remove parcel with sequence len <75
-        # s1_parcels_less_seq contains parcel ids with temporal seq < 75
-        with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
-            ignored_pid = json.loads(file.read())
-        self.pid = list(x for x in self.pid if x not in ignored_pid)
+        #s1_parcels_less_seq contains parcel ids with temporal seq < 75
+        if self.sensor == 'S1':
+            with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
+                ignored_pid = json.loads(file.read())
+            self.pid = list(x for x in self.pid if x not in ignored_pid)
 
         self.len = len(self.pid)
 
@@ -81,16 +82,19 @@ class PixelSetData(data.Dataset):
             self.target = list(np.array(self.target)[sub_indices])
             self.len = len(sub_indices)
 
+
         with open(os.path.join(folder, 'META', 'dates.json'), 'r') as file:
             d = json.loads(file.read())
 
         # for sentinel 1
-        self.dates = [d[str(i)] for i in range(len(d))]
-        self.date_positions = date_positions(self.dates)
+        if self.sensor == 'S1':
+            self.dates = [d[str(i)] for i in range(len(d))]
+            self.date_positions = date_positions(self.dates)
 
         # for sentinel 2
-        #self.dates = [d[i] for i in self.pid]
-        #self.date_positions = [date_positions(i) for i in self.dates]
+        elif self.sensor == 'S2':
+             self.dates = [d[i] for i in self.pid]
+             self.date_positions = [date_positions(i) for i in self.dates]
         
 
 
@@ -121,14 +125,18 @@ class PixelSetData(data.Dataset):
 
         """
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
+        y = self.target[item]
 
         # for Sentinel-2 use minimum sequence length, randomly selected
-        #indices = list(range(27))
-        #random.shuffle(indices)
-        #indices = sorted(indices)
-        #x0 = x0[indices, :,:]
+        if self.sensor == 'S2':
+            indices = list(range(27))
+            random.shuffle(indices)
+            indices = sorted(indices)
+            x0 = x0[indices, :,:]
 
-        y = self.target[item]
+            # get item data
+            s2_item_date = self.date_positions[item]
+            s2_item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
 
         if x0.shape[-1] > self.npixel:
             idx = np.random.choice(list(range(x0.shape[-1])), size=self.npixel, replace=False)
@@ -182,17 +190,17 @@ class PixelSetData(data.Dataset):
             data = (data, ef)
 
         if self.return_id:
-            return data, torch.from_numpy(np.array(y, dtype=int)), self.pid[item]
+            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(s2_item_date), self.pid[item] #add return date
         else:
-            return data, torch.from_numpy(np.array(y, dtype=int))
+            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(s2_item_date)
 
 
 class PixelSetData_preloaded(PixelSetData):
     """ Wrapper class to load all the dataset to RAM at initialization (when the hardware permits it).
     """
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), return_id=False):
-        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, return_id=False):
+        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,
                                                      return_id)
         self.samples = []
         print('Loading samples to memory . . .')

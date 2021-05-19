@@ -136,7 +136,10 @@ class PixelSetData(data.Dataset):
 
             # get item data
             s2_item_date = self.date_positions[item]
-            s2_item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+            item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+        elif self.sensor == 'S1':
+            item_date = self.date_positions
+        
 
         if x0.shape[-1] > self.npixel:
             idx = np.random.choice(list(range(x0.shape[-1])), size=self.npixel, replace=False)
@@ -190,9 +193,11 @@ class PixelSetData(data.Dataset):
             data = (data, ef)
 
         if self.return_id:
-            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(s2_item_date), self.pid[item] #add return date
+            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date), self.pid[item] #add return date
+            #return data, torch.from_numpy(np.array(y, dtype=int)), self.pid[item] #add return date
         else:
-            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(s2_item_date)
+            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date)
+            #return data, torch.from_numpy(np.array(y, dtype=int))
 
 
 class PixelSetData_preloaded(PixelSetData):

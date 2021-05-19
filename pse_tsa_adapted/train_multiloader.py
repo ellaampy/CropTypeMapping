@@ -11,6 +11,8 @@ import pickle as pkl
 import argparse
 import pprint
 
+from datetime import datetime
+
 from models.stclassifier import PseTae
 from dataset import PixelSetData, PixelSetData_preloaded
 from learning.focal_loss import FocalLoss
@@ -29,10 +31,8 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
     y_true = []
     y_pred = []
 
-    for i, (x, y, dates) in enumerate(data_loader): #call dates for tsa
-        
-        # add update model.tsa position
-        model.temporal_encoder.positions = dates
+    for i, (x, y, dates) in enumerate(data_loader):
+    #for i, (x, y) in enumerate(data_loader): #call dates for tsa
     
         y_true.extend(list(map(int, y)))
 
@@ -41,6 +41,7 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
 
         optimizer.zero_grad()
         out = model(x, dates) # add dates to forward
+        #out = model(x)
         loss = criterion(out, y.long())
         loss.backward()
         optimizer.step()
@@ -69,10 +70,8 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
     loss_meter = tnt.meter.AverageValueMeter()
 
+    #for (x, y) in loader:
     for (x, y, dates) in loader: #call dates for tsa
-        
-        # add update model.tsa position
-        model.temporal_encoder.positions = dates
         
         y_true.extend(list(map(int, y)))
         x = recursive_todevice(x, device)
@@ -80,6 +79,7 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
 
         with torch.no_grad():
             prediction = model(x, dates) #add dates to forward
+            #prediction = model(x)
             loss = criterion(prediction, y)
 
         acc_meter.add(prediction, y)
@@ -234,8 +234,8 @@ def plot_metrics(config):
     #---------------------------------------------
 
 def main(config):
-    #np.random.seed(config['rdm_seed'])
-    #torch.manual_seed(config['rdm_seed'])
+    np.random.seed(config['rdm_seed'])
+    torch.manual_seed(config['rdm_seed'])
     prepare_output(config)
 
     #mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
@@ -251,7 +251,7 @@ def main(config):
                             mlp2=config['mlp2'], n_head=config['n_head'], d_k=config['d_k'], mlp3=config['mlp3'],
                             dropout=config['dropout'], T=config['T'], len_max_seq=config['lms'],
                             #positions=dt.date_positions if config['positions'] == 'bespoke' else None,
-                            positions=config['positions'],
+                            positions=None,
                             mlp4=config['mlp4'])
 
         if config['geomfeat']:
@@ -320,6 +320,7 @@ def main(config):
 
 
 if __name__ == '__main__':
+    start = datetime.now()
 
     parser = argparse.ArgumentParser()
 
@@ -392,3 +393,6 @@ if __name__ == '__main__':
 
     pprint.pprint(config)
     main(config)
+
+    #add processing time
+    print('total elapsed time is --->', datetime.now() -start)

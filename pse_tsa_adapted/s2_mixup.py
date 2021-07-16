@@ -68,7 +68,7 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
         x = recursive_todevice(x, device)
         y = y.to(device)
         
-------------------- #  mixup block --> note: x contains (data, mask)-------------------
+#------------------- #  mixup block --> note: x contains (data, mask)-------------------
         mask = x[1]
         inputs, targets_a, targets_b, lam = mixup_data(x[0], y, config['alpha'], use_cuda=True)
         inputs, targets_a, targets_b = map(Variable, (inputs, targets_a, targets_b))

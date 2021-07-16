@@ -9,6 +9,7 @@ from torch.utils import data
 import pandas as pd
 import numpy as np
 import datetime as dt
+from datetime import datetime
 
 import os
 import json  
@@ -123,6 +124,22 @@ class PixelSetData(data.Dataset):
         return output_doy    
     
 
+    # interpolate s1 at s2 date
+    def interpolate_s1(self, arr_3d, s1_date, s2_date):
+        num_pixels = arr_3d.shape[-1]
+        vv = arr_3d[:,0,:]
+        vh = arr_3d[:,1,:]
+
+        # interpolate per pixel in parcel per time
+        vv_interp = np.column_stack([np.interp(s2_date, s1_date, vv[:,i]) for i in range(num_pixels)])
+        vh_interp = np.column_stack([np.interp(s2_date, s1_date, vh[:,i]) for i in range(num_pixels)])
+
+        # stack vv and vh
+        res = np.concatenate((np.expand_dims(vv_interp, 1),np.expand_dims(vh_interp, 1)), axis = 1)
+
+        return res   
+        
+    
     def __len__(self):
         return self.len
 
@@ -215,14 +232,21 @@ class PixelSetData(data.Dataset):
         mask2 = np.stack([mask2 for _ in range(x2.shape[0])], axis=0)
 
 
-        # sample 27 sequences from s1 with similar doy in s2
-        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
-            output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
+#         # ---------- sample 27 sequences from s1 with similar doy in s2 ---------- OPTION 1
+#         if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
+#             output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
 
-            # get index of subset sequence
-            x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
-            x = x[x_idx, :, :]
-            mask1 = mask1[x_idx,:]
+#             # get index of subset sequence
+#             x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
+#             x = x[x_idx, :, :]
+#             mask1 = mask1[x_idx,:]
+            
+            
+        # ---------- interpolate s1 at s2 date ---------- OPTION 2
+        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
+            x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
+            mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
+
     
         # create tensor from numpy
         data = (Tensor(x), Tensor(mask1))
@@ -239,6 +263,7 @@ class PixelSetData(data.Dataset):
             return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(self.date_positions_s1), Tensor(s2_item_date)), self.pid[item]
             #return data, data2 , torch.from_numpy(np.array(y, dtype=int)),self.pid[item]
         else:
+            #print('data loading complete in', datetime.now()-start)
             return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(self.date_positions_s1), Tensor(s2_item_date)) 
             #return data, data2, torch.from_numpy(np.array(y, dtype=int))
 

@@ -41,19 +41,38 @@ class PixelSetData(data.Dataset):
         self.sensor = sensor
         self.return_id = return_id
 
-        l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
-        self.pid = [int(f.split('.')[0]) for f in l]
-        self.pid = list(np.sort(self.pid))
-        self.pid = list(map(str, self.pid))
 
-        # for sentinel-1 remove parcel with sequence len <75
-        #s1_parcels_less_seq contains parcel ids with temporal seq < 75
-        if self.sensor == 'S1':
-            with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
-                ignored_pid = json.loads(file.read())
-            self.pid = list(x for x in self.pid if x not in ignored_pid)
-
+# -------------------------pid block-----------------------------------------
+        # deactivate to use succeeding block. here only parcel ids common in s1 and s2 are referenced
+        # list of pre-computed common parcel ids in s1 and s2
+        with open(os.path.join(folder, 'META', 'common_pids.json'), 'r') as file:
+            self.common_pids = json.loads(file.read())
+        
+        # list of pre-computed parcels with uneven pixel count in s1 and s2
+        with open(os.path.join(folder, 'META', 'uneven_shapes_pids.json'), 'r') as file:
+            self.pid_uneven_shapes = json.loads(file.read())     
+        
+        self.pid = list(x for x in self.common_pids if x not in self.pid_uneven_shapes)        
         self.len = len(self.pid)
+
+
+        
+         # activate to use all available parcels for single sensor scenario
+            
+#        l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
+#        self.pid = [int(f.split('.')[0]) for f in l]
+#        self.pid = list(np.sort(self.pid))
+#        self.pid = list(map(str, self.pid))
+#
+#        # for sentinel-1 remove parcel with sequence len <75
+#        #s1_parcels_less_seq contains parcel ids with temporal seq < 75
+#        if self.sensor == 'S1':
+#            with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
+#                ignored_pid = json.loads(file.read())
+#            self.pid = list(x for x in self.pid if x not in ignored_pid)
+
+#        self.len = len(self.pid)
+#---------------------------------------------------------------------------------------------
 
         # Get Labels
         if sub_classes is not None:
@@ -127,9 +146,15 @@ class PixelSetData(data.Dataset):
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
         y = self.target[item]
 
+#        # implement vh/vv ratio
+#        if self.sensor == 'S1':
+#            vh_vv_ratio = x0[:,1,:]/x0[:,0,:]
+#            vh_vv_ratio = np.expand_dims(vh_vv_ratio, axis=1)
+#            x0 = np.concatenate((x0, vh_vv_ratio), 1)
+
         # for Sentinel-2 use minimum sequence length, randomly selected
         if self.sensor == 'S2':
-            indices = list(range(27))
+            indices = list(range(27)) 
             random.shuffle(indices)
             indices = sorted(indices)
             x0 = x0[indices, :,:]
@@ -137,6 +162,7 @@ class PixelSetData(data.Dataset):
             # get item data
             s2_item_date = self.date_positions[item]
             item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+            
         elif self.sensor == 'S1':
             item_date = self.date_positions
         
@@ -194,7 +220,7 @@ class PixelSetData(data.Dataset):
 
         if self.return_id:
             return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date), self.pid[item] #add return date
-            #return data, torch.from_numpy(np.array(y, dtype=int)), self.pid[item] #add return date
+            #return data, torch.from_numpy(np.array(y, dtype=int)), self.pid[item] # without return date
         else:
             return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date)
             #return data, torch.from_numpy(np.array(y, dtype=int))

@@ -233,19 +233,19 @@ class PixelSetData(data.Dataset):
 
 
 #         # ---------- sample 27 sequences from s1 with similar doy in s2 ---------- OPTION 1
-#         if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
-#             output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
+         if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
+             output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
 
-#             # get index of subset sequence
-#             x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
-#             x = x[x_idx, :, :]
-#             mask1 = mask1[x_idx,:]
+             # get index of subset sequence
+             x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
+             x = x[x_idx, :, :]
+             mask1 = mask1[x_idx,:]
             
             
-        # ---------- interpolate s1 at s2 date ---------- OPTION 2
-        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
-            x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
-            mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
+#        # ---------- interpolate s1 at s2 date ---------- OPTION 2
+#        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
+#            x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
+#            mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
 
     
         # create tensor from numpy

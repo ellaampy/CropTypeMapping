@@ -12,3 +12,7 @@
 
 # ignore training with single folder
 train_singleloader.py
+
+# perhaps not a good idea
+*.gitignore
+

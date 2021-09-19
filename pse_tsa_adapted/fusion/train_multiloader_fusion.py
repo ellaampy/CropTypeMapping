@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 
 
 def train_epoch(model, optimizer, criterion, data_loader, device, config):
+    start = datetime.now()
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
     loss_meter = tnt.meter.AverageValueMeter()
     y_true = []
@@ -59,7 +60,7 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
     epoch_metrics = {'train_loss': loss_meter.value()[0],
                      'train_accuracy': acc_meter.value()[0],
                      'train_IoU': mIou(y_true, y_pred, n_classes=config['num_classes'])}
-
+    print('train epoch complete in ----------------------->', datetime.now()-start)
     return epoch_metrics
 
 
@@ -110,7 +111,7 @@ def get_pse(folder, config):
                           norm=None,
                           sensor = config['sensor'],
                           fusion_type = config['fusion_type'],
-                          extra_feature=None, 
+                          extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     else:
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
@@ -120,7 +121,7 @@ def get_pse(folder, config):
                           norm=None,
                           sensor = config['sensor'],
                           fusion_type = config['fusion_type'],
-                          extra_feature=None, 
+                          extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     return dt
 
@@ -149,14 +150,14 @@ def get_loaders(config):
 
         
     train_loader = data.DataLoader(train_dataset, batch_size=config['batch_size'],
-                                        num_workers=config['num_workers'], shuffle = True) #callback shuffle = True
+                                        num_workers=config['num_workers'], shuffle = True, pin_memory =True) #callback shuffle = True
                                         #sampler = ImbalancedDatasetSampler(train_loader))  #add sampler
 
     validation_loader = data.DataLoader(val_dataset, batch_size=config['batch_size'],
-                                        num_workers=config['num_workers'], shuffle = False)
+                                        num_workers=config['num_workers'], shuffle = False, pin_memory = True)
 
     test_loader = data.DataLoader(test_dataset, batch_size=config['batch_size'],
-                                    num_workers=config['num_workers'], shuffle = False)
+                                    num_workers=config['num_workers'], shuffle = False, pin_memory =True)
 
     loader_seq.append((train_loader, validation_loader, test_loader))
     return loader_seq
@@ -259,13 +260,18 @@ def main(config):
                             mlp4=config['mlp4'])
 
         if config['geomfeat']:
-            model_config.update(with_extra=True, extra_size=4)
+            model_config.update(with_extra=True, extra_size=4)  # ------------------------ change extra features here
         else:
             model_config.update(with_extra=False, extra_size=None)
 
         model = PseTae(**model_config)
 
         print(model.param_ratio())
+
+        ##-------------------------------------------- multiGPU processing
+#        if torch.cuda.device_count() > 1:
+#            print('lets use', torch.cuda.device_count(), 'GPUs!')
+#            model = nn.DataParallel(model, device_ids =[0,1])
 
         model = model.to(device)
         model.apply(weight_init)

@@ -32,16 +32,13 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
     y_pred = []
 
     for i, (x, y, dates) in enumerate(data_loader):
-    #for i, (x, y) in enumerate(data_loader): #call dates for tsa
     
         y_true.extend(list(map(int, y)))
-
         x = recursive_todevice(x, device)
         y = y.to(device)
 
         optimizer.zero_grad()
-        out = model(x, dates) # add dates to forward
-        #out = model(x)
+        out = model(x, dates)
         loss = criterion(out, y.long())
         loss.backward()
         optimizer.step()
@@ -66,20 +63,18 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
 def evaluation(model, criterion, loader, device, config, mode='val'):
     y_true = []
     y_pred = []
+    probs = [] 
 
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
     loss_meter = tnt.meter.AverageValueMeter()
 
-    #for (x, y) in loader:
-    for (x, y, dates) in loader: #call dates for tsa
-        
+    for (x, y, dates) in loader:
         y_true.extend(list(map(int, y)))
         x = recursive_todevice(x, device)
         y = y.to(device)
 
         with torch.no_grad():
-            prediction = model(x, dates) #add dates to forward
-            #prediction = model(x)
+            prediction = model(x, dates)
             loss = criterion(prediction, y)
 
         acc_meter.add(prediction, y)
@@ -87,6 +82,7 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
 
         y_p = prediction.argmax(dim=1).cpu().numpy()
         y_pred.extend(list(y_p))
+        probs.extend(list(prediction.cpu().numpy())) 
 
     metrics = {'{}_accuracy'.format(mode): acc_meter.value()[0],
                '{}_loss'.format(mode): loss_meter.value()[0],
@@ -95,27 +91,23 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     if mode == 'val':
         return metrics
     elif mode == 'test':
-        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes']))), y_true, y_pred #return extended to include y_true and y_pred
+        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes']))), y_true, y_pred, probs 
 
 
 def get_pse(folder, config):
     if config['preload']:
         dt = PixelSetData_preloaded(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
-                          #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
-                          #sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'],
-                          extra_feature=None, 
+                          extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     else:
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
-                          #sub_classes=[1, 2, 3, 4, 5, 8, 11, 16, 17, 18,19, 20, 24, 25], # for Brest
-                          #sub_classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17, 18, 20, 22, 24, 25],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'],
-                          extra_feature=None, 
+                          extra_feature= 'geomfeat' if config['geomfeat'] else None, 
                           jitter=None)
     return dt
 
@@ -144,7 +136,7 @@ def get_loaders(config):
 
         
     train_loader = data.DataLoader(train_dataset, batch_size=config['batch_size'],
-                                        num_workers=config['num_workers'], shuffle = True) #callback shuffle = True
+                                        num_workers=config['num_workers'], shuffle = True)
                                         #sampler = ImbalancedDatasetSampler(train_loader))  #add sampler
 
     validation_loader = data.DataLoader(val_dataset, batch_size=config['batch_size'],
@@ -172,17 +164,17 @@ def checkpoint(log, config):
         json.dump(log, outfile, indent=4)
 
 
-def save_results(metrics, conf_mat, config, y_true, y_pred): #extend save results to include y_true, y_pred
+def save_results(metrics, conf_mat, config, y_true, y_pred, probs):
     with open(os.path.join(config['res_dir'], 'test_metrics.json'), 'w') as outfile:
         json.dump(metrics, outfile, indent=4)
     pkl.dump(conf_mat, open(os.path.join(config['res_dir'], 'conf_mat.pkl'), 'wb'))
 
-
     # save y_true, y_pred
     pkl.dump(y_true, open(os.path.join(config['res_dir'], 'y_true_test_data.pkl'), 'wb'))
     pkl.dump(y_pred, open(os.path.join(config['res_dir'], 'y_pred_test_data.pkl'), 'wb'))
+    pkl.dump(probs, open(os.path.join(config['res_dir'], 'class_probabilities.pkl'), 'wb'))
 
-    # ----> save confusion matrix 
+    # save confusion matrix 
     plt.figure(figsize=(15,10))
     img = sns.heatmap(conf_mat, annot = True, fmt='d',linewidths=0.5, cmap='OrRd')
     img.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
@@ -238,9 +230,7 @@ def main(config):
     torch.manual_seed(config['rdm_seed'])
     prepare_output(config)
 
-    #mean_std = pkl.load(open(config['dataset_folder'] + '/S2-2017-T31TFM-meanstd.pkl', 'rb'))
     extra = 'geomfeat' if config['geomfeat'] else None
-
     device = torch.device(config['device'])
 
     loaders = get_loaders(config)
@@ -255,19 +245,17 @@ def main(config):
                             mlp4=config['mlp4'])
 
         if config['geomfeat']:
-            model_config.update(with_extra=True, extra_size=4)
+            model_config.update(with_extra=True, extra_size=300)
         else:
             model_config.update(with_extra=False, extra_size=None)
 
         model = PseTae(**model_config)
-
         print(model.param_ratio())
 
         model = model.to(device)
         model.apply(weight_init)
         optimizer = torch.optim.Adam(model.parameters())
         criterion = FocalLoss(config['gamma'])
-        #criterion = nn.CrossEntropyLoss()
 
         # using class weights
         #class_weights = torch.tensor([0.544, 0.273, 1.158, 2.079, 2.588, 233.144, 205.167, 18.927, 341.944, 1.902, 732.738, 2.283, 9.845, 0.108, 17.934, 641.146, 37.994, 3.331]) #for 18 classes
@@ -277,9 +265,6 @@ def main(config):
         #criterion = criterion.to(device)
 
         trainlog = {}
-
-
-
         best_mIoU = 0
         for epoch in range(1, config['epochs'] + 1):
             print('EPOCH {}/{}'.format(epoch, config['epochs']))
@@ -308,12 +293,12 @@ def main(config):
             torch.load(os.path.join(config['res_dir'],  'model.pth.tar'))['state_dict'])
         model.eval()
 
-        test_metrics, conf_mat, y_true, y_pred = evaluation(model, criterion, test_loader, device=device, mode='test', config=config) #add ytrue and ypred to save
+        test_metrics, conf_mat, y_true, y_pred, probs = evaluation(model, criterion, test_loader, device=device, mode='test', config=config) 
 
         print('Loss {:.4f},  Acc {:.2f},  IoU {:.4f}'.format(test_metrics['test_loss'], test_metrics['test_accuracy'],
                                                              test_metrics['test_IoU']))
                                                              
-        save_results(test_metrics, conf_mat, config, y_true, y_pred) #save extended to include y_true, y_pred
+        save_results(test_metrics, conf_mat, config, y_true, y_pred,probs)
 
     overall_performance(config)
     plot_metrics(config)
@@ -352,7 +337,6 @@ if __name__ == '__main__':
     parser.set_defaults(preload=False)
 
     # Training parameters
-    parser.add_argument('--kfold', default=5, type=int, help='Number of folds for cross validation')
     parser.add_argument('--epochs', default=100, type=int, help='Number of epochs per fold')
     parser.add_argument('--batch_size', default=128, type=int, help='Batch size')
     parser.add_argument('--lr', default=0.001, type=float, help='Learning rate')
@@ -393,6 +377,4 @@ if __name__ == '__main__':
 
     pprint.pprint(config)
     main(config)
-
-    #add processing time
     print('total elapsed time is --->', datetime.now() -start)

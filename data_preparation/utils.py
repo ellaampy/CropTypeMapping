@@ -7,9 +7,9 @@ from tqdm import tqdm
 from shapely.geometry import Polygon
 import time
 from datetime import datetime
-#ee.Initialize()
 
-# utils/ functions
+
+ee.Initialize()
 
 
 # utils/ functions

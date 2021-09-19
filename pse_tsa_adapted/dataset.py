@@ -86,7 +86,7 @@ class PixelSetData(data.Dataset):
             for i, p in enumerate(self.pid):
                 t = d[labels][p]
 
-                # add conditional to merge permanent(18) and temporal meadow(19)
+                # merge permanent(18) and temporal meadow(19)
                 # this will reduce number of target classes by 1
                 if t == 19:
                     t = 18
@@ -105,67 +105,97 @@ class PixelSetData(data.Dataset):
         with open(os.path.join(folder, 'META', 'dates.json'), 'r') as file:
             d = json.loads(file.read())
 
-        # for sentinel 1
+        # get dates for positional encoding
         if self.sensor == 'S1':
             self.dates = [d[str(i)] for i in range(len(d))]
             self.date_positions = date_positions(self.dates)
 
-        # for sentinel 2
         elif self.sensor == 'S2':
-             self.dates = [d[i] for i in self.pid]
-             self.date_positions = [date_positions(i) for i in self.dates]
+            self.dates = [d[i] for i in self.pid]
+            self.date_positions = [date_positions(i) for i in self.dates]
         
-
 
         if self.extra_feature is not None:
             with open(os.path.join(self.meta_folder, '{}.json'.format(extra_feature)), 'r') as file:
-                self.extra = json.loads(file.read())
+                self.extra_ = json.loads(file.read())
+                
+            # add pre-computed textural features from S1
+            self.extra = {}
+            for k in self.extra_.keys():
+                if k in self.pid: 
+                    self.extra[k] = np.array([self.extra_[k][i] for i in ['vv_mean', 'vv_std', 'vh_mean', 'vh_std']]).flatten().tolist()
 
             if isinstance(self.extra[list(self.extra.keys())[0]], int):
                 for k in self.extra.keys():
                     self.extra[k] = [self.extra[k]]
+                    
             df = pd.DataFrame(self.extra).transpose()
             self.extra_m, self.extra_s = np.array(df.mean(axis=0)), np.array(df.std(axis=0))
+            
 
     def __len__(self):
         return self.len
 
     def __getitem__(self, item):
-        """
-        Returns a Pixel-Set sequence tensor with its pixel mask and optional additional features.
-        For each item npixel pixels are randomly dranw from the available pixels.
-        If the total number of pixel is too small one arbitrary pixel is repeated. The pixel mask keeps track of true
-        and repeated pixels.
-        Returns:
-              (Pixel-Set, Pixel-Mask) or ((Pixel-Set, Pixel-Mask), Extra-features) with:
-                Pixel-Set: Sequence_length x Channels x npixel
-                Pixel-Mask : Sequence_length x npixel
-                Extra-features : Sequence_length x Number of additional features
-
-        """
+        
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
         y = self.target[item]
-
-#        # implement vh/vv ratio
-#        if self.sensor == 'S1':
-#            vh_vv_ratio = x0[:,1,:]/x0[:,0,:]
-#            vh_vv_ratio = np.expand_dims(vh_vv_ratio, axis=1)
-#            x0 = np.concatenate((x0, vh_vv_ratio), 1)
+        
 
         # for Sentinel-2 use minimum sequence length, randomly selected
         if self.sensor == 'S2':
-            indices = list(range(27)) 
-            random.shuffle(indices)
-            indices = sorted(indices)
-            x0 = x0[indices, :,:]
+            
+        
+#         ## ---------- INITIAL BLOCK BEFORE INCREMENTAL/SPARSE SITS        
+#             indices = list(range(27)) 
+#             random.shuffle(indices)
+#             indices = sorted(indices)
+#             x0 = x0[indices, :,:]
 
-            # get item data
+#             # get item data
+#             s2_item_date = self.date_positions[item]
+#             item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx.
+
+            
+            ## ---------- ACTIVATE BLOCK FOR SPARSE TIME SERIES  
+
+            # for Sentinel-2 use [5, 11, 16,22, 27] corresponding to % [20, 40, 60, 80, 100] of minimum sequence length i.e. 27
             s2_item_date = self.date_positions[item]
-            item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+            minimum_sampling = 22
+            indices = list(range(27))
+            indices = sorted(random.sample(indices, minimum_sampling))
+            x0 = x0[indices, :,:]
+            item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx.
+
+
+    
+#             ##---------------- ACTIVATE BLOCK FOR INCREMENTAL CLASSIFICATION
+            
+#             # guide
+#             ##--------temporal grids                         = [92, 182, 273, 365, 457]
+#             ##--------sentinel-2 min sequence per temporal grid [ 4, 10, 17, 22, 27]
+#             ##--------sentinel-1 min sequence per temporal grid = [15, 30, 45, 60, 75]
+                       
+#             temporal_grid = 365 
+#             min_sampling = 22
+#             s2_item_date = self.date_positions[item]
+            
+#             # get indices where doy is <= temporal sequence in question & randomly sample min seq.
+#             indices = sorted(random.sample([i for i, x in enumerate(s2_item_date) if x <= temporal_grid], min_sampling))
+#             item_date = [s2_item_date[i] for i in indices]
+#             x0 = x0[indices,:,:]
+        
             
         elif self.sensor == 'S1':
-            item_date = self.date_positions
-        
+            
+            #------------------- INITIAL BLOCK BEFORE INCREMENTAL CLASSIFICATION 
+            item_date = self.date_positions 
+            
+
+            ##---------------- ACTIVATE BLOCK FOR INCREMENTAL CLASSIFICATION
+#             item_date = self.date_positions #[:45] #------------------------------------------------------>  incremental S1 
+#             x0 = x0[:45,:,:] 
+
 
         if x0.shape[-1] > self.npixel:
             idx = np.random.choice(list(range(x0.shape[-1])), size=self.npixel, replace=False)
@@ -212,6 +242,7 @@ class PixelSetData(data.Dataset):
         data = (Tensor(x), Tensor(mask))
 
         if self.extra_feature is not None:
+            
             ef = (self.extra[str(self.pid[item])] - self.extra_m) / self.extra_s
             ef = torch.from_numpy(ef).float()
 

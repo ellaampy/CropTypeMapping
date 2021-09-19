@@ -26,8 +26,9 @@ class PseTae(nn.Module):
                                                          T=T, len_max_seq=len_max_seq, positions=positions)
         self.decoder = get_decoder(mlp4)
         self.name = '_'.join([self.spatial_encoder.name, self.temporal_encoder.name])
+        self.positions = positions
 
-    def forward(self, input):
+    def forward(self, input, dates):
         """
          Args:
             input(tuple): (Pixel-Set, Pixel-Mask) or ((Pixel-Set, Pixel-Mask), Extra-features)
@@ -36,7 +37,7 @@ class PseTae(nn.Module):
             Extra-features : Batch_size x Sequence length x Number of features
         """
         out = self.spatial_encoder(input)
-        out = self.temporal_encoder(out)
+        out = self.temporal_encoder(out, dates) 
         out = self.decoder(out)
         return out
 

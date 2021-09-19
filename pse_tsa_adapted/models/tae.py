@@ -39,12 +39,14 @@ class TemporalAttentionEncoder(nn.Module):
         self.in_channels = in_channels
         self.positions = positions
         self.n_neurons = copy.deepcopy(n_neurons)
+        self.T = T #add T
 
         self.name = 'TAE_dk{}_{}Heads_{}_T{}_do{}'.format(d_k, n_head, '|'.join(list(map(str, self.n_neurons))), T,
                                                           dropout)
 
         if positions is None:
             positions = len_max_seq + 1
+
         else:
             self.name += '_bespokePos'
 
@@ -80,17 +82,19 @@ class TemporalAttentionEncoder(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, x):
+    #def forward(self, x):
+    def forward(self, x, dates):
 
         sz_b, seq_len, d = x.shape
 
         x = self.inlayernorm(x)
 
         if self.positions is None:
-            src_pos = torch.arange(1, seq_len + 1, dtype=torch.long).expand(sz_b, seq_len).to(x.device)
-        else:
-            src_pos = torch.arange(0, seq_len, dtype=torch.long).expand(sz_b, seq_len).to(x.device)
+            #src_pos = torch.arange(1, seq_len + 1, dtype=torch.long).expand(sz_b, seq_len).to(x.device)
+            src_pos = dates.long().to(x.device)
+
         enc_output = x + self.position_enc(src_pos)
+
 
         if self.inconv is not None:
             enc_output = self.inconv(enc_output.permute(0, 2, 1)).permute(0, 2, 1)

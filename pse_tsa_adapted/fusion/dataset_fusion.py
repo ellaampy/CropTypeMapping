@@ -102,7 +102,22 @@ class PixelSetData(data.Dataset):
 
         if self.extra_feature is not None:
             with open(os.path.join(self.meta_folder, '{}.json'.format(extra_feature)), 'r') as file:
-                self.extra = json.loads(file.read())
+                self.extra_ = json.loads(file.read())
+                
+            # add block to filter extra.values by vv_mean, vv_std, vh_mean, vh_std-------------------------------------->
+            self.extra = {}
+            for k in self.extra_.keys():
+                if k in self.pid: 
+                    
+                    ## case 1 - single feature
+                    #self.extra[k] = self.extra_[k]['vv_mean']
+                    
+                    ## case 2 - geometric features time series per feature
+                    self.extra[k] = np.array([self.extra_[k][i] for i in ['vv_mean', 'vv_std', 'vh_mean', 'vh_std']]).flatten().tolist()
+                    
+                    ## case 3 - geometric features mean of time series per feature
+#                     self.extra[k] = np.array([np.mean([self.extra_[k][i]]) for i in ['vv_mean', 'vv_std', 'vh_mean', 'vh_std']]).flatten().tolist() #to use all textural features
+
 
             if isinstance(self.extra[list(self.extra.keys())[0]], int):
                 for k in self.extra.keys():
@@ -164,16 +179,58 @@ class PixelSetData(data.Dataset):
         x00 = np.load(os.path.join(self.folder.replace('s1_data', 's2_data'), 'DATA', '{}.npy'.format(self.pid[item])))
         y = self.target[item]
         s2_item_date = self.date_positions_s2[item] #get s2 date for item
-        #assert x0.shape[-1] == x00.shape[-1]
            
         
-        # for Sentinel-2 use minimum sequence length (27), randomly selected
+                
+        ## ---------- INITIAL BLOCK BEFORE INCREMENTAL CLASSIFICATION   / SPARSE TIME SERIES
+        
+#         # for Sentinel-2 use minimum sequence length (27), randomly selected
+#         indices = list(range(27))
+#         random.shuffle(indices)
+#         indices = sorted(indices)
+#         x00 = x00[indices, :,:]
+#         s2_item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+
+
+        ## ---------- ACTIVATE BLOCK FOR SPARSE TIME SERIES  
+        
+        # for Sentinel-2 use [5, 11, 16,22, 27] corresponding to % [20, 40, 60, 80, 100] of minimum sequence length i.e. 27
+        minimum_sampling = 22
         indices = list(range(27))
-        random.shuffle(indices)
-        indices = sorted(indices)
+        indices = sorted(random.sample(indices, minimum_sampling))
         x00 = x00[indices, :,:]
         s2_item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx
+         
 
+          ## -------------------- SPARSE TIME SERIES ENDS ----------------------------------------
+
+        
+        
+#         ## ---------------------------------ACTIVATE BLOCK FOR INCREMENTAL CLASSIFICATION--------------------
+        
+#         # guide
+#         ## temporal grids                           [92, 182, 273, 365, 457]
+#         ##sentinel-2 min sequence per temporal grid [ 4, 10, 17, 22, 27]
+#         ##sentinel-1 min sequence per temporal grid [15, 30, 45, 60, 75]
+        
+#         temporal_grid = 365 
+#         min_sampling = 22 
+#         min_sampling_s1 = 60
+
+#         # get indices where doy is <= temporal sequence in question & randomly sample min seq.
+#         indices = sorted(random.sample([i for i, x in enumerate(s2_item_date) if x <= temporal_grid], min_sampling))
+#         s2_item_date = [s2_item_date[i] for i in indices]
+#         x00 = x00[indices,:,:]
+        
+        
+#         ## meanwhile S1 can simply be sliced
+#         ## guide ---> 
+#         x0 = x0[:min_sampling_s1,:,:]
+#         self.date_positions_s1 = self.date_positions_s1[:min_sampling_s1]
+        
+#         ## -------------------- INCREMENTAL CLASSIFICATION ENDS ------------------------------------------------
+        
+        
         if x0.shape[-1] > self.npixel:
             idx = np.random.choice(list(range(x0.shape[-1])), size=self.npixel, replace=False)
             x = x0[:, :, idx]
@@ -232,17 +289,17 @@ class PixelSetData(data.Dataset):
         mask2 = np.stack([mask2 for _ in range(x2.shape[0])], axis=0)
 
 
-#         # ---------- sample 27 sequences from s1 with similar doy in s2 ---------- OPTION 1
-         if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
-             output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
+#       # ---------- sample 27 sequences from s1 with similar doy in s2 ---------- OPTION 1
+        if self.fusion_type == 'early' or self.fusion_type == 'pse':
+            output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
 
-             # get index of subset sequence
-             x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
-             x = x[x_idx, :, :]
-             mask1 = mask1[x_idx,:]
+            # get index of subset sequence
+            x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
+            x = x[x_idx, :, :]
+            mask1 = mask1[x_idx,:]
             
             
-#        # ---------- interpolate s1 at s2 date ---------- OPTION 2
+#        # ---------- interpolate s1 at s2 date ---------------------------------- OPTION 2
 #        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
 #            x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
 #            mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence

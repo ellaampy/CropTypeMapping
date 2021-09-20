@@ -12,7 +12,7 @@ This code extents the pytorch implementation of the [PSE-TSA](https://github.com
     * C --> number of channels/bands
     * N --> number of pixels within parcel
 * run ```data_preprartion/min_temp_seq.py``` to decide a minimum sampling size. eg. assuming study area is enveloped by multiple overlapping satellite resulting in varying time series length
-* organize time series array into seperate folders from training, validation and testing. 
+* organize time series array into separate folders from training, validation and testing. 
 
 ## Crop type labels 
 Reference data ([Registre parcellaire graphique (RPG)](https://www.data.gouv.fr/fr/datasets/registre-parcellaire-graphique-rpg-contours-des-parcelles-et-ilots-culturaux-et-leur-groupe-de-cultures-majoritaire/)) is obtained from French open data [platform](data.gouv.fr). A total of 20 agricultural land use are distributed within the study area, Finistère. The following steps are applied to derive analysis ready crop type labels;
@@ -20,7 +20,8 @@ Reference data ([Registre parcellaire graphique (RPG)](https://www.data.gouv.fr/
 * discard classes with < 0.02% of the total reference data
 * merge temporal and permanent meadows 
 
-In the end, 12 classes are retained namely; ```[maize, wheat, barley, rapeseed, protein crops, gel (frozen surfaces), fodder, pasture and moor, meadows, orchards, vegetables/flowersandother cereals]```
+In the end, 12 classes are retained namely; ```[maize, wheat, barley, rapeseed, protein crops, gel (frozen surfaces), fodder, pasture and moor, meadows, orchards, vegetables/flowers and other cereals]```
+
 Their corresponding labels are provided as a list of sub-classes in ```single_sensor/dataset.py``` and ```multi_sensor/dataset.py```to be considered for classification.
 
 ## Folder structure

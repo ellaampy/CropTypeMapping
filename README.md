@@ -33,7 +33,7 @@ for multi-sensor, Sentinel-1 data directory (s1_data) is modified as (s2_data) i
 ```
 
 Types of fusion
-![fusion diagrams](img/fusion.gif)
+<img src="img/fusion.gif" alt="fusion diagram" width="500">
 
 ## Results
 Quantitative results from single and multi-sensor experiments are available in the `results` folder/ 

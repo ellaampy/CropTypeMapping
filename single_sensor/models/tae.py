@@ -39,7 +39,7 @@ class TemporalAttentionEncoder(nn.Module):
         self.in_channels = in_channels
         self.positions = positions
         self.n_neurons = copy.deepcopy(n_neurons)
-        self.T = T #add T
+        self.T = T 
 
         self.name = 'TAE_dk{}_{}Heads_{}_T{}_do{}'.format(d_k, n_head, '|'.join(list(map(str, self.n_neurons))), T,
                                                           dropout)

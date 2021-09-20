@@ -13,7 +13,7 @@ import random
 
 class PixelSetData(data.Dataset):
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, return_id=False):
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, return_id=False):
         """
         
         Args:
@@ -144,58 +144,22 @@ class PixelSetData(data.Dataset):
 
         # for Sentinel-2 use minimum sequence length, randomly selected
         if self.sensor == 'S2':
-            
         
-#         ## ---------- INITIAL BLOCK BEFORE INCREMENTAL/SPARSE SITS        
-#             indices = list(range(27)) 
-#             random.shuffle(indices)
-#             indices = sorted(indices)
-#             x0 = x0[indices, :,:]
-
-#             # get item data
-#             s2_item_date = self.date_positions[item]
-#             item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx.
-
-            
-            ## ---------- ACTIVATE BLOCK FOR SPARSE TIME SERIES  
-
-            # for Sentinel-2 use [5, 11, 16,22, 27] corresponding to % [20, 40, 60, 80, 100] of minimum sequence length i.e. 27
-            s2_item_date = self.date_positions[item]
-            minimum_sampling = 22
-            indices = list(range(27))
-            indices = sorted(random.sample(indices, minimum_sampling))
+         #---------- minimum sampling    
+            indices = list(range(minimum_sampling)) 
+            random.shuffle(indices)
+            indices = sorted(indices)
             x0 = x0[indices, :,:]
-            item_date = [s2_item_date[i] for i in indices] #subset 27 dates using same idx.
+
+            # get item data. subset dates using sampling idx.
+            s2_item_date = self.date_positions[item]
+            item_date = [s2_item_date[i] for i in indices] 
 
 
-    
-#             ##---------------- ACTIVATE BLOCK FOR INCREMENTAL CLASSIFICATION
-            
-#             # guide
-#             ##--------temporal grids                         = [92, 182, 273, 365, 457]
-#             ##--------sentinel-2 min sequence per temporal grid [ 4, 10, 17, 22, 27]
-#             ##--------sentinel-1 min sequence per temporal grid = [15, 30, 45, 60, 75]
-                       
-#             temporal_grid = 365 
-#             min_sampling = 22
-#             s2_item_date = self.date_positions[item]
-            
-#             # get indices where doy is <= temporal sequence in question & randomly sample min seq.
-#             indices = sorted(random.sample([i for i, x in enumerate(s2_item_date) if x <= temporal_grid], min_sampling))
-#             item_date = [s2_item_date[i] for i in indices]
-#             x0 = x0[indices,:,:]
-        
             
         elif self.sensor == 'S1':
-            
-            #------------------- INITIAL BLOCK BEFORE INCREMENTAL CLASSIFICATION 
             item_date = self.date_positions 
             
-
-            ##---------------- ACTIVATE BLOCK FOR INCREMENTAL CLASSIFICATION
-#             item_date = self.date_positions #[:45] #------------------------------------------------------>  incremental S1 
-#             x0 = x0[:45,:,:] 
-
 
         if x0.shape[-1] > self.npixel:
             idx = np.random.choice(list(range(x0.shape[-1])), size=self.npixel, replace=False)
@@ -261,9 +225,9 @@ class PixelSetData_preloaded(PixelSetData):
     """ Wrapper class to load all the dataset to RAM at initialization (when the hardware permits it).
     """
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, return_id=False):
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, return_id=False):
         super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,
-                                                     return_id)
+                                                     minimum_sampling, return_id)
         self.samples = []
         print('Loading samples to memory . . .')
         for item in range(len(self)):

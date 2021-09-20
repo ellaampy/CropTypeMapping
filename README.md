@@ -22,18 +22,18 @@ The root folder should contain Sentinel-1 and Sentinel-2 directory named ```s1_d
 ```python
 
 # single sensor (Sentinel-1)
-train.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --npixel 64 --res_dir /output_dir
+train.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --minimum_sampling 27 --res_dir /output_dir
 
 # multi-sensor (early fusion)
-train_fusion.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --fusion_type early --epochs 100 --rdm_seed 1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --npixel 64 --res_dir /output_dir
+train_fusion.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --fusion_type early --minimum_sampling 27 --interpolate_method nn --epochs 100 --rdm_seed 1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --res_dir /output_dir
 
 """
-for multi-sensor, Sentinel-1 data directory (s1_data) is modified as (s2_data) in the dataset.py script to load Sentinel-2 data. Additionally, input_dim and mlp1 are handled within multi_sensor/models/stclassifier_fusion.py
+for multi-sensor, Sentinel-1 data directory (s1_data) is modified as (s2_data) in the dataset.py script to load Sentinel-2 data. Additionally, input_dim and mlp1-4 are handled within multi_sensor/models/stclassifier_fusion.py
 """
 ```
 
 Types of fusion
-![fusion diagrams](imgs/fusion.gif)
+![fusion diagrams](img/fusion.gif)
 
 ## Results
 Quantitative results from single and multi-sensor experiments are available in the `results` folder/ 

@@ -20,7 +20,6 @@ from learning.metrics import mIou, confusion_matrix_analysis
 
 import seaborn as sns
 import matplotlib.pyplot as plt
-#from torchsampler import ImbalancedDatasetSampler
 
 
 
@@ -31,17 +30,15 @@ def train_epoch(model, optimizer, criterion, data_loader, device, config):
     y_true = []
     y_pred = []
 
-    for i, (x, x2, y, dates) in enumerate(data_loader): #add retrieve multi-sensor, dates
-    #for i, (x, x2, y) in enumerate(data_loader): #add retrieve multi-sensor, dates
+    for i, (x, x2, y, dates) in enumerate(data_loader): 
                 
         y_true.extend(list(map(int, y)))
 
         x = recursive_todevice(x, device)
-        x2 = recursive_todevice(x2, device) #add x2 to device
+        x2 = recursive_todevice(x2, device) 
         y = y.to(device)
 
         optimizer.zero_grad()
-        #out = model(x, x2) #add second sensor, dates to forward---------------------------------------
         out = model(x, x2, dates)
         loss = criterion(out, y.long())
         loss.backward()
@@ -71,8 +68,7 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     acc_meter = tnt.meter.ClassErrorMeter(accuracy=True)
     loss_meter = tnt.meter.AverageValueMeter()
 
-    #for (x, x2, y) in loader: #add retrieve multi-sensor, dates------------------------------------------
-    for (x, x2, y, dates) in loader: #add retrieve multi-sensor, dates------------------------------------------
+    for (x, x2, y, dates) in loader: 
 
         y_true.extend(list(map(int, y)))
 
@@ -82,8 +78,7 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
 
 
         with torch.no_grad():
-            prediction = model(x, x2, dates)  #add second sensor, dates to forward ----------------------------------------------
-            #prediction = model(x, x2)  #add second sensor, dates to forward
+            prediction = model(x, x2, dates)  
             loss = criterion(prediction, y)
 
         acc_meter.add(prediction, y)
@@ -99,7 +94,7 @@ def evaluation(model, criterion, loader, device, config, mode='val'):
     if mode == 'val':
         return metrics
     elif mode == 'test':
-        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes']))), y_true, y_pred #return extended to include y_true and y_pred
+        return metrics, confusion_matrix(y_true, y_pred, labels=list(range(config['num_classes']))), y_true, y_pred 
 
 
 def get_pse(folder, config):
@@ -108,7 +103,7 @@ def get_pse(folder, config):
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'], , minimum_sampling=config['minimum_sampling'],
-                          fusion_type = config['fusion_type'],
+                          fusion_type = config['fusion_type'], interpolate_method = config['interpolate_method'],
                           extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     else:
@@ -116,7 +111,7 @@ def get_pse(folder, config):
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
                           sensor = config['sensor'], , minimum_sampling=config['minimum_sampling'],
-                          fusion_type = config['fusion_type'],
+                          fusion_type = config['fusion_type'], interpolate_method = config['interpolate_method'],
                           extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     return dt
@@ -320,7 +315,9 @@ if __name__ == '__main__':
     parser.add_argument('--minimum_sampling', default=27, type=int,
                         help='minimum time series length to sample')      
     parser.add_argument('--fusion_type', default='None', type=str,
-                        help='level of multi-sensor fusion e.g. early_pca, early_dates, pse, tsa, softmax')
+                        help='level of multi-sensor fusion e.g. early, pse, tsa, softmax_avg, softmax_norm')
+    parser.add_argument('--interpolate_method', default='nn', type=str,
+                        help='type of interpolation for early and pse fusion. eg. "nn","linear")    
     
     parser.add_argument('--res_dir', default='./results', help='Path to the folder where the results should be stored')
     parser.add_argument('--num_workers', default=8, type=int, help='Number of data loading workers')

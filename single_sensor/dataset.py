@@ -35,6 +35,7 @@ class PixelSetData(data.Dataset):
         self.labels = labels
         self.npixel = npixel
         self.norm = norm
+        self.minimum_sampling = minimum_sampling
 
         self.extra_feature = extra_feature
         self.jitter = jitter  # (sigma , clip )

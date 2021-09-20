@@ -17,7 +17,7 @@ import random
 
 class PixelSetData(data.Dataset):
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, return_id=False, fusion_type=None):
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
         """
         Args:
             folder (str): path to the main folder of the dataset, formatted as indicated in the readme
@@ -38,12 +38,14 @@ class PixelSetData(data.Dataset):
         self.labels = labels
         self.npixel = npixel
         self.norm = norm
+        self.minimum_sampling = minimum_sampling
 
         self.extra_feature = extra_feature
         self.jitter = jitter  # (sigma , clip )
         self.sensor = sensor
         self.return_id = return_id
         self.fusion_type = fusion_type
+        self.interpolate_method = interpolate_method
 
         # list of pre-computed common parcel ids in s1 and s2
         with open(os.path.join(folder, 'META', 'common_pids.json'), 'r') as file:
@@ -239,20 +241,20 @@ class PixelSetData(data.Dataset):
         mask2 = np.stack([mask2 for _ in range(x2.shape[0])], axis=0)
 
 
-#       # ---------- sample 27 sequences from s1 with similar doy in s2 ---------- OPTION 1
+        # interpolate s1 at s2 date
         if self.fusion_type == 'early' or self.fusion_type == 'pse':
-            output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
+        
+            if self.interpolate_method == 'nn':
+                output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
 
-            # get index of subset sequence
-            x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
-            x = x[x_idx, :, :]
-            mask1 = mask1[x_idx,:]
+                # get index of subset sequence
+                x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
+                x = x[x_idx, :, :]
+                mask1 = mask1[x_idx,:]
             
-            
-#        # ---------- interpolate s1 at s2 date ---------------------------------- OPTION 2
-#        if self.fusion_type == 'early_dates' or self.fusion_type == 'pse':
-#            x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
-#            mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
+            elif self.interpolate_method == 'linear':
+                x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
+                mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
 
     
         # create tensor from numpy
@@ -278,8 +280,8 @@ class PixelSetData_preloaded(PixelSetData):
     """ Wrapper class to load all the dataset to RAM at initialization (when the hardware permits it).
     """
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, , minimum_sampling=27, return_id=False, fusion_type=None):
-        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,                           minimum_sampling, return_id, fusion_type)
+                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, , minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
+        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,                           minimum_sampling, interpolate_method, return_id, fusion_type)
         
         self.samples = []
         print('Loading samples to memory . . .')

@@ -7,9 +7,8 @@ import torch.nn.functional as F
 import os, copy
 from datetime import datetime
 
-from models.pse_fusion import PixelSetEncoder #modified to fix error that checks input shape (i.e.(data, mask),or ((data, mask), extra)
-from models.tae_fusion import TemporalAttentionEncoder #modified to pass dates (for pos enc) per item in dataloader
-
+from models.pse_fusion import PixelSetEncoder 
+from models.tae_fusion import TemporalAttentionEncoder 
 from models.decoder import get_decoder
 
 
@@ -43,7 +42,7 @@ class PseTae(nn.Module):
         # ----------------pse fusion
         self.mlp1_s1 = copy.deepcopy(mlp1)
         self.mlp1_s1[0] = 2 
-        self.mlp3_pse = [1024, 512, 256]  #n_neurons for tsa = [1024,512,128]
+        self.mlp3_pse = [1024, 512, 256]  
           
 
         self.spatial_encoder_s2 =  PixelSetEncoder(input_dim, mlp1=mlp1, pooling=pooling, mlp2=mlp2, with_extra=with_extra,
@@ -133,7 +132,7 @@ class PseTae(nn.Module):
             
             out = torch.divide(torch.add(out_s1, out_s2), 2.0) #average softmax
 
-        elif self.fusion_type == 'early_dates': 
+        elif self.fusion_type == 'early': 
             data_s1, mask_s1 = input_s1
             data_s2, _ = input_s2
             data = torch.cat((data_s1, data_s2), dim=2)  #cat along channel dim (10+2)

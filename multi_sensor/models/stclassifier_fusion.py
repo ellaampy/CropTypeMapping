@@ -1,5 +1,5 @@
 #
-#TESTING FOR STCLASSIFIER ENCODING - final
+
 #STCLASSIFIER BLOCK
 import torch
 import torch.nn as nn
@@ -75,8 +75,7 @@ class PseTae(nn.Module):
         self.name = fusion_type
         self.fusion_type = fusion_type
 
-    #def forward(self, input_s1, input_s2):
-    def forward(self, input_s1, input_s2, dates): #-------------------------------------------------
+    def forward(self, input_s1, input_s2, dates): 
         """
          Args:
             input(tuple): (Pixel-Set, Pixel-Mask) or ((Pixel-Set, Pixel-Mask), Extra-features)
@@ -96,11 +95,9 @@ class PseTae(nn.Module):
         elif self.fusion_type == 'tsa':
             
             out_s1 = self.spatial_encoder_s1(input_s1)
-            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) #indexed for sentinel-1 #------------------
-            #out_s1 = self.temporal_encoder_s1(out_s1) 
+            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) #indexed for sentinel-1 #------------------ 
             
             out_s2 = self.spatial_encoder_s2(input_s2)
-            #out_s2 = self.temporal_encoder_s2(out_s2) 
             out_s2 = self.temporal_encoder_s2(out_s2, dates[1]) #indexed for sentinel-2 #------------------
             out = torch.cat((out_s1, out_s2), dim=1)
             out = self.decoder_tsa_fusion(out)   
@@ -109,26 +106,22 @@ class PseTae(nn.Module):
         elif self.fusion_type == 'softmax_norm':
             out_s1 = self.spatial_encoder_s1(input_s1)
             #out_s1 = self.temporal_encoder_s1(out_s1) 
-            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) #indexed for sentinel-1  #--------------------
+            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) 
             out_s1 = self.decoder(out_s1)
             
             out_s2 = self.spatial_encoder_s2(input_s2)
-            out_s2 = self.temporal_encoder_s2(out_s2, dates[1]) #indexed for sentinel-2  #--------------------
-            #out_s2 = self.temporal_encoder_s2(out_s2) 
+            out_s2 = self.temporal_encoder_s2(out_s2, dates[1]) 
             out_s2 = self.decoder(out_s2)
             
             out = torch.divide(torch.multiply(out_s1, out_s2), torch.sum(torch.multiply(out_s1, out_s2))) #normalized softmax
 
         elif self.fusion_type == 'softmax_avg':
             out_s1 = self.spatial_encoder_s1(input_s1)
-            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) #indexed for sentinel-1  #----------------------
-            #out_s1 = self.temporal_encoder_s1(out_s1) 
+            out_s1 = self.temporal_encoder_s1(out_s1, dates[0]) 
             out_s1 = self.decoder(out_s1)
             
             out_s2 = self.spatial_encoder_s2(input_s2)
-            out_s2 = self.temporal_encoder_s2(out_s2, dates[1]) #indexed for sentinel-2  #----------------------
-            #out_s2 = self.temporal_encoder_s2(out_s2) 
-            out_s2 = self.decoder(out_s2)
+            out_s2 = self.temporal_encoder_s2(out_s2, dates[1]) 
             
             out = torch.divide(torch.add(out_s1, out_s2), 2.0) #average softmax
 
@@ -138,10 +131,8 @@ class PseTae(nn.Module):
             data = torch.cat((data_s1, data_s2), dim=2)  #cat along channel dim (10+2)
             out = (data, mask_s1) # mask_s1 = mask_s2
             out = self.spatial_encoder_earlyFusion(out)
-            out = self.temporal_encoder_earlyFusion(out, dates[1]) #indexed for sentinel-2  #----------------------
-            #out = self.temporal_encoder_earlyFusion(out) 
+            out = self.temporal_encoder_earlyFusion(out, dates[1]) 
             out = self.decoder(out)
-        #print('classifier complete in ', datetime.now()-start)
         return out
 
 

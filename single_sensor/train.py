@@ -20,7 +20,6 @@ from learning.metrics import mIou, confusion_matrix_analysis
 
 import seaborn as sns
 import matplotlib.pyplot as plt
-from torchsampler import ImbalancedDatasetSampler
 
 
 
@@ -105,7 +104,7 @@ def get_pse(folder, config):
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
-                          sensor = config['sensor'], , minimum_sampling=config['minimum_sampling'],
+                          sensor = config['sensor'], minimum_sampling=config['minimum_sampling'],
                           extra_feature= 'geomfeat' if config['geomfeat'] else None, 
                           jitter=None)
     return dt
@@ -302,7 +301,7 @@ if __name__ == '__main__':
     parser.add_argument('--sensor', default=None, type=str,
                         help='Type of mission data to train e.g.S1 or S2')
     parser.add_argument('--minimum_sampling', default=27, type=int,
-                        help='minimum time series length to sample')    
+                        help='minimum time series length to sample for S2')    
 
     parser.add_argument('--res_dir', default='./results', help='Path to the folder where the results should be stored')
     parser.add_argument('--num_workers', default=8, type=int, help='Number of data loading workers')

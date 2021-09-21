@@ -176,7 +176,7 @@ class PixelSetData(data.Dataset):
            
              
         # sample S2 using minimum sampling
-        indices = list(range(minimum_sampling))
+        indices = list(range(self.minimum_sampling))
         random.shuffle(indices)
         indices = sorted(indices)
         x00 = x00[indices, :,:]

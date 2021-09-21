@@ -147,7 +147,7 @@ class PixelSetData(data.Dataset):
         if self.sensor == 'S2':
         
          #---------- minimum sampling    
-            indices = list(range(minimum_sampling)) 
+            indices = list(range(self.minimum_sampling)) 
             random.shuffle(indices)
             indices = sorted(indices)
             x0 = x0[indices, :,:]

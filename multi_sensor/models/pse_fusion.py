@@ -46,6 +46,7 @@ class PixelSetEncoder(nn.Module):
 
         assert (input_dim == mlp1[0])
         assert (inter_dim == mlp2[0])
+        
         # Feature extraction
         layers = []
         for i in range(len(self.mlp1_dim) - 1):

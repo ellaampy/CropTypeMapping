@@ -34,7 +34,10 @@ Their corresponding labels are provided as a list of sub-classes in ```single_se
 ```python
 
 # single sensor (Sentinel-1)
-train.py --dataset_folder /s1_data/Chateaulin --dataset_folder2 /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --minimum_sampling 27 --res_dir /output_dir
+train.py --dataset_folder /s1_data/Chateaulin --dataset_folder2 /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --res_dir /output_dir
+
+# single sensor (Sentinel-2)
+train.py --dataset_folder /s2_data/Chateaulin --dataset_folder2 /s2_data/Quimper --val_folder /s2_data/Morlaix --test_folder /s2_data/Brest --epochs 100 --rdm_seed 1 --sensor S2 --input_dim 10 --mlp1 [10,32,64] --num_classes 12 --minimum_sampling 27 --res_dir /output_dir
 
 # multi-sensor (early fusion)
 train_fusion.py --dataset_folder /s1_data/Chateaulin --dataset_folder2 /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --fusion_type early --minimum_sampling 27 --interpolate_method nn --epochs 100 --rdm_seed 1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --res_dir /output_dir

@@ -27,17 +27,17 @@ Reference data ([Registre parcellaire graphique (RPG)](https://www.data.gouv.fr/
 In the end, 12 classes are retained namely; 
 ```[maize, wheat, barley, rapeseed, protein crops, gel (frozen surfaces), fodder, pasture and moor, meadows, orchards, vegetables/flowers and other cereals]```
 
-Their corresponding labels are provided as a list of sub-classes in ```single_sensor/dataset.py``` and ```multi_sensor/dataset.py```to be considered for classification.
+Their corresponding labels are provided as a list of sub-classes in ```single_sensor/train.py``` and ```multi_sensor/train_fusion.py```to be considered for classification.
 
 
 ## Running main experiments
 ```python
 
 # single sensor (Sentinel-1)
-train.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --minimum_sampling 27 --res_dir /output_dir
+train.py --dataset_folder /s1_data/Chateaulin --dataset_folder2 /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --epochs 100 --rdm_seed 1 --sensor S1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --minimum_sampling 27 --res_dir /output_dir
 
 # multi-sensor (early fusion)
-train_fusion.py --dataset_folder /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --fusion_type early --minimum_sampling 27 --interpolate_method nn --epochs 100 --rdm_seed 1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --res_dir /output_dir
+train_fusion.py --dataset_folder /s1_data/Chateaulin --dataset_folder2 /s1_data/Quimper --val_folder /s1_data/Morlaix --test_folder /s1_data/Brest --fusion_type early --minimum_sampling 27 --interpolate_method nn --epochs 100 --rdm_seed 1 --input_dim 2 --mlp1 [2,32,64] --num_classes 12 --res_dir /output_dir
 
 """
 for multi-sensor, Sentinel-1 data directory (s1_data) is modified as (s2_data) in the dataset.py script to load Sentinel-2 data. Additionally, input_dim and mlp1-4 are handled within multi_sensor/models/stclassifier_fusion.py

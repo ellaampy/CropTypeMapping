@@ -2,8 +2,8 @@
 This code extents the pytorch implementation of the [PSE-TSA](https://github.com/VSainteuf/pytorch-psetae) deep learning architecture to accomodate different forms of multi-sensor fusion. 
 
 ## Requirements
-- Pytorch + torchnet
-- numpy + pandas + sklearn
+- pytorch + torchnet
+- numpy + pandas + sklearn + seaborn
 
 ## Satellite data preparation
 * follow the guideline [here](https://github.com/ellaampy/GEE-to-NPY) to download normalized parcel-level Sentinel-1 & 2 time series (independently) from Google Earth Engine
@@ -11,8 +11,8 @@ This code extents the pytorch implementation of the [PSE-TSA](https://github.com
     * T --> number of acquisitions
     * C --> number of channels/bands
     * N --> number of pixels within parcel
-* run ```data_preprartion/min_temp_seq.py``` to decide a minimum sampling size. eg. assuming study area is enveloped by multiple overlapping satellite resulting in varying time series length
-* organize time series array into separate folders from training, validation and testing. 
+* run ```data_preparation/min_temp_seq.py``` to decide a minimum sampling size. Relevant for cases where area of interest is covered by multiple satellite footprints,  and metadata cloud filtering may result in varying time series length
+* organize time series array into separate folders from training, validation and testing
 
 ## Folder structure
 The root folder should contain Sentinel-1 and Sentinel-2 directory named ```s1_data ``` and ```s2_data ```. Their sub-directories must be similar to the structure in the figure below

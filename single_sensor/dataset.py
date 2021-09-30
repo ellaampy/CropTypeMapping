@@ -36,46 +36,21 @@ class PixelSetData(data.Dataset):
         self.npixel = npixel
         self.norm = norm
         self.minimum_sampling = minimum_sampling
-
         self.extra_feature = extra_feature
         self.jitter = jitter  # (sigma , clip )
         self.sensor = sensor
         self.return_id = return_id
 
 
-# -------------------------pid block-----------------------------------------
-        # deactivate to use succeeding block. here only parcel ids common in s1 and s2 are referenced
-        # list of pre-computed common parcel ids in s1 and s2
-        with open(os.path.join(folder, 'META', 'common_pids.json'), 'r') as file:
-            self.common_pids = json.loads(file.read())
-        
-        # list of pre-computed parcels with uneven pixel count in s1 and s2
-        with open(os.path.join(folder, 'META', 'uneven_shapes_pids.json'), 'r') as file:
-            self.pid_uneven_shapes = json.loads(file.read())     
-        
-        self.pid = list(x for x in self.common_pids if x not in self.pid_uneven_shapes)        
+        # get parcel ids
+        l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
+        self.pid = [int(f.split('.')[0]) for f in l]
+        self.pid = list(np.sort(self.pid))
+        self.pid = list(map(str, self.pid))
         self.len = len(self.pid)
 
 
-        
-         # activate to use all available parcels for single sensor scenario
-            
-#        l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
-#        self.pid = [int(f.split('.')[0]) for f in l]
-#        self.pid = list(np.sort(self.pid))
-#        self.pid = list(map(str, self.pid))
-#
-#        # for sentinel-1 remove parcel with sequence len <75
-#        #s1_parcels_less_seq contains parcel ids with temporal seq < 75
-#        if self.sensor == 'S1':
-#            with open(os.path.join(folder, 'META', 's1_parcels_less_seq.json'), 'r') as file:
-#                ignored_pid = json.loads(file.read())
-#            self.pid = list(x for x in self.pid if x not in ignored_pid)
-
-#        self.len = len(self.pid)
-#---------------------------------------------------------------------------------------------
-
-        # Get Labels
+        # get Labels
         if sub_classes is not None:
             sub_indices = []
             num_classes = len(sub_classes)
@@ -97,39 +72,29 @@ class PixelSetData(data.Dataset):
                     if t in sub_classes:
                         sub_indices.append(i)
                         self.target[-1] = convert[self.target[-1]]
+                        
         if sub_classes is not None:
             self.pid = list(np.array(self.pid)[sub_indices])
             self.target = list(np.array(self.target)[sub_indices])
             self.len = len(sub_indices)
 
-
+            
+        # get dates for positional encoding
         with open(os.path.join(folder, 'META', 'dates.json'), 'r') as file:
             d = json.loads(file.read())
 
-        # get dates for positional encoding
-        if self.sensor == 'S1':
-            self.dates = [d[str(i)] for i in range(len(d))]
-            self.date_positions = date_positions(self.dates)
-
-        elif self.sensor == 'S2':
-            self.dates = [d[i] for i in self.pid]
-            self.date_positions = [date_positions(i) for i in self.dates]
+        self.dates = [d[i] for i in self.pid]
+        self.date_positions = [date_positions(i) for i in self.dates]
         
 
+        # add extra features 
         if self.extra_feature is not None:
             with open(os.path.join(self.meta_folder, '{}.json'.format(extra_feature)), 'r') as file:
-                self.extra_ = json.loads(file.read())
-                
-            # add pre-computed textural features from S1
-            self.extra = {}
-            for k in self.extra_.keys():
-                if k in self.pid: 
-                    self.extra[k] = np.array([self.extra_[k][i] for i in ['vv_mean', 'vv_std', 'vh_mean', 'vh_std']]).flatten().tolist()
+                self.extra = json.loads(file.read())
 
             if isinstance(self.extra[list(self.extra.keys())[0]], int):
                 for k in self.extra.keys():
                     self.extra[k] = [self.extra[k]]
-                    
             df = pd.DataFrame(self.extra).transpose()
             self.extra_m, self.extra_s = np.array(df.mean(axis=0)), np.array(df.std(axis=0))
             
@@ -141,25 +106,21 @@ class PixelSetData(data.Dataset):
         
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
         y = self.target[item]
+        item_date = self.date_positions[item]
         
 
-        # for Sentinel-2 use minimum sequence length, randomly selected
-        if self.sensor == 'S2':
-        
-         #---------- minimum sampling    
-            indices = list(range(self.minimum_sampling)) 
-            random.shuffle(indices)
-            indices = sorted(indices)
-            x0 = x0[indices, :,:]
-
-            # get item data. subset dates using sampling idx.
-            s2_item_date = self.date_positions[item]
-            item_date = [s2_item_date[i] for i in indices] 
-
-
+        # for uneven number of observations, use minimum sequence length, randomly selected
+        if self.sensor == 'S2':        
             
-        elif self.sensor == 'S1':
-            item_date = self.date_positions 
+            if self.minimum_sampling is not None:
+                indices = list(range(self.minimum_sampling)) 
+                random.shuffle(indices)
+                indices = sorted(indices)
+                x0 = x0[indices, :,:]
+
+                # subset dates using sampling idx.
+                s2_item_date = self.date_positions[item]
+                item_date = [s2_item_date[i] for i in indices] 
             
 
         if x0.shape[-1] > self.npixel:
@@ -215,11 +176,11 @@ class PixelSetData(data.Dataset):
             data = (data, ef)
 
         if self.return_id:
-            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date), self.pid[item] #add return date
-            #return data, torch.from_numpy(np.array(y, dtype=int)), self.pid[item] # without return date
+            return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date), self.pid[item] 
+
         else:
             return data, torch.from_numpy(np.array(y, dtype=int)), Tensor(item_date)
-            #return data, torch.from_numpy(np.array(y, dtype=int))
+
 
 
 class PixelSetData_preloaded(PixelSetData):

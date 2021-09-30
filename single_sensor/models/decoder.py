@@ -1,9 +1,6 @@
 import torch.nn as nn
 
 
-
-
-
 def get_decoder(n_neurons):
     layers = []
     for i in range(len(n_neurons)-1):

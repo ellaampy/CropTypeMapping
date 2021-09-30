@@ -82,7 +82,6 @@ class PixelSetEncoder(nn.Module):
         a, b = input
         
         if len(a) == 2:
-#         if isinstance(a, tuple): #if instance of a is tuple then extra features included
             out, mask = a
             extra = b
             if len(extra) == 2:

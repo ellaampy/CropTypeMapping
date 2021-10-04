@@ -121,8 +121,7 @@ class PixelSetData(data.Dataset):
                 x0 = x0[indices, :,:]
 
                 # subset dates using sampling idx.
-                s2_item_date = self.date_positions[item]
-                item_date = [s2_item_date[i] for i in indices] 
+                item_date = [item_date[i] for i in indices] 
             
 
         if x0.shape[-1] > self.npixel:
@@ -190,7 +189,7 @@ class PixelSetData_preloaded(PixelSetData):
     """
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
                  extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, return_id=False):
-        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,
+        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter, sensor,
                                                      minimum_sampling, return_id)
         self.samples = []
         print('Loading samples to memory . . .')

@@ -3,7 +3,7 @@ from torch import nn
 import torch.utils.data as data
 import numpy as np
 import torchnet as tnt
-from sklearn.model_selection import KFold
+# from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 import os
 import json
@@ -151,6 +151,7 @@ def checkpoint(log, config):
 def save_results(metrics, conf_mat, config, y_true, y_pred, probs):
     with open(os.path.join(config['res_dir'], 'test_metrics.json'), 'w') as outfile:
         json.dump(metrics, outfile, indent=4)
+        
     pkl.dump(conf_mat, open(os.path.join(config['res_dir'], 'conf_mat.pkl'), 'wb'))
 
     # save y_true, y_pred
@@ -228,7 +229,7 @@ def main(config):
                             mlp4=config['mlp4'])
 
         if config['geomfeat']:
-            model_config.update(with_extra=True, extra_size=300)
+            model_config.update(with_extra=True, extra_size=4)
         else:
             model_config.update(with_extra=False, extra_size=None)
 
@@ -355,4 +356,5 @@ if __name__ == '__main__':
 
     pprint.pprint(config)
     main(config)
+    
     print('total elapsed time is --->', datetime.now() -start)

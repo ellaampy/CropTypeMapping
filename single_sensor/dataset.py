@@ -23,6 +23,8 @@ class PixelSetData(data.Dataset):
             sub_classes (list): If provided, only the samples from the given list of classes are considered. 
             (Can be used to remove classes with too few samples)
             norm (tuple): (mean,std) tuple to use for normalization
+            minimum_sampling (int) = minimum number of observation to sample for Sentinel-2
+            - relevant where parcels have uneven number of observations.
             extra_feature (str): name of the additional static feature file to use
             jitter (tuple): if provided (sigma, clip) values for the addition random gaussian noise
             return_id (bool): if True, the id of the yielded item is also returned (useful for inference)

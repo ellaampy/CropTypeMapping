@@ -97,14 +97,14 @@ def get_pse(folder, config):
         dt = PixelSetData_preloaded(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
-                          sensor = config['sensor'], minimum_sampling=config['minimum_sampling'],
+                          minimum_sampling=config['minimum_sampling'],
                           extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
     else:
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
-                          sensor = config['sensor'], minimum_sampling=config['minimum_sampling'],
+                          minimum_sampling=config['minimum_sampling'],
                           extra_feature= 'geomfeat' if config['geomfeat'] else None, 
                           jitter=None)
     return dt

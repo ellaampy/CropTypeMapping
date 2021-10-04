@@ -80,8 +80,8 @@ class PixelSetEncoder(nn.Module):
         """
         
         a, b = input
-        
-        if len(a) == 2:
+
+        if isinstance(a, tuple):
             out, mask = a
             extra = b
             if len(extra) == 2:

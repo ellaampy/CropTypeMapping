@@ -82,7 +82,7 @@ class TemporalAttentionEncoder(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    #def forward(self, x):
+        
     def forward(self, x, dates):
 
         sz_b, seq_len, d = x.shape

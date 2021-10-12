@@ -75,11 +75,10 @@ class PixelSetEncoder(nn.Module):
         complete sequences are processed at once. Then the temporal dimension is separated back to produce a tensor of
         shape Batch_size x Sequence length x Embedding dimension
         """
-        a, b = input  ##------------------ edited to fix error in len(input tensor) which behaves like a tensor with extra features
-    
         
-        if len(a) == 2:
-        #if isinstance(a, tuple):
+        a, b = input  
+    
+        if isinstance(a, tuple):
             out, mask = a
             extra = b
             if len(extra) == 2:

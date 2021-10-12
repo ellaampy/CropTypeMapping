@@ -87,7 +87,6 @@ class TemporalAttentionEncoder(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    #def forward(self, x): 
     def forward(self, x, dates): # gets x and dates from pse. x = [batch sz, seq, features], dates = [batch s1, batch s2]
         start = datetime.now()
         
@@ -110,8 +109,6 @@ class TemporalAttentionEncoder(nn.Module):
         enc_output = enc_output.permute(1, 0, 2).contiguous().view(sz_b, -1)  # Concatenate heads
 
         enc_output = self.outlayernorm(self.dropout(self.mlp(enc_output)))
-
-        #print('tae complete in ', datetime.now() - start)
 
         return enc_output
 

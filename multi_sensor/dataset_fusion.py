@@ -17,7 +17,7 @@ import random
 
 class PixelSetData(data.Dataset):
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
+                 extra_feature=None, jitter=(0.01, 0.05), minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
         """
         Args:
             folder (str): path to the main folder of the dataset, formatted as indicated in the readme
@@ -26,6 +26,9 @@ class PixelSetData(data.Dataset):
             sub_classes (list): If provided, only the samples from the given list of classes are considered.
             (Can be used to remove classes with too few samples)
             norm (tuple): (mean,std) tuple to use for normalization
+            minimum_sampling (int): minimum number of observation to sample for Sentinel-2
+            fusion_type (str): name of fusion technique to harmonize Sentinel-1 and Sentinel-2 data/features
+            interpolate_method: for input-level fusion, name of method to interpolate Sentinel-1 at Sentinel-2 date
             extra_feature (str): name of the additional static feature file to use
             jitter (tuple): if provided (sigma, clip) values for the addition random gaussian noise
             return_id (bool): if True, the id of the yielded item is also returned (useful for inference)
@@ -38,27 +41,23 @@ class PixelSetData(data.Dataset):
         self.labels = labels
         self.npixel = npixel
         self.norm = norm
-        self.minimum_sampling = minimum_sampling
-
         self.extra_feature = extra_feature
         self.jitter = jitter  # (sigma , clip )
-        self.sensor = sensor
         self.return_id = return_id
+        
+        self.minimum_sampling = minimum_sampling        
         self.fusion_type = fusion_type
         self.interpolate_method = interpolate_method
 
-        # list of pre-computed common parcel ids in s1 and s2
-        with open(os.path.join(folder, 'META', 'common_pids.json'), 'r') as file:
-            self.common_pids = json.loads(file.read())
-        
-        # list of pre-computed parcels with uneven pixel count in s1 and s2
-        with open(os.path.join(folder, 'META', 'uneven_shapes_pids.json'), 'r') as file:
-            self.pid_uneven_shapes = json.loads(file.read())     
-        
-        self.pid = list(x for x in self.common_pids if x not in self.pid_uneven_shapes)        
-        self.len = len(self.pid)
 
-        # Get Labels
+        # get parcel ids
+        l = [f for f in os.listdir(self.data_folder) if f.endswith('.npy')]
+        self.pid = [int(f.split('.')[0]) for f in l]
+        self.pid = list(np.sort(self.pid))
+        self.pid = list(map(str, self.pid))
+        self.len = len(self.pid)        
+
+        # get Labels
         if sub_classes is not None:
             sub_indices = []
             num_classes = len(sub_classes)
@@ -94,8 +93,8 @@ class PixelSetData(data.Dataset):
             date_s2 = json.loads(file.read())
 
         # for sentinel 1
-        self.dates_s1 = [date_s1[str(i)] for i in range(len(date_s1))]
-        self.date_positions_s1 = date_positions(self.dates_s1)
+        self.dates_s1 = [date_s1[i] for i in self.pid]
+        self.date_positions_s1 = [date_positions(i) for i in self.dates_s1]
 
         # for sentinel 2
         self.dates_s2 = [date_s2[i] for i in self.pid]
@@ -106,12 +105,10 @@ class PixelSetData(data.Dataset):
             with open(os.path.join(self.meta_folder, '{}.json'.format(extra_feature)), 'r') as file:
                 self.extra_ = json.loads(file.read())
                 
-            # add pre-computed textural features from S1
-            self.extra = {}
-            for k in self.extra_.keys():
-                if k in self.pid: 
-                    self.extra[k] = np.array([self.extra_[k][i] for i in ['vv_mean', 'vv_std', 'vh_mean', 'vh_std']]).flatten().tolist()
-                    
+        # add extra features 
+        if self.extra_feature is not None:
+            with open(os.path.join(self.meta_folder, '{}.json'.format(extra_feature)), 'r') as file:
+                self.extra = json.loads(file.read())
 
             if isinstance(self.extra[list(self.extra.keys())[0]], int):
                 for k in self.extra.keys():
@@ -120,16 +117,16 @@ class PixelSetData(data.Dataset):
             self.extra_m, self.extra_s = np.array(df.mean(axis=0)), np.array(df.std(axis=0))
 
 
-    # get similar doy in s1 for s2
-    def similar_sequence(self, inputs1, inputs2):
-        inputs1 = np.asarray(inputs1)
-        inputs2 = np.asarray(inputs2)
+    # get similar day-of-year in s1 for s2
+    def similar_sequence(self, input_s1, input_s2):
+        input_s1 = np.asarray(input_s1)
+        input_s2 = np.asarray(input_s2)
 
         output_doy = []    
-        for i in inputs2:
-            doy = inputs1[np.abs(inputs1 - i).argmin()]
+        for i in input_s2:
+            doy = input_s1[np.abs(input_s1 - i).argmin()]
             output_doy.append(doy)
-            inputs1 = inputs1[inputs1 != doy]
+            input_s1 = input_s1[input_s1 != doy]
         return output_doy    
     
 
@@ -144,7 +141,7 @@ class PixelSetData(data.Dataset):
         vh_interp = np.column_stack([np.interp(s2_date, s1_date, vh[:,i]) for i in range(num_pixels)])
 
         # stack vv and vh
-        res = np.concatenate((np.expand_dims(vv_interp, 1),np.expand_dims(vh_interp, 1)), axis = 1)
+        res = np.concatenate((np.expand_dims(vv_interp, 1), np.expand_dims(vh_interp, 1)), axis = 1)
 
         return res   
         
@@ -152,7 +149,7 @@ class PixelSetData(data.Dataset):
     def __len__(self):
         return self.len
 
-    def __getitem__(self, item):
+    def __getitem__(self, item): 
         """
         Returns a Pixel-Set sequence tensor with its pixel mask and optional additional features.
         For each item npixel pixels are randomly dranw from the available pixels.
@@ -165,22 +162,25 @@ class PixelSetData(data.Dataset):
                 Extra-features : Sequence_length x Number of additional features
 
         """
-        # loader for sentinel1 and sentinel2
-        # check that same parcel is available for loading in s1 and s2
-        # x0 = sentinel1, x00 = sentinel2
+        # loader for x0 = sentinel1 and x00 = sentinel2
 
         x0 = np.load(os.path.join(self.folder, 'DATA', '{}.npy'.format(self.pid[item])))
         x00 = np.load(os.path.join(self.folder.replace('s1_data', 's2_data'), 'DATA', '{}.npy'.format(self.pid[item])))
         y = self.target[item]
+        
+        s1_item_date = self.date_positions_s1[item] 
         s2_item_date = self.date_positions_s2[item] 
            
              
         # sample S2 using minimum sampling
-        indices = list(range(self.minimum_sampling))
-        random.shuffle(indices)
-        indices = sorted(indices)
-        x00 = x00[indices, :,:]
-        s2_item_date = [s2_item_date[i] for i in indices]  
+        if self.minimum_sampling is not None:
+            indices = list(range(self.minimum_sampling))
+            random.shuffle(indices)
+            indices = sorted(indices)
+            x00 = x00[indices, :,:]
+            
+            # subset dates using sampling idx.
+            s2_item_date = [s2_item_date[i] for i in indices]  
             
         
         if x0.shape[-1] > self.npixel:
@@ -245,15 +245,15 @@ class PixelSetData(data.Dataset):
         if self.fusion_type == 'early' or self.fusion_type == 'pse':
         
             if self.interpolate_method == 'nn':
-                output_doy = self.similar_sequence(inputs1 = self.date_positions_s1, inputs2 = s2_item_date)
+                output_doy = self.similar_sequence(input_s1 = s1_item_date, input_s2 = s2_item_date)
 
                 # get index of subset sequence
-                x_idx = [i for i in range(len(self.date_positions_s1)) if self.date_positions_s1[i] in output_doy]
+                x_idx = [i for i in range(len(s1_item_date)) if self.date_positions_s1[i] in output_doy]
                 x = x[x_idx, :, :]
                 mask1 = mask1[x_idx,:]
             
             elif self.interpolate_method == 'linear':
-                x = self.interpolate_s1(arr_3d = x, s1_date = self.date_positions_s1, s2_date = s2_item_date)
+                x = self.interpolate_s1(arr_3d = x, s1_date = s1_item_date, s2_date = s2_item_date)
                 mask1 = mask1[:len(s2_item_date), :] # slice to length of s2_sequence
 
     
@@ -269,10 +269,10 @@ class PixelSetData(data.Dataset):
             data = (data, ef)
 
         if self.return_id :
-            return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(self.date_positions_s1), Tensor(s2_item_date)), self.pid[item]
+            return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(s1_item_date), Tensor(s2_item_date)), self.pid[item]
             #return data, data2 , torch.from_numpy(np.array(y, dtype=int)),self.pid[item]
         else:
-            return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(self.date_positions_s1), Tensor(s2_item_date)) 
+            return data, data2, torch.from_numpy(np.array(y, dtype=int)), (Tensor(s1_item_date), Tensor(s2_item_date)) 
             #return data, data2, torch.from_numpy(np.array(y, dtype=int))
 
 
@@ -280,8 +280,8 @@ class PixelSetData_preloaded(PixelSetData):
     """ Wrapper class to load all the dataset to RAM at initialization (when the hardware permits it).
     """
     def __init__(self, folder, labels, npixel, sub_classes=None, norm=None,
-                 extra_feature=None, jitter=(0.01, 0.05), sensor=None, , minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
-        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,sensor,                           minimum_sampling, interpolate_method, return_id, fusion_type)
+                 extra_feature=None, jitter=(0.01, 0.05), minimum_sampling=27, interpolate_method ='nn', return_id=False, fusion_type=None):
+        super(PixelSetData_preloaded, self).__init__(folder, labels, npixel, sub_classes, norm, extra_feature, jitter,                           minimum_sampling, interpolate_method, return_id, fusion_type)
         
         self.samples = []
         print('Loading samples to memory . . .')

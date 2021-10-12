@@ -3,7 +3,7 @@ from torch import nn
 import torch.utils.data as data
 import numpy as np
 import torchnet as tnt
-from sklearn.model_selection import KFold
+# from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 import os
 import json
@@ -102,7 +102,7 @@ def get_pse(folder, config):
         dt = PixelSetData_preloaded(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
-                          sensor = config['sensor'], , minimum_sampling=config['minimum_sampling'],
+                          minimum_sampling=config['minimum_sampling'],
                           fusion_type = config['fusion_type'], interpolate_method = config['interpolate_method'],
                           extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
@@ -110,7 +110,7 @@ def get_pse(folder, config):
         dt = PixelSetData(config[folder], labels='CODE_GROUP', npixel=config['npixel'],
                           sub_classes = [1, 2, 3, 4, 5, 8, 11, 16, 17, 18, 20, 25],
                           norm=None,
-                          sensor = config['sensor'], , minimum_sampling=config['minimum_sampling'],
+                          minimum_sampling=config['minimum_sampling'],
                           fusion_type = config['fusion_type'], interpolate_method = config['interpolate_method'],
                           extra_feature='geomfeat' if config['geomfeat'] else None,  
                           jitter=None)
@@ -310,8 +310,6 @@ if __name__ == '__main__':
                         help='Path to the test folder.')
 
     # ---------------------------add sensor argument to test s1/s2
-    parser.add_argument('--sensor', default=None, type=str,
-                        help='Type of mission data to train e.g.S1 or S2')
     parser.add_argument('--minimum_sampling', default=27, type=int,
                         help='minimum time series length to sample')      
     parser.add_argument('--fusion_type', default='None', type=str,
@@ -331,7 +329,6 @@ if __name__ == '__main__':
     parser.set_defaults(preload=False)
 
     # Training parameters
-    parser.add_argument('--kfold', default=5, type=int, help='Number of folds for cross validation')
     parser.add_argument('--epochs', default=100, type=int, help='Number of epochs per fold')
     parser.add_argument('--batch_size', default=128, type=int, help='Batch size')
     parser.add_argument('--lr', default=0.001, type=float, help='Learning rate')

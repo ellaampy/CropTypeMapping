@@ -63,7 +63,16 @@ Quantitative results from single and multi-sensor experiments are available in t
 Please cite the following paper if you use any part of the code
 
 ```
-citation goes here
+@article{article,
+author = {Ofori-Ampofo, Stella and Pelletier, Charlotte and Lang, Stefan},
+year = {2021},
+month = {11},
+pages = {4668},
+title = {Crop Type Mapping from Optical and Radar Time Series Using Attention-Based Deep Learning},
+volume = {13},
+journal = {Remote Sensing},
+doi = {10.3390/rs13224668}
+}
 ```
 
 ## Contributors
